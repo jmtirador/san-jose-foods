@@ -26,7 +26,7 @@ export const translations = {
     // Home
     home: {
       heroTagline: 'Premium US Proteins for the Global Market',
-      heroSub: 'Reliable supply of fresh and frozen chicken, pork, and beef — delivered from the US to Mexico.',
+      heroSub: 'Reliable supply of fresh and frozen chicken, pork, and beef. Delivered from the US to Mexico.',
       heroCta: 'Request a Quote',
       heroSubCta: 'Learn About Our Products',
       trust1Title: 'Product Availability',
