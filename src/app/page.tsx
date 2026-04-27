@@ -55,8 +55,7 @@ function ProductCard({
   return (
     <Link
       href={href}
-      className="group relative overflow-hidden rounded block"
-      style={{ background: INK_S }}
+      className="group relative overflow-hidden rounded block bg-card border border-border"
     >
       <div className="relative h-64 overflow-hidden">
         <Image
@@ -65,23 +64,20 @@ function ProductCard({
           fill
           className="object-cover opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0508] via-[#0D0508]/40 to-transparent" />
+        {/* gradient fades photo into card surface — flips with theme */}
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
         {/* red left accent bar, grows on hover */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-0.5 bg-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-4 h-px bg-brand-600" />
-          <h3 className="font-display text-white font-bold text-xl">{title}</h3>
+          <h3 className="font-display text-card-foreground font-bold text-xl">{title}</h3>
         </div>
-        <p className="text-gray-500 text-sm font-sans leading-relaxed">{desc}</p>
+        <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>
         <div className="mt-4 flex items-center gap-1.5 text-brand-600 text-xs font-semibold uppercase tracking-widest group-hover:gap-3 transition-all duration-300">
           <span>View Cuts</span>
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
+          <ArrowRight className="w-3 h-3" />
         </div>
       </div>
     </Link>
@@ -95,17 +91,17 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO — editorial split ─────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col lg:grid lg:grid-cols-[55%_45%] bg-ink overflow-hidden">
+      <section className="relative min-h-screen flex flex-col lg:grid lg:grid-cols-[55%_45%] bg-background overflow-hidden">
 
         {/* Far-left vertical rule — anchors the composition like a magazine page */}
-        <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10 hidden lg:block" aria-hidden />
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-foreground/10 hidden lg:block" aria-hidden />
 
         {/* Left: editorial text panel */}
         <div className="relative z-10 flex flex-col justify-center px-8 sm:px-14 lg:px-20 xl:px-24 py-28">
 
           {/* Top-right corner detail — editorial issue mark */}
           <div className="absolute top-10 right-10 hidden lg:block">
-            <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-white/40">
+            <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-foreground/40">
               No. 17 · MMXXVI
             </span>
           </div>
@@ -118,14 +114,14 @@ export default function HomePage() {
             className="flex items-center gap-3 mb-10"
           >
             <div className="w-8 h-px bg-brand-600" />
-            <span className="eyebrow text-white/40">
+            <span className="eyebrow text-foreground/50">
               USDA Certified · Est. 2017
             </span>
           </motion.div>
 
           {/* Display headline — word-staggered reveal */}
           <h1
-            className="font-display font-bold text-white leading-[1.05] mb-8"
+            className="font-display font-bold text-foreground leading-[1.05] mb-8"
             style={{ fontSize: 'clamp(2.6rem, 4.8vw, 4.6rem)' }}
           >
             <motion.span
@@ -148,7 +144,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="block text-white/40 font-display font-bold"
+              className="block text-foreground/40 font-display font-bold"
             >
               Across Borders.
             </motion.span>
@@ -158,7 +154,7 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="font-sans text-white/55 text-base md:text-lg max-w-sm leading-relaxed mb-12"
+            className="font-sans text-muted-foreground text-base md:text-lg max-w-sm leading-relaxed mb-12"
           >
             {h.heroSub}
           </motion.p>
@@ -182,12 +178,12 @@ export default function HomePage() {
 
         {/* Scroll indicator — pinned to far-left edge of the section, below content */}
         <div className="absolute bottom-12 left-6 hidden lg:flex flex-col items-center gap-3 z-20" aria-hidden>
-          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-white/30 [writing-mode:vertical-rl] rotate-180">
+          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
             Scroll
           </span>
-          <div className="relative w-px h-16 bg-white/15 overflow-hidden">
+          <div className="relative w-px h-16 bg-foreground/15 overflow-hidden">
             <motion.div
-              className="absolute top-0 left-0 w-full bg-white/70"
+              className="absolute top-0 left-0 w-full bg-foreground/70"
               initial={{ height: '0%', y: '0%' }}
               animate={{ height: ['0%', '60%', '60%'], y: ['0%', '0%', '100%'] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
@@ -206,11 +202,11 @@ export default function HomePage() {
             className="object-cover"
           />
 
-          {/* gradient bleed into text panel */}
+          {/* gradient bleed into text panel — uses var(--background) so it flips with theme */}
           <div
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(to right, ${INK} 0%, ${INK}55 12%, transparent 42%)`,
+              background: `linear-gradient(to right, var(--background) 0%, color-mix(in oklch, var(--background) 33%, transparent) 12%, transparent 42%)`,
             }}
             aria-hidden
           />
@@ -218,7 +214,7 @@ export default function HomePage() {
           {/* bottom fade */}
           <div
             className="absolute inset-x-0 bottom-0 h-40"
-            style={{ background: `linear-gradient(to top, ${INK}, transparent)` }}
+            style={{ background: `linear-gradient(to top, var(--background), transparent)` }}
             aria-hidden
           />
 
@@ -272,19 +268,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PRODUCTS — dark editorial showcase ────────────────── */}
-      <section className="py-24" style={{ background: INK }}>
+      {/* ── PRODUCTS — editorial showcase ─────────────────────── */}
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
 
           {/* header row */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
             <div>
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-10 h-px" style={{ background: RED }} />
-                <span className="eyebrow text-gray-600">What we supply</span>
+                <div className="w-10 h-px bg-brand-600" />
+                <span className="eyebrow text-muted-foreground">What we supply</span>
               </div>
               <h2
-                className="font-display font-bold text-white"
+                className="font-display font-bold text-foreground"
                 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}
               >
                 {h.productsTitle}
@@ -316,7 +312,7 @@ export default function HomePage() {
             />
           </div>
 
-          <p className="font-sans text-gray-600 text-sm mt-8 max-w-lg leading-relaxed">
+          <p className="font-sans text-muted-foreground text-sm mt-8 max-w-lg leading-relaxed">
             {h.productsSub}
           </p>
         </div>

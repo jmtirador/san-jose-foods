@@ -1,12 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { ThemeToggle } from '@/components/ThemeToggle'
-
-const INK = '#0D0508'
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage()
@@ -25,15 +24,15 @@ export default function Header() {
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header className="sticky top-0 z-50 shadow-lg" style={{ background: INK }}>
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between h-16 md:h-[72px]">
 
           {/* Logo — Playfair brand mark */}
           <Link href="/" className="flex flex-col justify-center flex-shrink-0 group">
             <span
-              className="text-white font-bold leading-tight tracking-tight"
-              style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: '1.2rem' }}
+              className="text-foreground font-bold leading-tight tracking-tight font-display"
+              style={{ fontSize: '1.2rem' }}
             >
               San Jose Foods
             </span>
@@ -50,8 +49,8 @@ export default function Header() {
                 href={link.href}
                 className={`font-sans px-4 py-2 text-[13px] font-medium tracking-wide transition-all duration-200 rounded ${
                   isActive(link.href)
-                    ? 'text-white'
-                    : 'text-gray-500 hover:text-gray-200'
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
@@ -67,13 +66,13 @@ export default function Header() {
             <ThemeToggle />
 
             {/* Language toggle */}
-            <div className="flex items-center border border-white/10 rounded overflow-hidden font-sans text-[11px] font-semibold">
+            <div className="flex items-center border border-border rounded overflow-hidden font-sans text-[11px] font-semibold">
               <button
                 onClick={() => setLanguage('en')}
                 className={`px-3 py-1.5 transition-colors ${
                   language === 'en'
                     ? 'bg-brand-600 text-white'
-                    : 'text-gray-500 hover:text-gray-300'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 EN
@@ -83,7 +82,7 @@ export default function Header() {
                 className={`px-3 py-1.5 transition-colors ${
                   language === 'es'
                     ? 'bg-brand-600 text-white'
-                    : 'text-gray-500 hover:text-gray-300'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 ES
@@ -92,19 +91,11 @@ export default function Header() {
 
             {/* Mobile hamburger */}
             <button
-              className="lg:hidden text-gray-400 hover:text-white p-1.5 transition-colors"
+              className="lg:hidden text-muted-foreground hover:text-foreground p-1.5 transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
             >
-              {menuOpen ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -112,7 +103,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden border-t border-white/5" style={{ background: '#180B10' }}>
+        <div className="lg:hidden border-t border-border bg-card">
           <nav className="px-5 py-4 flex flex-col gap-0.5">
             {navLinks.map((link) => (
               <Link
@@ -121,8 +112,8 @@ export default function Header() {
                 onClick={() => setMenuOpen(false)}
                 className={`font-sans px-4 py-3 rounded text-sm font-medium transition-all ${
                   isActive(link.href)
-                    ? 'text-white bg-white/5 border-l-2 border-brand-600'
-                    : 'text-gray-500 hover:text-gray-200 hover:bg-white/5'
+                    ? 'text-foreground bg-accent border-l-2 border-brand-600'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 {link.label}
