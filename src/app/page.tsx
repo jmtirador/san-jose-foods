@@ -178,20 +178,21 @@ export default function HomePage() {
             </Link>
           </motion.div>
 
-          {/* Bottom-left scroll indicator — vertical line that pulses, not a bouncing arrow */}
-          <div className="absolute bottom-12 left-20 hidden lg:flex flex-col items-start gap-3" aria-hidden>
-            <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-white/30">
-              Scroll
-            </span>
-            <div className="relative w-px h-16 bg-white/15 overflow-hidden">
-              <motion.div
-                className="absolute top-0 left-0 w-full bg-white/70"
-                initial={{ height: '0%', y: '0%' }}
-                animate={{ height: ['0%', '60%', '60%'], y: ['0%', '0%', '100%'] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ transformOrigin: 'top' }}
-              />
-            </div>
+        </div>
+
+        {/* Scroll indicator — pinned to far-left edge of the section, below content */}
+        <div className="absolute bottom-12 left-6 hidden lg:flex flex-col items-center gap-3 z-20" aria-hidden>
+          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-white/30 [writing-mode:vertical-rl] rotate-180">
+            Scroll
+          </span>
+          <div className="relative w-px h-16 bg-white/15 overflow-hidden">
+            <motion.div
+              className="absolute top-0 left-0 w-full bg-white/70"
+              initial={{ height: '0%', y: '0%' }}
+              animate={{ height: ['0%', '60%', '60%'], y: ['0%', '0%', '100%'] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ transformOrigin: 'top' }}
+            />
           </div>
         </div>
 
