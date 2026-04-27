@@ -68,7 +68,7 @@ function CtaSection({
         </div>
 
         <h2
-          className="font-display font-bold italic text-white mb-6 leading-tight"
+          className="font-display font-semibold italic text-white mb-6 leading-tight tracking-tight"
           style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)' }}
         >
           {title}
@@ -195,7 +195,7 @@ function ProductCard({
       <div className="p-6">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-4 h-px bg-brand-600" />
-          <h3 className="font-display text-card-foreground font-bold text-xl">{title}</h3>
+          <h3 className="font-display text-card-foreground font-semibold tracking-tight text-xl">{title}</h3>
         </div>
 
         {/* Spanish heritage line — always visible, dim, brightens slightly on hover */}
@@ -244,7 +244,7 @@ export default function HomePage() {
 
           {/* Display headline — word-staggered reveal */}
           <h1
-            className="font-display font-extrabold text-foreground leading-[1.02] mb-8 tracking-[-0.025em]"
+            className="font-display font-semibold text-foreground leading-[1.02] mb-8 tracking-[-0.025em]"
             style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}
           >
             <motion.span
@@ -387,9 +387,9 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                {/* The hero numeral — extrabold + tight tracking for that Linear/Vercel snap */}
+                {/* The hero numeral — semibold for Geist (which runs heavier than Inter) */}
                 <div
-                  className="font-display font-extrabold tracking-tight text-brand-600 [font-feature-settings:'tnum','lnum'] -mt-2 [line-height:0.85]"
+                  className="font-display font-semibold tracking-[-0.03em] text-brand-600 [font-feature-settings:'tnum','lnum'] -mt-2 [line-height:0.85]"
                   style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
                 >
                   <Counter to={stat.value} />
@@ -431,7 +431,7 @@ export default function HomePage() {
                 <span className="eyebrow text-muted-foreground">What we supply</span>
               </div>
               <h2
-                className="font-display font-bold text-foreground"
+                className="font-display font-semibold tracking-tight text-foreground"
                 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}
               >
                 {h.productsTitle}

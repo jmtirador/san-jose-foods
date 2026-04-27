@@ -42,7 +42,7 @@ function ProductSection({
         />
         {/* index number watermark */}
         <div
-          className="absolute bottom-4 left-5 font-display font-bold text-foreground/[0.08] select-none leading-none"
+          className="absolute bottom-4 left-5 font-display font-semibold tracking-tight text-foreground/[0.08] select-none leading-none"
           style={{ fontSize: '6rem' }}
           aria-hidden
         >
@@ -61,7 +61,7 @@ function ProductSection({
         </div>
 
         <h2
-          className="font-display font-bold text-card-foreground mb-3"
+          className="font-display font-semibold tracking-tight text-card-foreground mb-3"
           style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)' }}
         >
           {title}
@@ -109,7 +109,7 @@ export default function ProductsPage() {
             </span>
           </div>
           <h1
-            className="font-display font-bold text-foreground mb-5"
+            className="font-display font-semibold tracking-tight text-foreground mb-5"
             style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
           >
             {p.pageTitle}
@@ -154,14 +154,14 @@ export default function ProductsPage() {
       <section className="py-28 relative overflow-hidden bg-brand-600">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
           <span
-            className="font-display font-bold italic text-white/[0.06] whitespace-nowrap select-none"
+            className="font-display font-semibold tracking-tight italic text-white/[0.06] whitespace-nowrap select-none"
             style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
           >
             Pricing
           </span>
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-bold italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
+          <h2 className="font-display font-semibold tracking-tight italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{p.pricingNote}</p>
           <Link href="/contact" className="btn-white font-sans">{p.contactBtn}</Link>
         </div>

@@ -23,7 +23,7 @@ function DiffCard({
       {/* left: number + icon */}
       <div className="flex flex-col items-center gap-3">
         <div
-          className="font-display font-bold leading-none select-none text-brand-600/30"
+          className="font-display font-semibold tracking-tight leading-none select-none text-brand-600/30"
           style={{ fontSize: '3.5rem' }}
           aria-hidden
         >
@@ -35,7 +35,7 @@ function DiffCard({
       </div>
       {/* right: text */}
       <div>
-        <h3 className="font-display font-bold text-card-foreground text-xl mb-3">{title}</h3>
+        <h3 className="font-display font-semibold tracking-tight text-card-foreground text-xl mb-3">{title}</h3>
         <p className="font-sans text-muted-foreground mb-3 leading-relaxed text-sm">{p1}</p>
         <p className="font-sans text-muted-foreground leading-relaxed text-sm">{p2}</p>
       </div>
@@ -79,7 +79,7 @@ export default function WhyPage() {
             </span>
           </div>
           <h1
-            className="font-display font-bold text-foreground mb-5"
+            className="font-display font-semibold tracking-tight text-foreground mb-5"
             style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
           >
             {w.pageTitle}
@@ -142,7 +142,7 @@ export default function WhyPage() {
                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <h2 className="font-display font-bold text-card-foreground text-2xl mb-3">{w.usdaTitle}</h2>
+              <h2 className="font-display font-semibold tracking-tight text-card-foreground text-2xl mb-3">{w.usdaTitle}</h2>
               <p className="font-sans text-muted-foreground mb-7 leading-relaxed text-sm">{w.usdaSub}</p>
               <CheckList items={w.usdaPoints} />
             </div>
@@ -155,7 +155,7 @@ export default function WhyPage() {
                     d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                 </svg>
               </div>
-              <h2 className="font-display font-bold text-card-foreground text-2xl mb-3">{w.coldTitle}</h2>
+              <h2 className="font-display font-semibold tracking-tight text-card-foreground text-2xl mb-3">{w.coldTitle}</h2>
               <p className="font-sans text-muted-foreground mb-7 leading-relaxed text-sm">{w.coldSub}</p>
               <CheckList items={w.coldPoints} />
             </div>
@@ -198,14 +198,14 @@ export default function WhyPage() {
       <section className="py-28 relative overflow-hidden bg-brand-600">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
           <span
-            className="font-display font-bold italic text-white/[0.06] whitespace-nowrap select-none"
+            className="font-display font-semibold tracking-tight italic text-white/[0.06] whitespace-nowrap select-none"
             style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
           >
             Carnicería
           </span>
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-bold italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
+          <h2 className="font-display font-semibold tracking-tight italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{t.home.ctaSub}</p>
           <Link href="/contact" className="btn-white font-sans">{t.home.ctaBtn}</Link>
         </div>
