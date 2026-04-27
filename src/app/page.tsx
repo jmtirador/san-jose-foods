@@ -1,8 +1,9 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'motion/react'
+import { motion, useInView, animate } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -18,6 +19,24 @@ const TICKER_ITEMS = [
   '98% On-Time Delivery',
   'Chicken · Pork · Beef',
 ]
+
+function Counter({ to }: { to: number }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.4 })
+  const [n, setN] = useState(0)
+
+  useEffect(() => {
+    if (!inView) return
+    const controls = animate(0, to, {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setN(Math.round(v)),
+    })
+    return () => controls.stop()
+  }, [inView, to])
+
+  return <span ref={ref}>{n}</span>
+}
 
 function Marquee() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS] // duplicate for seamless loop
@@ -237,31 +256,62 @@ export default function HomePage() {
       <Marquee />
 
       {/* ── STATS — giant editorial numbers ───────────────────── */}
-      <section className="py-24 bg-background">
+      <section className="py-28 bg-background">
         <div className="max-w-6xl mx-auto px-6 sm:px-10">
 
           {/* section label */}
-          <div className="flex items-center gap-4 mb-16">
+          <div className="flex items-center gap-4 mb-20">
             <div className="w-10 h-px bg-brand-600" />
             <span className="eyebrow text-muted-foreground">By the numbers</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
             {[
-              { value: '20', suffix: '+', label: h.trust1Title, sub: h.trust1Desc },
-              { value: '150', suffix: '+', label: h.trust2Title, sub: h.trust2Desc },
-              { value: '98', suffix: '%', label: h.trust3Title, sub: h.trust3Desc },
-            ].map((stat) => (
-              <div key={stat.value} className="py-10 md:py-4 md:px-12 first:md:pl-0 last:md:pr-0">
+              { value: 20,  unit: '+ Years',           label: h.trust1Title, sub: h.trust1Desc, es: 'Años exportando' },
+              { value: 150, unit: '+ Clients',         label: h.trust2Title, sub: h.trust2Desc, es: 'Clientes en México' },
+              { value: 98,  unit: '% On-Time',         label: h.trust3Title, sub: h.trust3Desc, es: 'Entregas a tiempo' },
+            ].map((stat, idx) => (
+              <div
+                key={stat.value}
+                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 overflow-hidden"
+              >
+                {/* Decorative ghost numeral behind — magazine page-number flourish */}
                 <div
-                  className="font-display font-bold leading-none mb-4 text-brand-600"
-                  style={{ fontSize: 'clamp(4rem, 7vw, 6rem)' }}
+                  className="absolute -top-4 -left-2 md:left-8 font-display italic font-bold text-foreground/[0.05] pointer-events-none select-none leading-none"
+                  style={{ fontSize: 'clamp(7rem, 13vw, 11rem)' }}
+                  aria-hidden
                 >
-                  {stat.value}
-                  <span className="text-3xl">{stat.suffix}</span>
+                  0{idx + 1}
                 </div>
-                <div className="font-sans font-semibold text-foreground text-base mb-1">{stat.label}</div>
-                <div className="font-sans text-muted-foreground text-sm leading-relaxed">{stat.sub}</div>
+
+                <div className="relative">
+                  {/* The hero numeral */}
+                  <div
+                    className="font-display font-bold leading-none text-brand-600"
+                    style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
+                  >
+                    <Counter to={stat.value} />
+                  </div>
+
+                  {/* Demoted unit — small caps below the numeral */}
+                  <div className="mt-3 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                    {stat.unit}
+                  </div>
+
+                  {/* Editorial gap */}
+                  <div className="mt-7 font-sans font-semibold text-foreground text-base leading-tight">
+                    {stat.label}
+                  </div>
+
+                  {/* Spanish heritage flourish */}
+                  <div className="mt-1 font-display italic text-muted-foreground/80 text-sm">
+                    {stat.es}
+                  </div>
+
+                  <div className="mt-3 font-sans text-muted-foreground text-sm leading-relaxed max-w-xs">
+                    {stat.sub}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
