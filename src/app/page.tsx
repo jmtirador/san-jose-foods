@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, useInView, animate } from 'motion/react'
+import { motion, useInView, animate, useScroll, useTransform } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -19,6 +19,82 @@ const TICKER_ITEMS = [
   '98% On-Time Delivery',
   'Chicken · Pork · Beef',
 ]
+
+function CtaSection({
+  title,
+  sub,
+  btn,
+}: {
+  title: string
+  sub: string
+  btn: string
+}) {
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+  // Parallax: ghost text drifts vertically as section scrolls past
+  const ghostY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
+
+  return (
+    <section
+      ref={ref}
+      className="relative overflow-hidden bg-brand-600 py-32"
+    >
+      {/* Top hairline rule — magazine spread divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-white/25" aria-hidden />
+
+      {/* Ghost Playfair "Carnicería" — Spanish heritage word, parallax on scroll */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
+        aria-hidden
+      >
+        <motion.span
+          style={{
+            y: ghostY,
+            fontSize: 'clamp(7rem, 17vw, 17rem)',
+            lineHeight: 1,
+          }}
+          className="font-display font-bold italic text-white/[0.06] whitespace-nowrap select-none"
+        >
+          Carnicería
+        </motion.span>
+      </div>
+
+      <div className="relative max-w-4xl mx-auto px-6 sm:px-10 text-center">
+        <div className="flex justify-center mb-8">
+          <span className="eyebrow text-white/55">Ready when you are</span>
+        </div>
+
+        <h2
+          className="font-display font-bold italic text-white mb-6 leading-tight"
+          style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)' }}
+        >
+          {title}
+        </h2>
+
+        <p className="font-sans text-white/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+          {sub}
+        </p>
+
+        <Link href="/contact" className="btn-white font-sans">
+          {btn}
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+
+        {/* Trust line below the button — confirms in one breath */}
+        <div className="mt-8 flex items-center justify-center gap-3 text-white/55">
+          <span className="w-6 h-px bg-white/30" />
+          <span className="font-sans text-[10px] uppercase tracking-[0.32em]">
+            From Texas to Mexico · 20 years
+          </span>
+          <span className="w-6 h-px bg-white/30" />
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function Counter({ to }: { to: number }) {
   const ref = useRef<HTMLSpanElement>(null)
@@ -407,41 +483,7 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA — bold red editorial ───────────────────────────── */}
-      <section className="py-28 relative overflow-hidden" style={{ background: RED }}>
-        {/* ghost Playfair text behind as decoration */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-          aria-hidden
-        >
-          <span
-            className="font-display font-bold text-white/5 whitespace-nowrap select-none"
-            style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
-          >
-            Order
-          </span>
-        </div>
-
-        <div className="relative max-w-4xl mx-auto px-6 sm:px-10 text-center">
-          <div className="flex justify-center mb-8">
-            <span className="eyebrow text-white/50">Ready when you are</span>
-          </div>
-          <h2
-            className="font-display font-bold italic text-white mb-6 leading-tight"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)' }}
-          >
-            {h.ctaTitle}
-          </h2>
-          <p className="font-sans text-white/75 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-            {h.ctaSub}
-          </p>
-          <Link href="/contact" className="btn-white font-sans">
-            {h.ctaBtn}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-        </div>
-      </section>
+      <CtaSection title={h.ctaTitle} sub={h.ctaSub} btn={h.ctaBtn} />
     </>
   )
 }
