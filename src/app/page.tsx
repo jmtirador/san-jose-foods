@@ -45,6 +45,16 @@ function CtaSection({
       {/* Top hairline rule — magazine spread divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-white/25" aria-hidden />
 
+      {/* Subtle grain on the CTA — parallel to the hero grain treatment for tactile depth */}
+      <div
+        className="absolute inset-0 mix-blend-overlay opacity-[0.12] pointer-events-none"
+        aria-hidden
+        style={{
+          backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`,
+          backgroundSize: '180px 180px',
+        }}
+      />
+
       {/* Ghost Playfair "Carnicería" — Spanish heritage word, parallax on scroll */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
@@ -165,7 +175,7 @@ function ProductCard({
   return (
     <Link
       href={href}
-      className={`group relative overflow-hidden rounded bg-card border border-border flex flex-col ${className}`}
+      className={`group relative overflow-hidden rounded bg-card border border-border flex flex-col h-full ${className}`}
     >
       <div className="relative flex-1 overflow-hidden min-h-[16rem]">
         <Image
@@ -375,8 +385,12 @@ export default function HomePage() {
               { value: 150, unit: '+ Clients',         label: h.trust2Title, sub: h.trust2Desc, es: 'Clientes en México' },
               { value: 98,  unit: '% On-Time',         label: h.trust3Title, sub: h.trust3Desc, es: 'Entregas a tiempo' },
             ].map((stat, idx) => (
-              <div
+              <motion.div
                 key={stat.value}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
                 {/* Editorial entry mark — tiny red label above the numeral, lifted via translate so the numeral stays put */}
@@ -413,7 +427,7 @@ export default function HomePage() {
                 <div className="mt-3 font-sans font-normal text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
                   {stat.sub}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -442,39 +456,41 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4">
-            {/* Hero card — beef, spans 2 cols × 2 rows */}
-            <ProductCard
-              title={h.beef}
-              desc={h.beefDesc}
-              imageSrc="https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=1200&q=85"
-              href="/products"
-              category="Beef"
-              index={1}
-              esTitle="Res de exportación"
-              className="md:col-span-2 md:row-span-2"
-            />
-            {/* Top right */}
-            <ProductCard
-              title={h.pork}
-              desc={h.porkDesc}
-              imageSrc="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"
-              href="/products"
-              category="Pork"
-              index={2}
-              esTitle="Cerdo premium"
-            />
-            {/* Bottom right */}
-            <ProductCard
-              title={h.chicken}
-              desc={h.chickenDesc}
-              imageSrc="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80"
-              href="/products"
-              category="Chicken"
-              index={3}
-              esTitle="Pollo selecto"
-            />
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.15 } },
+            }}
+            className="grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4"
+          >
+            {[
+              { title: h.beef, desc: h.beefDesc, src: 'https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=1200&q=85', category: 'Beef', index: 1, es: 'Res de exportación', cls: 'md:col-span-2 md:row-span-2' },
+              { title: h.pork, desc: h.porkDesc, src: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',  category: 'Pork', index: 2, es: 'Cerdo premium',     cls: '' },
+              { title: h.chicken, desc: h.chickenDesc, src: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80', category: 'Chicken', index: 3, es: 'Pollo selecto', cls: '' },
+            ].map((p) => (
+              <motion.div
+                key={p.category}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+                }}
+                className={p.cls}
+              >
+                <ProductCard
+                  title={p.title}
+                  desc={p.desc}
+                  imageSrc={p.src}
+                  href="/products"
+                  category={p.category}
+                  index={p.index}
+                  esTitle={p.es}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
 
           <p className="font-sans text-muted-foreground text-sm mt-8 max-w-lg leading-relaxed">
             {h.productsSub}
