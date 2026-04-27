@@ -99,13 +99,6 @@ export default function HomePage() {
         {/* Left: editorial text panel */}
         <div className="relative z-10 flex flex-col justify-center px-8 sm:px-14 lg:px-20 xl:px-24 py-28">
 
-          {/* Top-right corner detail — editorial issue mark */}
-          <div className="absolute top-10 right-10 hidden lg:block">
-            <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-foreground/40">
-              No. 17 · MMXXVI
-            </span>
-          </div>
-
           {/* eyebrow */}
           <motion.div
             initial={{ opacity: 0, x: -8 }}
