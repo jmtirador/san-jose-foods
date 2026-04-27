@@ -380,23 +380,23 @@ export default function HomePage() {
                 className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
                 {/* Editorial entry mark — tiny red label above the numeral */}
-                <div className="flex items-center justify-center gap-2 mb-5">
+                <div className="flex items-center justify-center gap-2 mb-2">
                   <div className="w-4 h-px bg-brand-600" />
                   <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-brand-600 font-semibold">
                     No. 0{idx + 1}
                   </span>
                 </div>
 
-                {/* The hero numeral */}
+                {/* The hero numeral — tight leading + negative top to lift it optically */}
                 <div
-                  className="font-display font-bold leading-none text-brand-600 [font-feature-settings:'tnum','lnum']"
+                  className="font-display font-bold text-brand-600 [font-feature-settings:'tnum','lnum'] -mt-2 [line-height:0.85]"
                   style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
                 >
                   <Counter to={stat.value} />
                 </div>
 
                 {/* Demoted unit — small caps below the numeral */}
-                <div className="mt-3 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                <div className="mt-5 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
                   {stat.unit}
                 </div>
 
