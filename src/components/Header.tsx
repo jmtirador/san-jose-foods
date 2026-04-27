@@ -31,7 +31,7 @@ export default function Header() {
           {/* Logo — Playfair brand mark */}
           <Link href="/" className="flex flex-col justify-center flex-shrink-0 group">
             <span
-              className="text-foreground font-semibold leading-tight tracking-tight font-display"
+              className="text-foreground font-medium leading-tight tracking-tight font-display"
               style={{ fontSize: '1.2rem' }}
             >
               San Jose Foods

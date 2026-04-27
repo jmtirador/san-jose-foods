@@ -11,7 +11,7 @@ function ValueCard({ icon, title, desc }: { icon: React.ReactNode; title: string
       <div className="w-10 h-10 rounded flex items-center justify-center mb-4 bg-brand-600/10 text-brand-600">
         {icon}
       </div>
-      <h3 className="font-display font-semibold tracking-tight text-card-foreground text-lg mb-2">{title}</h3>
+      <h3 className="font-display font-medium tracking-[-0.02em] text-card-foreground text-lg mb-2">{title}</h3>
       <p className="font-sans text-muted-foreground text-sm leading-relaxed">{desc}</p>
     </div>
   )
@@ -38,7 +38,7 @@ export default function AboutPage() {
             </span>
           </div>
           <h1
-            className="font-display font-semibold tracking-tight text-foreground mb-5"
+            className="font-display font-medium tracking-[-0.02em] text-foreground mb-5"
             style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
           >
             {a.pageTitle}
@@ -52,7 +52,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="font-display font-semibold tracking-tight text-foreground text-3xl md:text-4xl mb-8">{a.storyTitle}</h2>
+              <h2 className="font-display font-medium tracking-[-0.02em] text-foreground text-3xl md:text-4xl mb-8">{a.storyTitle}</h2>
               <div className="space-y-5 font-sans text-muted-foreground leading-relaxed">
                 <p>{a.storyP1}</p>
                 <p>{a.storyP2}</p>
@@ -92,7 +92,7 @@ export default function AboutPage() {
             ].map((stat) => (
               <div key={stat.label} className="py-8 border-b border-border">
                 <div
-                  className="font-display font-semibold tracking-tight text-brand-600 mb-2"
+                  className="font-display font-medium tracking-[-0.02em] text-brand-600 mb-2"
                   style={{ fontSize: '3rem' }}
                 >
                   {stat.value}
@@ -108,7 +108,7 @@ export default function AboutPage() {
       <section className="py-24 bg-background border-t border-border">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="mb-12">
-            <h2 className="font-display font-semibold tracking-tight text-foreground text-3xl md:text-4xl">{a.valuesTitle}</h2>
+            <h2 className="font-display font-medium tracking-[-0.02em] text-foreground text-3xl md:text-4xl">{a.valuesTitle}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <ValueCard
@@ -159,14 +159,14 @@ export default function AboutPage() {
       <section className="py-24 relative overflow-hidden bg-brand-600">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
           <span
-            className="font-display font-semibold tracking-tight italic text-white/[0.06] whitespace-nowrap select-none"
+            className="font-display font-medium tracking-[-0.02em] italic text-white/[0.06] whitespace-nowrap select-none"
             style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
           >
             Carnicería
           </span>
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-semibold tracking-tight italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
+          <h2 className="font-display font-medium tracking-[-0.02em] italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{t.home.ctaSub}</p>
           <Link href="/contact" className="btn-white font-sans">{t.home.ctaBtn}</Link>
         </div>

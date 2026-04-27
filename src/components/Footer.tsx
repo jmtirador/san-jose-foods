@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <div className="mb-5">
               <div
-                className="text-foreground font-semibold leading-tight font-display tracking-tight"
+                className="text-foreground font-medium leading-tight font-display tracking-tight"
                 style={{ fontSize: '1.2rem' }}
               >
                 San Jose Foods
