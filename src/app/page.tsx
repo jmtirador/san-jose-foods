@@ -273,44 +273,41 @@ export default function HomePage() {
             ].map((stat, idx) => (
               <div
                 key={stat.value}
-                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 overflow-hidden"
+                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0"
               >
-                {/* Decorative ghost numeral behind — magazine page-number flourish */}
-                <div
-                  className="absolute -top-4 -left-2 md:left-8 font-display italic font-bold text-foreground/[0.05] pointer-events-none select-none leading-none"
-                  style={{ fontSize: 'clamp(7rem, 13vw, 11rem)' }}
-                  aria-hidden
-                >
-                  0{idx + 1}
+                {/* Editorial entry mark — tiny red label above the numeral */}
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-4 h-px bg-brand-600" />
+                  <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-brand-600 font-semibold">
+                    No. 0{idx + 1}
+                  </span>
                 </div>
 
-                <div className="relative">
-                  {/* The hero numeral */}
-                  <div
-                    className="font-display font-bold leading-none text-brand-600"
-                    style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
-                  >
-                    <Counter to={stat.value} />
-                  </div>
+                {/* The hero numeral */}
+                <div
+                  className="font-display font-bold leading-none text-brand-600"
+                  style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
+                >
+                  <Counter to={stat.value} />
+                </div>
 
-                  {/* Demoted unit — small caps below the numeral */}
-                  <div className="mt-3 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-                    {stat.unit}
-                  </div>
+                {/* Demoted unit — small caps below the numeral */}
+                <div className="mt-3 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                  {stat.unit}
+                </div>
 
-                  {/* Editorial gap */}
-                  <div className="mt-7 font-sans font-semibold text-foreground text-base leading-tight">
-                    {stat.label}
-                  </div>
+                {/* Editorial gap */}
+                <div className="mt-7 font-sans font-semibold text-foreground text-base leading-tight">
+                  {stat.label}
+                </div>
 
-                  {/* Spanish heritage flourish */}
-                  <div className="mt-1 font-display italic text-muted-foreground/80 text-sm">
-                    {stat.es}
-                  </div>
+                {/* Spanish heritage flourish */}
+                <div className="mt-1 font-display italic text-muted-foreground/80 text-sm">
+                  {stat.es}
+                </div>
 
-                  <div className="mt-3 font-sans text-muted-foreground text-sm leading-relaxed max-w-xs">
-                    {stat.sub}
-                  </div>
+                <div className="mt-3 font-sans text-muted-foreground text-sm leading-relaxed max-w-xs">
+                  {stat.sub}
                 </div>
               </div>
             ))}
