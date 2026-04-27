@@ -85,10 +85,10 @@ export default function AboutPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { value: '20+', label: a.stat1 },
-              { value: '150+', label: a.stat2 },
-              { value: '2', label: a.stat3 },
-              { value: '98%', label: a.stat4 },
+              { value: '3', label: a.stat1 },
+              { value: '5', label: a.stat2 },
+              { value: '24/7', label: a.stat3 },
+              { value: '100%', label: a.stat4 },
             ].map((stat) => (
               <div key={stat.label} className="py-8 border-b border-border">
                 <div

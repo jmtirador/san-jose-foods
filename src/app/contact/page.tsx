@@ -183,28 +183,27 @@ export default function ContactPage() {
                 <div className="space-y-5">
                   <InfoItem
                     label={c.usOffice}
-                    value="+1 (555) 555-0100"
-                    href="tel:+15555550100"
+                    value="+52 81 8016 3885"
+                    href="tel:+528180163885"
                     icon={<Phone className="w-4 h-4" strokeWidth={1.6} />}
                   />
                   <InfoItem
                     label={c.mxLine}
-                    value="+52 (555) 555-0200"
-                    href="tel:+525555550200"
-                    icon={<Phone className="w-4 h-4" strokeWidth={1.6} />}
+                    value="ventas1@sanjosefoods.net"
+                    href="mailto:ventas1@sanjosefoods.net"
+                    icon={<Mail className="w-4 h-4" strokeWidth={1.6} />}
                   />
                   <InfoItem
                     label={c.emailLabel}
-                    value="info@sanjosefoods.com"
-                    href="mailto:info@sanjosefoods.com"
-                    icon={<Mail className="w-4 h-4" strokeWidth={1.6} />}
+                    value="1020 E. Produce Rd., Hidalgo, TX 78557"
+                    icon={<MapPin className="w-4 h-4" strokeWidth={1.6} />}
                   />
                 </div>
               </div>
 
               {/* WhatsApp — keep brand green; this isn't a theme color */}
               <a
-                href="https://wa.me/15555550100"
+                href="https://wa.me/528180163885"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-[#25D366] hover:bg-[#20bf5c] text-white font-sans font-semibold px-5 py-3.5 rounded transition-colors w-full justify-center text-sm"

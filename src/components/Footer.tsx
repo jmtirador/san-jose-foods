@@ -64,33 +64,34 @@ export default function Footer() {
                 <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.usPhone}
                 </span>
-                <a href="tel:+15555550100" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +1 (555) 555-0100
+                <a href="tel:+528180163885" className="text-muted-foreground hover:text-foreground transition-colors">
+                  +52 81 8016 3885
                 </a>
               </li>
               <li>
                 <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.mxPhone}
                 </span>
-                <a href="tel:+525555550200" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +52 (555) 555-0200
+                <a href="mailto:ventas1@sanjosefoods.net" className="text-muted-foreground hover:text-foreground transition-colors">
+                  ventas1@sanjosefoods.net
                 </a>
               </li>
               <li>
                 <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.email}
                 </span>
-                <a href="mailto:info@sanjosefoods.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                  info@sanjosefoods.com
-                </a>
+                <span className="text-muted-foreground">
+                  1020 E. Produce Rd.<br />
+                  Hidalgo, TX 78557
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-border mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 font-sans text-xs text-muted-foreground/70">
-          <span>© {new Date().getFullYear()} San Jose Foods. {t.footer.rights}</span>
-          <span>{t.footer.address}</span>
+          <span>© {new Date().getFullYear()} San Jose Foods LLC. {t.footer.rights}</span>
+          <span>Hidalgo, TX · International Trade</span>
         </div>
       </div>
     </footer>

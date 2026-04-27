@@ -12,12 +12,12 @@ const INK_S = '#180B10'
 const RED   = '#D9182E'
 
 const TICKER_ITEMS = [
-  'USDA Certified',
+  'USDA · CFIA · SIF Inspected',
+  'Sourced from US · Canada · Brazil',
+  'LLC-Backed Credit Lines',
+  '24/7 Commercial Response',
+  'Cargo Insurance Protected',
   'Cold-Chain Logistics',
-  '20+ Years Exporting',
-  '150+ Clients in Mexico',
-  '98% On-Time Delivery',
-  'Chicken · Pork · Beef',
 ]
 
 function CtaSection({
@@ -100,10 +100,10 @@ function Marquee() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS] // duplicate for seamless loop
   return (
     <div className="relative overflow-hidden bg-brand-600 select-none">
-      {/* Static "EST · 2017" pin — anchored to the left edge, doesn't move */}
+      {/* Static origin pin — anchored to the left edge, doesn't move */}
       <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center bg-brand-600 pl-5 pr-6 border-r border-white/25 shadow-[6px_0_8px_-4px_rgba(0,0,0,0.25)]">
         <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          Est · 2017
+          USA · CA · BR
         </span>
       </div>
 
@@ -220,7 +220,7 @@ export default function HomePage() {
           >
             <div className="w-8 h-px bg-brand-600" />
             <span className="eyebrow text-foreground/50">
-              USDA Certified · Est. 2017
+              USDA · International Trade · Hidalgo, TX
             </span>
           </motion.div>
 
@@ -235,7 +235,7 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="block"
             >
-              Premium US Proteins,
+              International Meat Supply,
             </motion.span>
             <motion.em
               initial={{ opacity: 0, y: 24 }}
@@ -243,7 +243,7 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="not-italic block text-brand-600"
             >
-              Reliably Delivered
+              Strategically Delivered
             </motion.em>
             <motion.span
               initial={{ opacity: 0, y: 24 }}
@@ -251,7 +251,7 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="block text-foreground/40"
             >
-              Across Borders.
+              To Mexico.
             </motion.span>
           </h1>
 
@@ -353,9 +353,9 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
             {[
-              { value: 20,  unit: '+ Years',           label: h.trust1Title, sub: h.trust1Desc, es: 'Años exportando' },
-              { value: 150, unit: '+ Clients',         label: h.trust2Title, sub: h.trust2Desc, es: 'Clientes en México' },
-              { value: 98,  unit: '% On-Time',         label: h.trust3Title, sub: h.trust3Desc, es: 'Entregas a tiempo' },
+              { value: 3,  unit: 'Countries',     label: h.trust1Title, sub: h.trust1Desc, es: 'EE.UU. · Canadá · Brasil' },
+              { value: 24, unit: '/ 7 Response',  label: h.trust2Title, sub: h.trust2Desc, es: 'Respuesta inmediata' },
+              { value: 5,  unit: 'Core Services', label: h.trust3Title, sub: h.trust3Desc, es: 'Soluciones integrales' },
             ].map((stat, idx) => (
               <motion.div
                 key={stat.value}
