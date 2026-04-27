@@ -83,10 +83,10 @@ function CtaSection({
           <ArrowRight className="w-4 h-4" />
         </Link>
 
-        {/* Trust line below the button — confirms in one breath */}
+        {/* Trust line below the button — mono for spec-sheet stamp */}
         <div className="mt-8 flex items-center justify-center gap-3 text-white/55">
           <span className="w-6 h-px bg-white/30" />
-          <span className="font-sans text-[10px] uppercase tracking-[0.32em]">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
             From Texas to Mexico · 20 years
           </span>
           <span className="w-6 h-px bg-white/30" />
@@ -120,7 +120,7 @@ function Marquee() {
     <div className="relative overflow-hidden bg-brand-600 select-none">
       {/* Static "EST · 2017" pin — anchored to the left edge, doesn't move */}
       <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center bg-brand-600 pl-5 pr-6 border-r border-white/25 shadow-[6px_0_8px_-4px_rgba(0,0,0,0.25)]">
-        <span className="font-sans text-[10px] font-bold uppercase tracking-[0.32em] text-white">
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white">
           Est · 2017
         </span>
       </div>
@@ -131,7 +131,7 @@ function Marquee() {
           {items.map((item, i) => (
             <span
               key={i}
-              className="font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-white/90 px-7 flex items-center gap-7"
+              className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 px-7 flex items-center gap-7"
             >
               {item}
               <span className="text-white/35 text-xs font-light">|</span>
@@ -179,11 +179,11 @@ function ProductCard({
 
         {/* Magazine corner label — top right, backdrop-blur for legibility on any photo */}
         <div className="absolute top-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-md rounded">
-          <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-white font-semibold">
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-semibold">
             {category}
           </span>
           <span className="text-white/40 text-[9px]">/</span>
-          <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-brand-600 font-bold">
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brand-600 font-bold">
             0{index}
           </span>
         </div>
@@ -244,8 +244,8 @@ export default function HomePage() {
 
           {/* Display headline — word-staggered reveal */}
           <h1
-            className="font-display font-extrabold tracking-tight text-foreground leading-[1.02] mb-8"
-            style={{ fontSize: 'clamp(2.6rem, 4.8vw, 4.6rem)' }}
+            className="font-display font-extrabold text-foreground leading-[1.02] mb-8 tracking-[-0.025em]"
+            style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}
           >
             <motion.span
               initial={{ opacity: 0, y: 24 }}
@@ -382,21 +382,21 @@ export default function HomePage() {
                 {/* Editorial entry mark — tiny red label above the numeral */}
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <div className="w-4 h-px bg-brand-600" />
-                  <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-brand-600 font-semibold">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600 font-semibold">
                     No. 0{idx + 1}
                   </span>
                 </div>
 
-                {/* The hero numeral — tight leading + negative top to lift it optically */}
+                {/* The hero numeral — extrabold + tight tracking for that Linear/Vercel snap */}
                 <div
-                  className="font-display font-bold text-brand-600 [font-feature-settings:'tnum','lnum'] -mt-2 [line-height:0.85]"
+                  className="font-display font-extrabold tracking-tight text-brand-600 [font-feature-settings:'tnum','lnum'] -mt-2 [line-height:0.85]"
                   style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
                 >
                   <Counter to={stat.value} />
                 </div>
 
-                {/* Demoted unit — small caps below the numeral */}
-                <div className="mt-5 font-sans text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                {/* Demoted unit — mono for spec-sheet feel */}
+                <div className="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   {stat.unit}
                 </div>
 
