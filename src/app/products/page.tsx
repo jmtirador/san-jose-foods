@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -95,7 +96,12 @@ export default function ProductsPage() {
     <>
       {/* Hero */}
       <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-7xl mx-auto px-6 sm:px-10"
+        >
           <div className="flex items-center gap-4 mb-8">
             <div className="w-10 h-px bg-brand-600" />
             <span className="font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
@@ -113,7 +119,7 @@ export default function ProductsPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-brand-600" />
             <span className="font-sans text-muted-foreground text-xs">{p.pricingNote}</span>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Products */}
