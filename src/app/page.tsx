@@ -216,7 +216,7 @@ export default function HomePage() {
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="flex items-center gap-3 mb-10"
+            className="flex items-center gap-3 mt-3 mb-10"
           >
             <div className="w-8 h-px bg-brand-600" />
             <span className="eyebrow text-foreground/50">
