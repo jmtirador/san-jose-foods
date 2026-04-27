@@ -379,8 +379,8 @@ export default function HomePage() {
                 key={stat.value}
                 className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
-                {/* Editorial entry mark — tiny red label above the numeral */}
-                <div className="flex items-center justify-center gap-2 mb-2">
+                {/* Editorial entry mark — tiny red label above the numeral, lifted via translate so the numeral stays put */}
+                <div className="flex items-center justify-center gap-2 mb-2 -translate-y-4">
                   <div className="w-4 h-px bg-brand-600" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600 font-semibold">
                     No. 0{idx + 1}
