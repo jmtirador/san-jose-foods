@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, useInView, animate, useScroll, useTransform } from 'motion/react'
+import { motion, useInView, animate } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -29,19 +29,8 @@ function CtaSection({
   sub: string
   btn: string
 }) {
-  const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  // Parallax: ghost text drifts vertically as section scrolls past
-  const ghostY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
-
   return (
-    <section
-      ref={ref}
-      className="relative overflow-hidden bg-brand-600 py-32"
-    >
+    <section className="relative overflow-hidden bg-brand-600 py-32">
       {/* Top hairline rule — magazine spread divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-white/25" aria-hidden />
 
@@ -54,23 +43,6 @@ function CtaSection({
           backgroundSize: '180px 180px',
         }}
       />
-
-      {/* Ghost Playfair "Carnicería" — Spanish heritage word, parallax on scroll */}
-      <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-        aria-hidden
-      >
-        <motion.span
-          style={{
-            y: ghostY,
-            fontSize: 'clamp(7rem, 17vw, 17rem)',
-            lineHeight: 1,
-          }}
-          className="font-display font-bold italic text-white/[0.06] whitespace-nowrap select-none"
-        >
-          Carnicería
-        </motion.span>
-      </div>
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-10 text-center">
         <div className="flex justify-center mb-8">

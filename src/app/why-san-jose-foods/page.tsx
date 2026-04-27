@@ -196,14 +196,6 @@ export default function WhyPage() {
 
       {/* CTA */}
       <section className="py-28 relative overflow-hidden bg-brand-600">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
-          <span
-            className="font-display font-medium tracking-[-0.04em] italic text-white/[0.06] whitespace-nowrap select-none"
-            style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
-          >
-            Carnicería
-          </span>
-        </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <h2 className="font-display font-medium tracking-[-0.04em] text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{t.home.ctaSub}</p>
