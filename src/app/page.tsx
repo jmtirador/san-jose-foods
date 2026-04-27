@@ -377,10 +377,10 @@ export default function HomePage() {
             ].map((stat, idx) => (
               <div
                 key={stat.value}
-                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0"
+                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
                 {/* Editorial entry mark — tiny red label above the numeral */}
-                <div className="flex items-center gap-2 mb-5">
+                <div className="flex items-center justify-center gap-2 mb-5">
                   <div className="w-4 h-px bg-brand-600" />
                   <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-brand-600 font-semibold">
                     No. 0{idx + 1}
@@ -389,7 +389,7 @@ export default function HomePage() {
 
                 {/* The hero numeral */}
                 <div
-                  className="font-display font-bold leading-none text-brand-600"
+                  className="font-display font-bold leading-none text-brand-600 [font-feature-settings:'tnum','lnum']"
                   style={{ fontSize: 'clamp(4.5rem, 8vw, 7rem)' }}
                 >
                   <Counter to={stat.value} />
@@ -410,7 +410,7 @@ export default function HomePage() {
                   {stat.es}
                 </div>
 
-                <div className="mt-3 font-sans text-muted-foreground text-sm leading-relaxed max-w-xs">
+                <div className="mt-3 font-sans text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
                   {stat.sub}
                 </div>
               </div>
