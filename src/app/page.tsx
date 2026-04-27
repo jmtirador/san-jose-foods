@@ -68,7 +68,7 @@ function CtaSection({
         </div>
 
         <h2
-          className="font-display font-medium italic text-white mb-6 leading-tight tracking-[-0.02em]"
+          className="font-display font-medium italic text-white mb-6 leading-tight tracking-[-0.04em]"
           style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)' }}
         >
           {title}
@@ -244,7 +244,7 @@ export default function HomePage() {
 
           {/* Display headline — word-staggered reveal */}
           <h1
-            className="font-display font-medium text-foreground leading-[1.02] mb-8 tracking-[-0.03em]"
+            className="font-display font-medium text-foreground leading-[1.02] mb-8 tracking-[-0.04em]"
             style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}
           >
             <motion.span
@@ -431,7 +431,7 @@ export default function HomePage() {
                 <span className="eyebrow text-muted-foreground">What we supply</span>
               </div>
               <h2
-                className="font-display font-medium tracking-[-0.02em] text-foreground"
+                className="font-display font-medium tracking-[-0.04em] text-foreground"
                 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}
               >
                 {h.productsTitle}
