@@ -22,20 +22,27 @@ const TICKER_ITEMS = [
 function Marquee() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS] // duplicate for seamless loop
   return (
-    <div
-      style={{ background: RED }}
-      className="overflow-hidden py-2.5 flex items-center select-none"
-    >
-      <div className="flex whitespace-nowrap animate-marquee">
-        {items.map((item, i) => (
-          <span
-            key={i}
-            className="font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-white/90 px-6 flex items-center gap-6"
-          >
-            {item}
-            <span className="text-white/30 text-[8px]">◆</span>
-          </span>
-        ))}
+    <div className="relative overflow-hidden bg-brand-600 select-none">
+      {/* Static "EST · 2017" pin — anchored to the left edge, doesn't move */}
+      <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center bg-brand-600 pl-5 pr-6 border-r border-white/25 shadow-[6px_0_8px_-4px_rgba(0,0,0,0.25)]">
+        <span className="font-sans text-[10px] font-bold uppercase tracking-[0.32em] text-white">
+          Est · 2017
+        </span>
+      </div>
+
+      {/* Scrolling content — padded so initial items don't overlap the pin */}
+      <div className="py-2.5 flex items-center pl-36">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {items.map((item, i) => (
+            <span
+              key={i}
+              className="font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-white/90 px-7 flex items-center gap-7"
+            >
+              {item}
+              <span className="text-white/35 text-xs font-light">|</span>
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   )
