@@ -34,3 +34,6 @@ next-env.d.ts
 # editor / OS
 .idea/
 .vscode/
+
+# claude
+.claude/
