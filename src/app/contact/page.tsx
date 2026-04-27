@@ -75,7 +75,7 @@ export default function ContactPage() {
             </span>
           </div>
           <h1
-            className="font-display font-medium tracking-[-0.02em] text-foreground mb-5"
+            className="font-display font-medium tracking-[-0.04em] text-foreground mb-5"
             style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
           >
             {c.pageTitle}
@@ -93,7 +93,7 @@ export default function ContactPage() {
             <div className="lg:col-span-3 rounded p-8 bg-card border border-border">
               <div className="flex items-center gap-3 mb-7">
                 <div className="w-5 h-px bg-brand-600" />
-                <h2 className="font-display font-medium tracking-[-0.02em] text-card-foreground text-xl">{c.formTitle}</h2>
+                <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>
               </div>
 
               {submitted ? (
@@ -178,7 +178,7 @@ export default function ContactPage() {
               <div>
                 <div className="flex items-center gap-3 mb-7">
                   <div className="w-5 h-px bg-brand-600" />
-                  <h2 className="font-display font-medium tracking-[-0.02em] text-foreground text-xl">{c.infoTitle}</h2>
+                  <h2 className="font-display font-medium tracking-[-0.015em] text-foreground text-xl">{c.infoTitle}</h2>
                 </div>
                 <div className="space-y-5">
                   <InfoItem

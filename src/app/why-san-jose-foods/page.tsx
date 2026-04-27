@@ -23,7 +23,7 @@ function DiffCard({
       {/* left: number + icon */}
       <div className="flex flex-col items-center gap-3">
         <div
-          className="font-display font-medium tracking-[-0.02em] leading-none select-none text-brand-600/30"
+          className="font-display font-medium tracking-[-0.04em] leading-none select-none text-brand-600/30"
           style={{ fontSize: '3.5rem' }}
           aria-hidden
         >
@@ -35,7 +35,7 @@ function DiffCard({
       </div>
       {/* right: text */}
       <div>
-        <h3 className="font-display font-medium tracking-[-0.02em] text-card-foreground text-xl mb-3">{title}</h3>
+        <h3 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl mb-3">{title}</h3>
         <p className="font-sans text-muted-foreground mb-3 leading-relaxed text-sm">{p1}</p>
         <p className="font-sans text-muted-foreground leading-relaxed text-sm">{p2}</p>
       </div>
@@ -79,7 +79,7 @@ export default function WhyPage() {
             </span>
           </div>
           <h1
-            className="font-display font-medium tracking-[-0.02em] text-foreground mb-5"
+            className="font-display font-medium tracking-[-0.04em] text-foreground mb-5"
             style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
           >
             {w.pageTitle}
@@ -198,14 +198,14 @@ export default function WhyPage() {
       <section className="py-28 relative overflow-hidden bg-brand-600">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
           <span
-            className="font-display font-medium tracking-[-0.02em] italic text-white/[0.06] whitespace-nowrap select-none"
+            className="font-display font-medium tracking-[-0.04em] italic text-white/[0.06] whitespace-nowrap select-none"
             style={{ fontSize: 'clamp(8rem, 18vw, 18rem)', lineHeight: 1 }}
           >
             Carnicería
           </span>
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-medium tracking-[-0.02em] italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
+          <h2 className="font-display font-medium tracking-[-0.04em] italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{t.home.ctaSub}</p>
           <Link href="/contact" className="btn-white font-sans">{t.home.ctaBtn}</Link>
         </div>
