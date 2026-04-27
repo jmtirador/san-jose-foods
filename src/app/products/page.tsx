@@ -28,7 +28,7 @@ function ProductSection({
   index: number
 }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded border border-border bg-card">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-xl border border-border bg-card">
       {/* Image */}
       <div className={`relative h-72 lg:h-auto min-h-[400px] overflow-hidden ${reverse ? 'lg:order-2' : ''}`}>
         <Image src={imageSrc} alt={title} fill className="object-cover" />
@@ -115,7 +115,7 @@ export default function ProductsPage() {
             {p.pageTitle}
           </h1>
           <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed mb-6">{p.pageSub}</p>
-          <div className="inline-flex items-center gap-2 border border-border rounded px-4 py-2">
+          <div className="inline-flex items-center gap-2 border border-border rounded-md px-4 py-2">
             <div className="w-1.5 h-1.5 rounded-full bg-brand-600" />
             <span className="font-sans text-muted-foreground text-xs">{p.pricingNote}</span>
           </div>

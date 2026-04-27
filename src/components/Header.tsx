@@ -47,7 +47,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-sans px-4 py-2 text-[13px] font-medium tracking-wide transition-all duration-200 rounded ${
+                className={`font-sans px-4 py-2 text-[13px] font-medium tracking-wide transition-all duration-200 rounded-md ${
                   isActive(link.href)
                     ? 'text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
@@ -66,7 +66,7 @@ export default function Header() {
             <ThemeToggle />
 
             {/* Language toggle */}
-            <div className="flex items-center border border-border rounded overflow-hidden font-sans text-[11px] font-semibold">
+            <div className="flex items-center border border-border rounded-md overflow-hidden font-sans text-[11px] font-semibold">
               <button
                 onClick={() => setLanguage('en')}
                 className={`px-3 py-1.5 transition-colors ${
@@ -110,7 +110,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`font-sans px-4 py-3 rounded text-sm font-medium transition-all ${
+                className={`font-sans px-4 py-3 rounded-md text-sm font-medium transition-all ${
                   isActive(link.href)
                     ? 'text-foreground bg-accent border-l-2 border-brand-600'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'

@@ -7,8 +7,8 @@ import { useLanguage } from '@/contexts/LanguageContext'
 
 function ValueCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="bg-card border border-border rounded p-6 hover:shadow-md transition-shadow group">
-      <div className="w-10 h-10 rounded flex items-center justify-center mb-4 bg-brand-600/10 text-brand-600">
+    <div className="bg-card border border-border rounded-xl p-6 hover:shadow-md transition-shadow group">
+      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-brand-600/10 text-brand-600">
         {icon}
       </div>
       <h3 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-lg mb-2">{title}</h3>
@@ -61,7 +61,7 @@ export default function AboutPage() {
                 </blockquote>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded h-80 lg:min-h-[460px]">
+            <div className="relative overflow-hidden rounded-xl h-80 lg:min-h-[460px]">
               <Image
                 src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80"
                 alt="San Jose Foods team"

@@ -82,7 +82,7 @@
   --border: oklch(0.923 0.003 48.717);
   --input: oklch(0.923 0.003 48.717);
   --ring: oklch(0.557 0.225 23.5);
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 .dark {
@@ -126,19 +126,19 @@
 @layer components {
   /* ── Buttons ──────────────────────────────────────────── */
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-7 py-3.5 rounded transition-all duration-200 shadow-lg;
+    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-7 py-3.5 rounded-lg transition-all duration-200 shadow-lg;
   }
   .btn-ghost {
-    @apply inline-flex items-center gap-2 border border-white/20 text-white/70 hover:text-white hover:border-white/50 font-medium px-7 py-3.5 rounded transition-all duration-200;
+    @apply inline-flex items-center gap-2 border border-white/20 text-white/70 hover:text-white hover:border-white/50 font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
   }
   .btn-outline {
-    @apply inline-flex items-center gap-2 border-2 border-white/80 text-white hover:bg-white hover:text-brand-700 font-medium px-7 py-3.5 rounded transition-all duration-200;
+    @apply inline-flex items-center gap-2 border-2 border-white/80 text-white hover:bg-white hover:text-brand-700 font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
   }
   .btn-outline-brand {
-    @apply inline-flex items-center gap-2 border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white font-medium px-7 py-3.5 rounded transition-all duration-200;
+    @apply inline-flex items-center gap-2 border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
   }
   .btn-white {
-    @apply inline-flex items-center gap-2 bg-white text-brand-700 font-medium px-8 py-3.5 rounded shadow-md hover:shadow-lg transition-all duration-200;
+    @apply inline-flex items-center gap-2 bg-white text-brand-700 font-medium px-8 py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200;
   }
   .btn-white:hover { background-color: #FFF8F5; }
 

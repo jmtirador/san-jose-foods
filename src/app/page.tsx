@@ -147,7 +147,7 @@ function ProductCard({
   return (
     <Link
       href={href}
-      className={`group relative overflow-hidden rounded bg-card border border-border flex flex-col h-full ${className}`}
+      className={`group relative overflow-hidden rounded-xl bg-card border border-border flex flex-col h-full ${className}`}
     >
       <div className="relative flex-1 overflow-hidden min-h-[16rem]">
         <Image
@@ -160,7 +160,7 @@ function ProductCard({
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
 
         {/* Magazine corner label — top right, backdrop-blur for legibility on any photo */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-md rounded">
+        <div className="absolute top-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-md rounded-md">
           <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white font-semibold">
             {category}
           </span>
