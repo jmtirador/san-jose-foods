@@ -244,7 +244,7 @@ export default function HomePage() {
 
           {/* Display headline — word-staggered reveal */}
           <h1
-            className="font-display font-bold text-foreground leading-[1.05] mb-8"
+            className="font-display font-extrabold tracking-tight text-foreground leading-[1.02] mb-8"
             style={{ fontSize: 'clamp(2.6rem, 4.8vw, 4.6rem)' }}
           >
             <motion.span
