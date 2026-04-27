@@ -241,16 +241,16 @@ export default function HomePage() {
       <Marquee />
 
       {/* ── STATS — giant editorial numbers ───────────────────── */}
-      <section className="py-24" style={{ background: '#FFF8F5' }}>
+      <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-6 sm:px-10">
 
           {/* section label */}
           <div className="flex items-center gap-4 mb-16">
-            <div className="w-10 h-px" style={{ background: RED }} />
-            <span className="eyebrow text-gray-400">By the numbers</span>
+            <div className="w-10 h-px bg-brand-600" />
+            <span className="eyebrow text-muted-foreground">By the numbers</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-warm-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
             {[
               { value: '20', suffix: '+', label: h.trust1Title, sub: h.trust1Desc },
               { value: '150', suffix: '+', label: h.trust2Title, sub: h.trust2Desc },
@@ -258,14 +258,14 @@ export default function HomePage() {
             ].map((stat) => (
               <div key={stat.value} className="py-10 md:py-4 md:px-12 first:md:pl-0 last:md:pr-0">
                 <div
-                  className="font-display font-bold leading-none mb-4"
-                  style={{ fontSize: 'clamp(4rem, 7vw, 6rem)', color: RED }}
+                  className="font-display font-bold leading-none mb-4 text-brand-600"
+                  style={{ fontSize: 'clamp(4rem, 7vw, 6rem)' }}
                 >
                   {stat.value}
                   <span className="text-3xl">{stat.suffix}</span>
                 </div>
-                <div className="font-sans font-semibold text-gray-800 text-base mb-1">{stat.label}</div>
-                <div className="font-sans text-gray-500 text-sm leading-relaxed">{stat.sub}</div>
+                <div className="font-sans font-semibold text-foreground text-base mb-1">{stat.label}</div>
+                <div className="font-sans text-muted-foreground text-sm leading-relaxed">{stat.sub}</div>
               </div>
             ))}
           </div>
