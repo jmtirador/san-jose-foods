@@ -267,7 +267,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="block text-foreground/40 font-display font-bold"
+              className="block text-foreground/40"
             >
               Across Borders.
             </motion.span>
