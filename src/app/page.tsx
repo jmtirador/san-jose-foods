@@ -72,36 +72,64 @@ function ProductCard({
   desc,
   imageSrc,
   href,
+  category,
+  index,
+  esTitle,
+  className = '',
 }: {
   title: string
   desc: string
   imageSrc: string
   href: string
+  category: string
+  index: number
+  esTitle: string
+  className?: string
 }) {
   return (
     <Link
       href={href}
-      className="group relative overflow-hidden rounded block bg-card border border-border"
+      className={`group relative overflow-hidden rounded bg-card border border-border flex flex-col ${className}`}
     >
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative flex-1 overflow-hidden min-h-[16rem]">
         <Image
           src={imageSrc}
           alt={title}
           fill
-          className="object-cover opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
+          className="object-cover opacity-75 group-hover:opacity-90 group-hover:scale-[1.04] transition-all duration-[900ms] ease-out"
         />
         {/* gradient fades photo into card surface — flips with theme */}
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+
+        {/* Magazine corner label — top right, backdrop-blur for legibility on any photo */}
+        <div className="absolute top-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-md rounded">
+          <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-white font-semibold">
+            {category}
+          </span>
+          <span className="text-white/40 text-[9px]">/</span>
+          <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-brand-600 font-bold">
+            0{index}
+          </span>
+        </div>
+
         {/* red left accent bar, grows on hover */}
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
+
       <div className="p-6">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-1">
           <div className="w-4 h-px bg-brand-600" />
           <h3 className="font-display text-card-foreground font-bold text-xl">{title}</h3>
         </div>
+
+        {/* Spanish heritage line — always visible, dim, brightens slightly on hover */}
+        <p className="font-display italic text-muted-foreground/55 text-sm mb-3 ml-6 group-hover:text-muted-foreground transition-colors duration-500">
+          {esTitle}
+        </p>
+
         <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>
-        <div className="mt-4 flex items-center gap-1.5 text-brand-600 text-xs font-semibold uppercase tracking-widest group-hover:gap-3 transition-all duration-300">
+
+        <div className="mt-4 flex items-center gap-1.5 text-brand-600 text-xs font-semibold uppercase tracking-widest group-hover:gap-3 transition-all duration-500">
           <span>View Cuts</span>
           <ArrowRight className="w-3 h-3" />
         </div>
@@ -338,24 +366,37 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4">
+            {/* Hero card — beef, spans 2 cols × 2 rows */}
             <ProductCard
-              title={h.chicken}
-              desc={h.chickenDesc}
-              imageSrc="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80"
+              title={h.beef}
+              desc={h.beefDesc}
+              imageSrc="https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=1200&q=85"
               href="/products"
+              category="Beef"
+              index={1}
+              esTitle="Res de exportación"
+              className="md:col-span-2 md:row-span-2"
             />
+            {/* Top right */}
             <ProductCard
               title={h.pork}
               desc={h.porkDesc}
               imageSrc="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"
               href="/products"
+              category="Pork"
+              index={2}
+              esTitle="Cerdo premium"
             />
+            {/* Bottom right */}
             <ProductCard
-              title={h.beef}
-              desc={h.beefDesc}
-              imageSrc="https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=800&q=80"
+              title={h.chicken}
+              desc={h.chickenDesc}
+              imageSrc="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80"
               href="/products"
+              category="Chicken"
+              index={3}
+              esTitle="Pollo selecto"
             />
           </div>
 
