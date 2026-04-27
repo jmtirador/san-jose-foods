@@ -64,7 +64,7 @@
 }
 
 :root {
-  /* warm stone base + brand red primary */
+  /* light: warm cream base + brand red primary */
   --background: oklch(0.987 0.004 50);              /* warm cream #FFF8F5 */
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(1 0 0);
@@ -84,6 +84,28 @@
   --input: oklch(0.923 0.003 48.717);
   --ring: oklch(0.557 0.225 23.5);
   --radius: 0.5rem;
+}
+
+.dark {
+  /* dark: ink near-black base, cards lift slightly, primary stays brand red */
+  --background: oklch(0.13 0.005 20);               /* ink #0D0508 */
+  --foreground: oklch(0.95 0.005 50);
+  --card: oklch(0.18 0.006 20);                     /* slightly lifted card surface */
+  --card-foreground: oklch(0.95 0.005 50);
+  --popover: oklch(0.18 0.006 20);
+  --popover-foreground: oklch(0.95 0.005 50);
+  --primary: oklch(0.62 0.22 23.5);                 /* brand red, slightly brighter for dark */
+  --primary-foreground: oklch(0.985 0.001 106.423);
+  --secondary: oklch(0.22 0.006 20);
+  --secondary-foreground: oklch(0.95 0.005 50);
+  --muted: oklch(0.22 0.006 20);
+  --muted-foreground: oklch(0.65 0.008 50);
+  --accent: oklch(0.22 0.006 20);
+  --accent-foreground: oklch(0.95 0.005 50);
+  --destructive: oklch(0.62 0.22 23.5);
+  --border: oklch(0.25 0.006 20);
+  --input: oklch(0.25 0.006 20);
+  --ring: oklch(0.62 0.22 23.5);
 }
 
 @layer base {

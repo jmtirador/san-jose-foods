@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 const INK = '#0D0508'
 
@@ -61,8 +62,10 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right: language toggle + mobile button */}
-          <div className="flex items-center gap-4">
+          {/* Right: theme toggle + language toggle + mobile button */}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+
             {/* Language toggle */}
             <div className="flex items-center border border-white/10 rounded overflow-hidden font-sans text-[11px] font-semibold">
               <button
