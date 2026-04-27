@@ -209,7 +209,7 @@ export default function HomePage() {
         <div className="absolute left-0 top-0 bottom-0 w-px bg-foreground/10 hidden lg:block" aria-hidden />
 
         {/* Left: editorial text panel */}
-        <div className="relative z-10 flex flex-col justify-start px-8 sm:px-14 lg:px-20 xl:px-24 pt-20 pb-16 lg:pt-24">
+        <div className="relative z-10 flex flex-col justify-start px-8 sm:px-14 lg:px-20 xl:px-24 pt-12 pb-16 lg:pt-14">
 
           {/* eyebrow */}
           <motion.div
