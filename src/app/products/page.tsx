@@ -161,7 +161,7 @@ export default function ProductsPage() {
           </span>
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-medium tracking-[-0.04em] italic text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
+          <h2 className="font-display font-medium tracking-[-0.04em] text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
           <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{p.pricingNote}</p>
           <Link href="/contact" className="btn-white font-sans">{p.contactBtn}</Link>
         </div>

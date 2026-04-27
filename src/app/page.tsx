@@ -68,7 +68,7 @@ function CtaSection({
         </div>
 
         <h2
-          className="font-display font-medium italic text-white mb-6 leading-tight tracking-[-0.04em]"
+          className="font-display font-medium text-white mb-6 leading-tight tracking-[-0.04em]"
           style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)' }}
         >
           {title}
