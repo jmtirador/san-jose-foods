@@ -56,7 +56,9 @@ src/
 
 ## How this was built
 
-I'm a junior industrial-engineering student. I designed the product, picked the stack, made the typography and motion calls, and drove every commit and deploy myself. The code was written in collaboration with Claude Code; the `CLAUDE.md` in this repo documents the design and content rules so the collaboration stays consistent across sessions.
+My dad runs San Jose Foods and didn't have a site. Online presence matters in B2B trade, so I took it on as a personal project: ship him a real site, and learn modern web development and AI-assisted workflows while doing it.
+
+I'm a junior industrial-engineering student, not a developer by training. I picked the stack, made the typography and motion calls, drove every commit and deploy, and worked with Claude Code as a coding collaborator. The `CLAUDE.md` in this repo captures the design and content rules that aren't obvious from the code, so the collaboration stays consistent across sessions.
 
 ## Status
 
