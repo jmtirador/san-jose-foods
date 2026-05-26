@@ -203,102 +203,13 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO — editorial split ─────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col lg:grid lg:grid-cols-[55%_45%] bg-background overflow-hidden">
+      <section className="relative min-h-screen bg-background overflow-hidden">
 
         {/* Far-left vertical rule — anchors the composition like a magazine page */}
         <div className="absolute left-0 top-0 bottom-0 w-px bg-foreground/10 hidden lg:block" aria-hidden />
 
-        {/* Left: editorial text panel */}
-        <div className="relative z-10 flex flex-col justify-start px-8 sm:px-14 lg:px-20 xl:px-24 pt-16 pb-16 lg:pt-[4.75rem]">
-
-          {/* eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="flex items-center gap-3 mt-3 mb-10"
-          >
-            <div className="w-8 h-px bg-brand-600" />
-            <span className="eyebrow text-foreground/50">
-              USDA · International Trade · Hidalgo, TX
-            </span>
-          </motion.div>
-
-          {/* Display headline — word-staggered reveal */}
-          <h1
-            className="font-display font-medium text-foreground leading-[1.02] mb-8 tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}
-          >
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="block"
-            >
-              International Meat Supply,
-            </motion.span>
-            <motion.em
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="not-italic block text-brand-600"
-            >
-              Strategically Delivered
-            </motion.em>
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="block text-foreground/40"
-            >
-              To Mexico.
-            </motion.span>
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="font-sans text-muted-foreground text-base md:text-lg max-w-sm leading-relaxed mb-12"
-          >
-            {h.heroSub}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.85 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Link href="/contact" className="btn-primary font-sans text-sm">
-              {h.heroCta}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link href="/products" className="btn-ghost font-sans text-sm">
-              {h.heroSubCta}
-            </Link>
-          </motion.div>
-
-        </div>
-
-        {/* Scroll indicator — pinned to far-left edge of the section, below content */}
-        <div className="absolute bottom-12 left-6 hidden lg:flex flex-col items-center gap-3 z-20" aria-hidden>
-          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
-            Scroll
-          </span>
-          <div className="relative w-px h-16 bg-foreground/15 overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 w-full bg-foreground/70"
-              initial={{ height: '0%', y: '0%' }}
-              animate={{ height: ['0%', '60%', '60%'], y: ['0%', '0%', '100%'] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ transformOrigin: 'top' }}
-            />
-          </div>
-        </div>
-
-        {/* Right: full-bleed photography with grain + tint */}
-        <div className="relative hidden lg:block">
+        {/* Right: full-bleed photography with grain + tint — absolute so text container can align to navbar */}
+        <div className="absolute inset-y-0 right-0 lg:left-[52%] hidden lg:block">
           <Image
             src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1400&q=85"
             alt="Premium meat products"
@@ -336,6 +247,104 @@ export default function HomePage() {
             }}
           />
         </div>
+
+        {/* Content container — same max-w-7xl + padding as navbar/footer so the headline aligns under the logo */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 min-h-screen">
+
+            <div className="flex flex-col justify-start pt-12 lg:pt-12 pb-20">
+
+              {/* eyebrow */}
+              <motion.div
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="flex items-center gap-3 mb-10"
+              >
+                <div className="w-8 h-px bg-brand-600" />
+                <span className="eyebrow text-foreground/50">
+                  USDA · International Trade · Hidalgo, TX
+                </span>
+              </motion.div>
+
+              {/* Display headline — word-staggered reveal */}
+              <h1
+                className="font-display font-medium text-foreground leading-[1.02] mb-8 tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}
+              >
+                <motion.span
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="block"
+                >
+                  International Meat Supply,
+                </motion.span>
+                <motion.em
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  className="not-italic block text-brand-600"
+                >
+                  Strategically Delivered
+                </motion.em>
+                <motion.span
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="block text-foreground/40"
+                >
+                  To Mexico.
+                </motion.span>
+              </h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="font-sans text-muted-foreground text-base md:text-lg max-w-sm leading-relaxed mb-12"
+              >
+                {h.heroSub}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.85 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link href="/contact" className="btn-primary font-sans text-sm">
+                  {h.heroCta}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="/products" className="btn-ghost font-sans text-sm">
+                  {h.heroSubCta}
+                </Link>
+              </motion.div>
+
+            </div>
+
+            {/* Right column reserved for photo (which lives in absolute layer behind) */}
+            <div className="hidden lg:block" aria-hidden />
+
+          </div>
+        </div>
+
+        {/* Scroll indicator — pinned to far-left edge of the section, below content */}
+        <div className="absolute bottom-12 left-6 hidden lg:flex flex-col items-center gap-3 z-20" aria-hidden>
+          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
+            Scroll
+          </span>
+          <div className="relative w-px h-16 bg-foreground/15 overflow-hidden">
+            <motion.div
+              className="absolute top-0 left-0 w-full bg-foreground/70"
+              initial={{ height: '0%', y: '0%' }}
+              animate={{ height: ['0%', '60%', '60%'], y: ['0%', '0%', '100%'] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ transformOrigin: 'top' }}
+            />
+          </div>
+        </div>
       </section>
 
       {/* ── MARQUEE TICKER ────────────────────────────────────── */}
@@ -343,7 +352,7 @@ export default function HomePage() {
 
       {/* ── STATS — giant editorial numbers ───────────────────── */}
       <section className="py-28 bg-background">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10">
 
           {/* section label */}
           <div className="flex items-center gap-4 mb-20">
