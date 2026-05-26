@@ -4,9 +4,7 @@
 
 Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 
-**Real positioning:** International meat trade intermediary. Sources meat through strategic partnerships with packing facilities in the **United States, Canada, and Brazil**, and supplies the **Mexican market**. Operates from Hidalgo, TX with LLC-backed credit lines and 24/7 commercial response.
-
-**It is NOT:** a family-owned wholesale exporter, a 20-year-old company with 150 clients, or a single-country (US-only) supplier. The placeholder content originally framed it that way — that was wrong. Don't reintroduce those claims.
+**Positioning:** International meat trade intermediary. Sources beef, pork, and chicken from packing facilities in the United States (USDA), Canada (CFIA), and Brazil (SIF), and supplies the Mexican market. Operates from Hidalgo, TX with LLC-backed credit lines and 24/7 commercial response.
 
 **Buyer:** Mexican meat processors, distributors, and retailers placing wholesale orders.
 
@@ -88,16 +86,16 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 
 - **Bilingual:** all user-facing strings live in `src/translations/index.ts` with `en` and `es` keys. The header has an EN/ES toggle that swaps live via `useLanguage()`.
 - **Spanish heritage flourishes** (italic Spanish lines under English labels, e.g. `Res de exportación`) are intentional and always visible. They're a brand signature.
-- **Never fabricate stats.** No "20+ years", "150+ clients", "98% on-time". The dad provided no numerical history. Real claims: 3 countries (US, Canada, Brazil), 24/7 commercial response, 5 core services, LLC credit-backed, cargo-insured.
+- **Never fabricate stats.** No "20+ years", "150+ clients", "98% on-time". No founding year, client count, or numerical history is confirmed. Real claims: 3 countries (US, Canada, Brazil), 24/7 commercial response, 5 core services, LLC credit-backed, cargo-insured.
 - **No "family-owned" framing.** This is a professional LLC trading company.
 - **Inspection certifications** are multi-country: USDA (US) + CFIA (Canada) + SIF (Brazil). Saying just "USDA Certified" is misleading for two-thirds of sourcing.
 
-## Real contact info (don't replace with placeholders)
+## Contact
 
 - **Address:** 1020 E. Produce Rd., Hidalgo, TX 78557
-- **Phone:** +52 81 8016 3885 (Monterrey area code; the dad uses a Mexican number)
+- **Phone:** +52 81 8016 3885 (Monterrey area code)
 - **Email:** ventas1@sanjosefoods.net
-- **WhatsApp link:** `https://wa.me/528180163885`
+- **WhatsApp:** `https://wa.me/528180163885`
 
 ## Project structure pointers
 
@@ -108,28 +106,17 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 - shadcn primitives: `src/components/ui/*.tsx`
 - Global CSS + theme tokens + custom button classes: `src/app/globals.css`
 
-## How Pepe collaborates
+## Workflow norms
 
-He is a junior IE student learning to leverage AI. He's not a developer yet. He drives commands and git himself; AI drives code-building. He wants to understand what code does, not just copy-paste.
-
-- **Push back if a request would harm the site.** He's open to corrections — he overruled my "keep Playfair" advice but appreciates the reasoning being given first.
-- **Be executive-direct.** Claim first, then reasoning. No padding.
-- **Spaced lines, sharp claims.** He explicitly asked for breathing room in responses (per `~/.claude/projects/.../memory/feedback_response_density.md`).
-- **No em dashes as conjunctions in prose.** Use commas, colons, or periods.
-- **End useful answers with a "shortcut hack"** when one genuinely exists.
-
-## Workflow norms (already in motion)
-
-- **Small atomic commits.** One logical change per commit. Pepe pushes via `git push origin main` himself; Vercel auto-deploys (project at `vercel.com/jmtirador/san-jose-foods`, prod URL `san-jose-foods.vercel.app`).
-- **`!` prefix in Claude Code prompt** runs shell commands inline so the agent sees the output.
+- **Small atomic commits.** One logical change per commit. Vercel auto-deploys from `main` to `san-jose-foods.vercel.app`.
 - **Pre-flight before pushing:** `npm run build` locally. If it passes locally, Vercel ~95% passes too.
 - **Vercel install gotcha:** `.npmrc` with `legacy-peer-deps=true` is committed for a reason. Don't remove it.
 
 ## What's been deliberately decided (don't undo without asking)
 
-- **Default theme:** dark. Pepe prefers the contrast.
+- **Default theme:** dark.
 - **No ghost decorative text behind CTAs.** "Carnicería" and "Pricing" ghosts were removed. Don't reintroduce.
-- **No "Est · 2017" claim.** Dad gave no founding year. Marquee pin reads `USA · CA · BR` (the three sourcing countries).
+- **No "Est · 2017" claim.** No founding year confirmed. Marquee pin reads `USA · CA · BR` (the three sourcing countries).
 - **CTA h2 is upright, not italic.** Geist italic doesn't carry the heritage feel.
 - **The hero "Across Borders" line is `font-medium`** like the rest of the headline — it had a leftover `font-bold` override that was bolder than the other lines. Stays at medium.
 - **Product cards use asymmetric grid** (beef hero spans 2 cols × 2 rows, pork + chicken stack on right). Don't flatten back to 3 equal columns.

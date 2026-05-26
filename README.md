@@ -58,7 +58,7 @@ src/
 
 My dad runs San Jose Foods and didn't have a site. Online presence matters in B2B trade, so I took it on as a personal project: ship him a real site, and learn modern web development and AI-assisted workflows while doing it.
 
-I'm a junior industrial-engineering student, not a developer by training. I picked the stack, made the typography and motion calls, drove every commit and deploy, and worked with Claude Code as a coding collaborator. The `CLAUDE.md` in this repo captures the design and content rules that aren't obvious from the code, so the collaboration stays consistent across sessions.
+I'm a junior industrial engineering student, not a developer by training. I picked the stack, made the typography and motion calls, drove every commit and deploy, and worked with Claude Code as a coding collaborator. The `CLAUDE.md` in this repo captures the design and content rules that aren't obvious from the code, so the collaboration stays consistent across sessions.
 
 ## Status
 
@@ -67,4 +67,3 @@ Live in production. Roadmap items and design constraints are tracked in `CLAUDE.
 ---
 
 By Pepe Tirado.
-Business contact: [ventas1@sanjosefoods.net](mailto:ventas1@sanjosefoods.net)
