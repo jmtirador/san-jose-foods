@@ -9,14 +9,11 @@ import { waLink } from '@/lib/whatsapp'
 import { CtaBand } from '@/components/CtaBand'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
 
-function Marquee({ items, pin }: { items: readonly string[]; pin: string }) {
+function Marquee({ items }: { items: readonly string[] }) {
   const loop = [...items, ...items]
   return (
     <div className="relative overflow-hidden bg-brand-600 select-none">
-      <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center bg-brand-600 pl-5 pr-6 border-r border-white/25">
-        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white">{pin}</span>
-      </div>
-      <div className="py-2.5 flex items-center pl-36">
+      <div className="py-2.5 flex items-center">
         <div className="flex whitespace-nowrap animate-marquee">
           {loop.map((item, i) => (
             <span key={i} className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white px-7 flex items-center gap-7">
@@ -80,7 +77,7 @@ export default function HomePage() {
         <div className="absolute left-0 top-0 bottom-0 w-px bg-border hidden lg:block" aria-hidden />
 
         {/* Right: photography — functional gradient only (no grain, no tint) */}
-        <div className="absolute inset-y-0 right-0 lg:left-[52%] hidden lg:block">
+        <div className="absolute inset-y-0 right-0 lg:left-[56%] hidden lg:block">
           <Image
             src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1400&q=85"
             alt="Premium meat products"
@@ -100,47 +97,46 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 min-h-[calc(100vh-68px)]">
-            <div className="flex flex-col justify-center pt-14 pb-20">
-              <motion.div
-                initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="flex items-center gap-3 mb-10"
-              >
-                <div className="w-8 h-px bg-brand-600" />
-                <span className="eyebrow text-foreground/60">{h.heroEyebrow}</span>
-              </motion.div>
+          <div className="flex flex-col justify-center min-h-[calc(100vh-76px)] pt-16 pb-24 lg:max-w-[600px]">
+            {/* Eyebrow — red rule ABOVE the text so the whole hero column shares one
+                left edge with the wordmark and headline (congruent). */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="mb-9"
+            >
+              <div className="w-10 h-px bg-brand-600 mb-5" />
+              <span className="eyebrow text-foreground/60">{h.heroEyebrow}</span>
+            </motion.div>
 
-              <h1 className="font-display font-medium text-foreground leading-[1.04] mb-8 tracking-[-0.04em]" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.6rem)' }}>
-                <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="block">
-                  {h.heroLine1}
-                </motion.span>
-                <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }} className="block flourish text-primary">
-                  {h.heroLine2}
-                </motion.span>
-                <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.46, ease: [0.22, 1, 0.36, 1] }} className="block text-foreground/45">
-                  {h.heroLine3}
-                </motion.span>
-              </h1>
+            <h1 className="font-display font-medium text-foreground text-balance leading-[1.05] mb-9 tracking-[-0.035em]" style={{ fontSize: 'clamp(2.5rem, 4.4vw, 3.85rem)' }}>
+              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="block">
+                {h.heroLine1}
+              </motion.span>
+              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }} className="block flourish text-primary">
+                {h.heroLine2}
+              </motion.span>
+              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.46, ease: [0.22, 1, 0.36, 1] }} className="block text-foreground/45">
+                {h.heroLine3}
+              </motion.span>
+            </h1>
 
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.62 }} className="font-sans text-muted-foreground text-base md:text-lg max-w-md leading-relaxed mb-10">
-                {h.heroSub}
-              </motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.62 }} className="font-sans text-muted-foreground text-base md:text-lg max-w-md leading-relaxed mb-11">
+              {h.heroSub}
+            </motion.p>
 
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.78 }} className="flex flex-wrap gap-4">
-                <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
-                  {h.heroCta}
-                  <WhatsAppGlyph className="w-4 h-4" />
-                </a>
-                <Link href="/products" className="btn-ghost font-sans text-sm">{h.heroSubCta}</Link>
-              </motion.div>
-            </div>
-            <div className="hidden lg:block" aria-hidden />
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.78 }} className="flex flex-wrap gap-4">
+              <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
+                {h.heroCta}
+                <WhatsAppGlyph className="w-4 h-4" />
+              </a>
+              <Link href="/products" className="btn-ghost font-sans text-sm">{h.heroSubCta}</Link>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      <Marquee items={h.ticker} pin="USA · CA · BR" />
+      <Marquee items={h.ticker} />
 
       {/* ── KEY FIGURES — ledger, not a centered count-up band ── */}
       <section className="py-24 bg-background">
@@ -151,17 +147,19 @@ export default function HomePage() {
           </div>
           <div>
             {figures.map((f, i) => (
-              <div key={f.label} className="flex items-baseline gap-4 sm:gap-6 py-7 border-b border-border">
-                <span className="doc-index shrink-0 hidden sm:block w-14">No. 0{i + 1}</span>
+              <div key={f.label} className="flex items-baseline gap-6 py-8 border-b border-border">
+                <span className="doc-index shrink-0 hidden sm:block w-12">No. 0{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <div className="font-mono text-xs uppercase tracking-[0.18em] text-foreground">{f.label}</div>
-                  <div className="flourish text-muted-foreground text-sm mt-0.5">{f.es}</div>
-                  <div className="font-sans text-sm text-muted-foreground mt-1.5 max-w-sm leading-relaxed">{f.desc}</div>
+                  <div className="flourish text-muted-foreground text-sm mt-1">{f.es}</div>
+                  <div className="font-sans text-sm text-muted-foreground mt-2 max-w-sm leading-relaxed">{f.desc}</div>
                 </div>
+                {/* Dotted leader ends at a fixed x — the figure columns are fixed
+                    width so numbers right-align and units left-align across rows. */}
                 <div className="hidden md:block flex-1 self-center border-b border-dotted border-border/70" aria-hidden />
-                <div className="shrink-0 flex items-baseline gap-2 text-right">
-                  <span className="font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.4rem, 4vw, 3.6rem)' }}>{f.value}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground w-16 text-left">{f.unit}</span>
+                <div className="shrink-0 flex items-baseline">
+                  <span className="w-[128px] text-right font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>{f.value}</span>
+                  <span className="w-[116px] pl-3 font-mono text-[10px] uppercase tracking-[0.16em] leading-tight text-muted-foreground">{f.unit}</span>
                 </div>
               </div>
             ))}
