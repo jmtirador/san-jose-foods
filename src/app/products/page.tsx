@@ -3,8 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { waLink } from '@/lib/whatsapp'
 
 const productImages = {
   chicken: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=900&q=80',
@@ -19,6 +20,10 @@ function ProductSection({
   imageSrc,
   reverse = false,
   index,
+  wholesale,
+  getPricing,
+  waPrefix,
+  waVolume,
 }: {
   title: string
   desc: string
@@ -26,6 +31,10 @@ function ProductSection({
   imageSrc: string
   reverse?: boolean
   index: number
+  wholesale: string
+  getPricing: string
+  waPrefix: string
+  waVolume: string
 }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-xl border border-border bg-card">
@@ -55,8 +64,8 @@ function ProductSection({
         {/* eyebrow */}
         <div className="flex items-center gap-3 mb-6">
           <div className="w-6 h-px bg-brand-600" />
-          <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            Wholesale
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            {wholesale}
           </span>
         </div>
 
@@ -68,20 +77,34 @@ function ProductSection({
         </h2>
         <p className="font-sans text-muted-foreground mb-8 leading-relaxed text-sm">{desc}</p>
 
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-10">
+        {/* Each cut is a tap-to-quote: opens WhatsApp prefilled with the exact cut. */}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mb-10">
           {cuts.map((cut) => (
-            <li key={cut} className="flex items-start gap-2.5 font-sans text-muted-foreground text-sm">
-              <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-brand-600" />
-              {cut}
+            <li key={cut}>
+              <a
+                href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/cut flex items-start gap-2.5 font-sans text-muted-foreground text-sm py-1 rounded-md transition-colors hover:text-brand-600"
+              >
+                <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-brand-600" />
+                <span className="flex-1">{cut}</span>
+                <MessageCircle className="w-3.5 h-3.5 mt-0.5 opacity-0 group-hover/cut:opacity-100 transition-opacity flex-shrink-0" aria-hidden />
+              </a>
             </li>
           ))}
         </ul>
 
         <div>
-          <Link href="/contact" className="btn-primary font-sans text-sm">
-            Contact Us for Pricing
+          <a
+            href={waLink(`${waPrefix} ${title}. ${waVolume}`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary font-sans text-sm"
+          >
+            {getPricing}
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </a>
         </div>
       </div>
     </div>
@@ -91,6 +114,13 @@ function ProductSection({
 export default function ProductsPage() {
   const { t } = useLanguage()
   const p = t.products
+
+  const sectionProps = {
+    wholesale: p.wholesale,
+    getPricing: p.getPricing,
+    waPrefix: p.waCutPrefix,
+    waVolume: p.waVolume,
+  }
 
   return (
     <>
@@ -104,8 +134,8 @@ export default function ProductsPage() {
         >
           <div className="flex items-center gap-4 mb-8">
             <div className="w-10 h-px bg-brand-600" />
-            <span className="font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
-              What we supply
+            <span className="eyebrow text-muted-foreground">
+              {p.eyebrow}
             </span>
           </div>
           <h1
@@ -131,6 +161,7 @@ export default function ProductsPage() {
             cuts={p.chicken.cuts}
             imageSrc={productImages.chicken}
             index={1}
+            {...sectionProps}
           />
           <ProductSection
             title={p.pork.title}
@@ -139,6 +170,7 @@ export default function ProductsPage() {
             imageSrc={productImages.pork}
             reverse
             index={2}
+            {...sectionProps}
           />
           <ProductSection
             title={p.beef.title}
@@ -146,6 +178,7 @@ export default function ProductsPage() {
             cuts={p.beef.cuts}
             imageSrc={productImages.beef}
             index={3}
+            {...sectionProps}
           />
         </div>
       </section>

@@ -6,28 +6,20 @@ import Image from 'next/image'
 import { motion, useInView, animate } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
-
-const INK   = '#0D0508'
-const INK_S = '#180B10'
-const RED   = '#D9182E'
-
-const TICKER_ITEMS = [
-  'USDA · CFIA · SIF Inspected',
-  'Sourced from US · Canada · Brazil',
-  'LLC-Backed Credit Lines',
-  '24/7 Commercial Response',
-  'Cargo Insurance Protected',
-  'Cold-Chain Logistics',
-]
+import { waLink } from '@/lib/whatsapp'
 
 function CtaSection({
+  eyebrow,
   title,
   sub,
   btn,
+  trust,
 }: {
+  eyebrow: string
   title: string
   sub: string
   btn: string
+  trust: string
 }) {
   return (
     <section className="relative overflow-hidden bg-brand-600 py-32">
@@ -46,7 +38,7 @@ function CtaSection({
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-10 text-center">
         <div className="flex justify-center mb-8">
-          <span className="eyebrow text-white/55">Ready when you are</span>
+          <span className="eyebrow text-white/55">{eyebrow}</span>
         </div>
 
         <h2
@@ -69,7 +61,7 @@ function CtaSection({
         <div className="mt-8 flex items-center justify-center gap-3 text-white/55">
           <span className="w-6 h-px bg-white/30" />
           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-            From Texas to Mexico · 20 years
+            {trust}
           </span>
           <span className="w-6 h-px bg-white/30" />
         </div>
@@ -78,13 +70,19 @@ function CtaSection({
   )
 }
 
+// Count-up on scroll into view. Renders the final value on the server and until
+// scrolled into view, so no-JS / pre-hydration / crawlers see the real number
+// (not "0"); the count-up flourish then plays once, the moment it enters view.
 function Counter({ to }: { to: number }) {
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.4 })
-  const [n, setN] = useState(0)
+  const [n, setN] = useState(to)
+  const started = useRef(false)
 
   useEffect(() => {
-    if (!inView) return
+    if (!inView || started.current) return
+    started.current = true
+    setN(0)
     const controls = animate(0, to, {
       duration: 1.6,
       ease: [0.22, 1, 0.36, 1],
@@ -96,21 +94,21 @@ function Counter({ to }: { to: number }) {
   return <span ref={ref}>{n}</span>
 }
 
-function Marquee() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS] // duplicate for seamless loop
+function Marquee({ items, pin }: { items: readonly string[]; pin: string }) {
+  const loop = [...items, ...items] // duplicate for seamless loop
   return (
     <div className="relative overflow-hidden bg-brand-600 select-none">
       {/* Static origin pin — anchored to the left edge, doesn't move */}
       <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center bg-brand-600 pl-5 pr-6 border-r border-white/25 shadow-[6px_0_8px_-4px_rgba(0,0,0,0.25)]">
         <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          USA · CA · BR
+          {pin}
         </span>
       </div>
 
       {/* Scrolling content — padded so initial items don't overlap the pin */}
       <div className="py-2.5 flex items-center pl-36">
         <div className="flex whitespace-nowrap animate-marquee">
-          {items.map((item, i) => (
+          {loop.map((item, i) => (
             <span
               key={i}
               className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 px-7 flex items-center gap-7"
@@ -133,6 +131,7 @@ function ProductCard({
   category,
   index,
   esTitle,
+  cta,
   className = '',
 }: {
   title: string
@@ -142,6 +141,7 @@ function ProductCard({
   category: string
   index: number
   esTitle: string
+  cta: string
   className?: string
 }) {
   return (
@@ -188,7 +188,7 @@ function ProductCard({
         <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>
 
         <div className="mt-4 flex items-center gap-1.5 text-brand-600 text-xs font-semibold uppercase tracking-widest group-hover:gap-3 transition-all duration-500">
-          <span>View Cuts</span>
+          <span>{cta}</span>
           <ArrowRight className="w-3 h-3" />
         </div>
       </div>
@@ -263,7 +263,7 @@ export default function HomePage() {
               >
                 <div className="w-8 h-px bg-brand-600" />
                 <span className="eyebrow text-foreground/50">
-                  USDA · International Trade · Hidalgo, TX
+                  {h.heroEyebrow}
                 </span>
               </motion.div>
 
@@ -278,23 +278,23 @@ export default function HomePage() {
                   transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                   className="block"
                 >
-                  International Meat Supply,
+                  {h.heroLine1}
                 </motion.span>
-                <motion.em
+                <motion.span
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className="not-italic block text-brand-600"
+                  className="block text-brand-600"
                 >
-                  Strategically Delivered
-                </motion.em>
+                  {h.heroLine2}
+                </motion.span>
                 <motion.span
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="block text-foreground/40"
                 >
-                  To Mexico.
+                  {h.heroLine3}
                 </motion.span>
               </h1>
 
@@ -313,10 +313,15 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.85 }}
                 className="flex flex-wrap gap-4"
               >
-                <Link href="/contact" className="btn-primary font-sans text-sm">
+                <a
+                  href={waLink(h.heroWaMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary font-sans text-sm"
+                >
                   {h.heroCta}
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </a>
                 <Link href="/products" className="btn-ghost font-sans text-sm">
                   {h.heroSubCta}
                 </Link>
@@ -348,7 +353,7 @@ export default function HomePage() {
       </section>
 
       {/* ── MARQUEE TICKER ────────────────────────────────────── */}
-      <Marquee />
+      <Marquee items={h.ticker} pin="USA · CA · BR" />
 
       {/* ── STATS — giant editorial numbers ───────────────────── */}
       <section className="py-28 bg-background">
@@ -357,14 +362,14 @@ export default function HomePage() {
           {/* section label */}
           <div className="flex items-center gap-4 mb-20">
             <div className="w-10 h-px bg-brand-600" />
-            <span className="eyebrow text-muted-foreground">By the numbers</span>
+            <span className="eyebrow text-muted-foreground">{h.statsEyebrow}</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
             {[
-              { value: 3,  unit: 'Countries',     label: h.trust1Title, sub: h.trust1Desc, es: 'EE.UU. · Canadá · Brasil' },
-              { value: 24, unit: '/ 7 Response',  label: h.trust2Title, sub: h.trust2Desc, es: 'Respuesta inmediata' },
-              { value: 5,  unit: 'Core Services', label: h.trust3Title, sub: h.trust3Desc, es: 'Soluciones integrales' },
+              { value: 3,  unit: h.trust1Unit, label: h.trust1Title, sub: h.trust1Desc, es: 'EE.UU. · Canadá · Brasil' },
+              { value: 24, unit: h.trust2Unit, label: h.trust2Title, sub: h.trust2Desc, es: 'Respuesta inmediata' },
+              { value: 5,  unit: h.trust3Unit, label: h.trust3Title, sub: h.trust3Desc, es: 'Soluciones integrales' },
             ].map((stat, idx) => (
               <motion.div
                 key={stat.value}
@@ -372,7 +377,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
+                className="reveal-on-scroll relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
                 {/* Editorial entry mark — tiny red label above the numeral, lifted via translate so the numeral stays put */}
                 <div className="flex items-center justify-center gap-2 mb-2 -translate-y-4">
@@ -400,7 +405,7 @@ export default function HomePage() {
                   {stat.label}
                 </div>
 
-                {/* Spanish heritage flourish */}
+                {/* Spanish heritage flourish — always Spanish, a brand signature */}
                 <div className="mt-1 font-display italic text-muted-foreground/80 text-sm font-normal">
                   {stat.es}
                 </div>
@@ -423,7 +428,7 @@ export default function HomePage() {
             <div>
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-10 h-px bg-brand-600" />
-                <span className="eyebrow text-muted-foreground">What we supply</span>
+                <span className="eyebrow text-muted-foreground">{h.productsEyebrow}</span>
               </div>
               <h2
                 className="font-display font-medium tracking-[-0.04em] text-foreground"
@@ -445,7 +450,7 @@ export default function HomePage() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.15 } },
             }}
-            className="grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4"
+            className="reveal-on-scroll grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4"
           >
             {[
               { title: h.beef, desc: h.beefDesc, src: 'https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=1200&q=85', category: 'Beef', index: 1, es: 'Res de exportación', cls: 'md:col-span-2 md:row-span-2' },
@@ -468,6 +473,7 @@ export default function HomePage() {
                   category={p.category}
                   index={p.index}
                   esTitle={p.es}
+                  cta={h.viewCuts}
                 />
               </motion.div>
             ))}
@@ -480,7 +486,7 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA — bold red editorial ───────────────────────────── */}
-      <CtaSection title={h.ctaTitle} sub={h.ctaSub} btn={h.ctaBtn} />
+      <CtaSection eyebrow={h.ctaEyebrow} title={h.ctaTitle} sub={h.ctaSub} btn={h.ctaBtn} trust={h.ctaTrust} />
     </>
   )
 }

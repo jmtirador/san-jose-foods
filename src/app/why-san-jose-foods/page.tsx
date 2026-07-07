@@ -74,8 +74,8 @@ export default function WhyPage() {
         >
           <div className="flex items-center gap-4 mb-8">
             <div className="w-10 h-px bg-brand-600" />
-            <span className="font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
-              The difference
+            <span className="eyebrow text-muted-foreground">
+              {w.eyebrow}
             </span>
           </div>
           <h1
@@ -91,6 +91,7 @@ export default function WhyPage() {
       {/* 3 Differentiators */}
       <section className="py-20 bg-background border-t border-border">
         <div className="max-w-4xl mx-auto px-6 sm:px-10 space-y-4">
+          <h2 className="sr-only">{w.pageTitle}</h2>
           <DiffCard
             number="01"
             title={w.diff1Title}
@@ -159,37 +160,6 @@ export default function WhyPage() {
               <p className="font-sans text-muted-foreground mb-7 leading-relaxed text-sm">{w.coldSub}</p>
               <CheckList items={w.coldPoints} />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 bg-background border-t border-border">
-        <div className="max-w-5xl mx-auto px-6 sm:px-10">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-10 h-px bg-brand-600" />
-            <h2 className="font-sans text-muted-foreground font-semibold text-[11px] uppercase tracking-[0.3em]">
-              {w.testimonialsTitle}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              { quote: w.t1, name: w.t1name },
-              { quote: w.t2, name: w.t2name },
-            ].map((item) => (
-              <div key={item.name} className="rounded-xl p-8 border border-border bg-card">
-                <div className="font-display text-5xl leading-none mb-4 text-brand-600/40" aria-hidden>
-                  &ldquo;
-                </div>
-                <p className="font-display italic text-card-foreground leading-relaxed mb-6 text-lg">{item.quote}</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-sans font-bold text-xs bg-brand-600">
-                    {item.name.charAt(0)}
-                  </div>
-                  <span className="font-sans text-muted-foreground text-sm font-medium">{item.name}</span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
