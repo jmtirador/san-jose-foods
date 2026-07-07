@@ -5,21 +5,15 @@ export const translations = {
     // Nav
     nav: {
       home: 'Home',
-      about: 'About',
       products: 'Products',
-      why: 'Why San Jose Foods',
+      company: 'Company',
       contact: 'Contact',
     },
 
     // Footer
     footer: {
-      tagline: 'International meat supply, strategically connecting global packers with the Mexican market.',
-      quickLinks: 'Quick Links',
-      contact: 'Contact',
-      usPhone: 'Phone',
-      mxPhone: 'Email',
-      email: 'Address',
-      rights: 'All rights reserved.',
+      tagline: 'Sources USDA, CFIA, and SIF beef, pork, and chicken for Mexican processors, distributors, and retailers.',
+      rights: 'San Jose Foods LLC · Hidalgo, TX · United States',
     },
 
     // Home
@@ -234,21 +228,15 @@ export const translations = {
     // Nav
     nav: {
       home: 'Inicio',
-      about: 'Nosotros',
       products: 'Productos',
-      why: 'Por Qué Elegirnos',
+      company: 'Empresa',
       contact: 'Contacto',
     },
 
     // Footer
     footer: {
-      tagline: 'Suministro internacional de carne, conectando estratégicamente empacadoras globales con el mercado mexicano.',
-      quickLinks: 'Navegación',
-      contact: 'Contacto',
-      usPhone: 'Teléfono',
-      mxPhone: 'Correo',
-      email: 'Dirección',
-      rights: 'Todos los derechos reservados.',
+      tagline: 'Suministramos res, cerdo y pollo con inspección USDA, CFIA y SIF a procesadores, distribuidores y minoristas en México.',
+      rights: 'San Jose Foods LLC · Hidalgo, TX · Estados Unidos',
     },
 
     // Home

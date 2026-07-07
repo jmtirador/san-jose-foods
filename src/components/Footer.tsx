@@ -2,96 +2,85 @@
 
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { waLink } from '@/lib/whatsapp'
 
 export default function Footer() {
   const { t } = useLanguage()
+  const year = new Date().getFullYear()
 
   const navLinks = [
     { href: '/', label: t.nav.home },
-    { href: '/about', label: t.nav.about },
     { href: '/products', label: t.nav.products },
-    { href: '/why-san-jose-foods', label: t.nav.why },
+    { href: '/company', label: t.nav.company },
     { href: '/contact', label: t.nav.contact },
+  ]
+
+  const lines: { label: string; value: string; href?: string }[] = [
+    { label: 'TEL', value: '+52 81 8016 3885', href: 'tel:+528180163885' },
+    { label: 'EMAIL', value: 'ventas1@sanjosefoods.net', href: 'mailto:ventas1@sanjosefoods.net' },
+    { label: 'WHATSAPP', value: 'wa.me/528180163885', href: waLink('Hola, quiero cotizar. / Hi, I would like a quote.') },
+    { label: 'HQ', value: '1020 E. Produce Rd., Hidalgo, TX 78557' },
   ]
 
   return (
     <footer className="bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
 
-          {/* Brand */}
+        {/* Ruled inline nav row — no "Quick Links" heading, no column */}
+        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 py-5 border-b border-border font-mono text-[11px] uppercase tracking-[0.15em]">
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Letterhead: wide masthead left, contact ledger right */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 py-14">
+
           <div>
-            <div className="mb-5">
-              <div
-                className="text-foreground font-medium leading-tight font-display tracking-tight"
-                style={{ fontSize: '1.2rem' }}
-              >
-                San Jose Foods
-              </div>
-              <div className="font-sans text-[9px] font-semibold tracking-[0.32em] uppercase mt-1 text-primary">
-                Meat Exports
-              </div>
+            <div className="text-foreground font-medium leading-tight font-display tracking-tight" style={{ fontSize: '1.4rem' }}>
+              San Jose Foods
             </div>
-            <p className="font-sans text-sm leading-relaxed text-muted-foreground">{t.footer.tagline}</p>
+            <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <span className="text-brand-600">SJF</span> · International Meat Trade · Hidalgo, TX
+            </div>
+            <p className="mt-6 font-sans text-sm leading-relaxed text-muted-foreground max-w-md">{t.footer.tagline}</p>
+            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              USDA <span className="text-border">/</span> CFIA <span className="text-border">/</span> SIF
+            </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-sans text-foreground font-semibold text-[11px] uppercase tracking-[0.25em] mb-5">
-              {t.footer.quickLinks}
-            </h3>
-            <ul className="space-y-2.5">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="font-sans text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+          {/* Contact ledger — mono dotted-leader spec table */}
+          <div className="lg:pt-1">
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">
+              Direct Lines
+            </div>
+            {lines.map((l) => (
+              <div key={l.label} className="spec-row border-b border-border/60">
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground shrink-0">{l.label}</span>
+                <span className="lead-dots" />
+                {l.href ? (
+                  <a
+                    href={l.href}
+                    target={l.href.startsWith('http') ? '_blank' : undefined}
+                    rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors"
                   >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="font-sans text-foreground font-semibold text-[11px] uppercase tracking-[0.25em] mb-5">
-              {t.footer.contact}
-            </h3>
-            <ul className="space-y-4 font-sans text-sm">
-              <li>
-                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
-                  {t.footer.usPhone}
-                </span>
-                <a href="tel:+528180163885" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +52 81 8016 3885
-                </a>
-              </li>
-              <li>
-                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
-                  {t.footer.mxPhone}
-                </span>
-                <a href="mailto:ventas1@sanjosefoods.net" className="text-muted-foreground hover:text-foreground transition-colors">
-                  ventas1@sanjosefoods.net
-                </a>
-              </li>
-              <li>
-                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
-                  {t.footer.email}
-                </span>
-                <span className="text-muted-foreground">
-                  1020 E. Produce Rd.<br />
-                  Hidalgo, TX 78557
-                </span>
-              </li>
-            </ul>
+                    {l.value}
+                  </a>
+                ) : (
+                  <span className="val font-mono text-[12px]">{l.value}</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 font-sans text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} San Jose Foods LLC. {t.footer.rights}</span>
-          <span>Hidalgo, TX · International Trade</span>
+        {/* Bottom letterhead line */}
+        <div className="border-t border-border py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          <span className="tnum">© {year}</span>
+          <span>{t.footer.rights}</span>
         </div>
       </div>
     </footer>

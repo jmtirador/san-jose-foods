@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { Moon, Sun } from 'lucide-react'
 
+// A mono LIGHT / DARK text switch that reads like a document settings strip,
+// not a floating glassy icon button (the shadcn + next-themes starter default).
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -11,21 +12,40 @@ export function ThemeToggle() {
   useEffect(() => setMounted(true), [])
 
   if (!mounted) {
-    return <div className="h-9 w-9" aria-hidden />
+    return <div className="h-4 w-[86px]" aria-hidden />
   }
 
   const current = theme === 'system' ? resolvedTheme : theme
-  const next = current === 'dark' ? 'light' : 'dark'
 
   return (
-    <button
-      type="button"
-      onClick={() => setTheme(next)}
-      aria-label={`Switch to ${next} mode`}
-      className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-background/40 backdrop-blur-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-    >
-      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-    </button>
+    <div className="flex items-center gap-1.5 font-mono text-[11px] tracking-wider">
+      <button
+        type="button"
+        onClick={() => setTheme('light')}
+        aria-pressed={current === 'light'}
+        aria-label="Light mode"
+        className={
+          current === 'light'
+            ? 'text-foreground'
+            : 'text-muted-foreground hover:text-foreground transition-colors'
+        }
+      >
+        LIGHT
+      </button>
+      <span className="text-border" aria-hidden>/</span>
+      <button
+        type="button"
+        onClick={() => setTheme('dark')}
+        aria-pressed={current === 'dark'}
+        aria-label="Dark mode"
+        className={
+          current === 'dark'
+            ? 'text-foreground'
+            : 'text-muted-foreground hover:text-foreground transition-colors'
+        }
+      >
+        DARK
+      </button>
+    </div>
   )
 }
