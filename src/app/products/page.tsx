@@ -1,113 +1,82 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'motion/react'
-import { ArrowRight, MessageCircle } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
+import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { CtaBand } from '@/components/CtaBand'
 
-const productImages = {
-  chicken: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=900&q=80',
-  pork:    'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=900&q=80',
-  beef:    'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=900&q=80',
+// Real, public reference facts only (WCO HS chapter 02): operator credibility
+// without fabricating anything company-specific.
+const SPEC = {
+  chicken: { hs: 'HS 0207', img: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=900&q=80' },
+  pork: { hs: 'HS 0203', img: 'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=900&q=80' },
+  beef: { hs: 'HS 0201 / 0202', img: 'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=900&q=80' },
 }
 
-function ProductSection({
-  title,
-  desc,
-  cuts,
-  imageSrc,
-  reverse = false,
-  index,
-  wholesale,
-  getPricing,
-  waPrefix,
-  waVolume,
+function SpecSection({
+  index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, waPrefix, waVolume,
 }: {
-  title: string
-  desc: string
-  cuts: readonly string[]
-  imageSrc: string
-  reverse?: boolean
-  index: number
-  wholesale: string
-  getPricing: string
-  waPrefix: string
-  waVolume: string
+  index: number; title: string; esFlourish: string; desc: string
+  cuts: readonly string[]; imageSrc: string; hs: string
+  getPricing: string; quote: string; waPrefix: string; waVolume: string
 }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-xl border border-border bg-card">
-      {/* Image */}
-      <div className={`relative h-72 lg:h-auto min-h-[400px] overflow-hidden ${reverse ? 'lg:order-2' : ''}`}>
-        <Image src={imageSrc} alt={title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-        {/* gradient fades photo into card surface — flips with theme */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(${reverse ? 'to left' : 'to right'}, transparent 60%, var(--card) 100%)`,
-          }}
-          aria-hidden
-        />
-        {/* index number watermark */}
-        <div
-          className="absolute bottom-4 left-5 font-display font-medium tracking-[-0.04em] text-foreground/[0.08] select-none leading-none"
-          style={{ fontSize: '6rem' }}
-          aria-hidden
-        >
-          0{index}
-        </div>
+    <section className="border-t border-border">
+      {/* Document section header */}
+      <div className="section-bar">
+        <span className="label flex items-baseline gap-3">
+          <span className="doc-index">No. 0{index}</span>
+          {title}
+        </span>
+        <span className="meta hidden sm:block">US · CA · BR · {hs} · FRESH / FROZEN</span>
       </div>
 
-      {/* Content */}
-      <div className={`p-10 lg:p-14 flex flex-col justify-center bg-card ${reverse ? 'lg:order-1' : ''}`}>
-        {/* eyebrow */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-6 h-px bg-brand-600" />
-          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            {wholesale}
-          </span>
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-12 grid grid-cols-1 lg:grid-cols-[0.8fr_1.35fr] gap-10 lg:gap-14">
+        {/* Image plate — hard-edged, consistent side */}
+        <div>
+          <div className="relative border border-border overflow-hidden aspect-[4/3] lg:aspect-[4/5]">
+            <Image src={imageSrc} alt={title} fill sizes="(max-width: 1024px) 100vw, 32vw" className="object-cover" />
+          </div>
+          <p className="flourish text-muted-foreground text-sm mt-4">{esFlourish}</p>
+          <p className="sm:hidden font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">US · CA · BR · {hs}</p>
         </div>
 
-        <h2
-          className="font-display font-medium tracking-[-0.04em] text-card-foreground mb-3"
-          style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)' }}
-        >
-          {title}
-        </h2>
-        <p className="font-sans text-muted-foreground mb-8 leading-relaxed text-sm">{desc}</p>
+        {/* Cut table — the dominant column */}
+        <div>
+          <p className="font-sans text-muted-foreground leading-relaxed text-sm mb-8 max-w-2xl">{desc}</p>
 
-        {/* Each cut is a tap-to-quote: opens WhatsApp prefilled with the exact cut. */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mb-10">
-          {cuts.map((cut) => (
-            <li key={cut}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10">
+            {cuts.map((cut) => (
               <a
+                key={cut}
                 href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/cut flex items-start gap-2.5 font-sans text-muted-foreground text-sm py-1 rounded-md transition-colors hover:text-brand-600"
+                className="group/cut spec-row border-b border-border/70"
               >
-                <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-brand-600" />
-                <span className="flex-1">{cut}</span>
-                <MessageCircle className="w-3.5 h-3.5 mt-0.5 text-brand-600/70 opacity-40 group-hover/cut:opacity-100 transition-opacity flex-shrink-0" aria-hidden />
+                <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground transition-colors">{cut}</span>
+                <span className="lead-dots" />
+                <span className="val font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground group-hover/cut:text-brand-600 transition-colors whitespace-nowrap">
+                  {quote} →
+                </span>
               </a>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
 
-        <div>
           <a
             href={waLink(`${waPrefix} ${title}. ${waVolume}`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary font-sans text-sm"
+            className="mt-8 inline-flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20bf5c] text-white font-sans font-medium px-6 py-3 rounded-sm transition-colors text-sm"
           >
+            <WhatsAppGlyph className="w-4 h-4" />
             {getPricing}
-            <ArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -115,82 +84,40 @@ export default function ProductsPage() {
   const { t } = useLanguage()
   const p = t.products
 
-  const sectionProps = {
-    wholesale: p.wholesale,
-    getPricing: p.getPricing,
-    waPrefix: p.waCutPrefix,
-    waVolume: p.waVolume,
-  }
+  const shared = { getPricing: p.getPricing, quote: p.quote, waPrefix: p.waCutPrefix, waVolume: p.waVolume }
 
   return (
     <>
-      {/* Hero */}
-      <section className="py-24 bg-background">
+      {/* Page header — document masthead */}
+      <section className="bg-background">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10"
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
         >
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-10 h-px bg-brand-600" />
-            <span className="eyebrow text-muted-foreground">
-              {p.eyebrow}
-            </span>
+          <div className="flex items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-px bg-brand-600" />
+              <span className="eyebrow text-muted-foreground">{p.eyebrow}</span>
+            </div>
+            <span className="doc-stamp hidden sm:block">SJF-CAT · REV 2026.07 · MX</span>
           </div>
-          <h1
-            className="font-display font-medium tracking-[-0.04em] text-foreground mb-5"
-            style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}
-          >
+          <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {p.pageTitle}
           </h1>
-          <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed mb-6">{p.pageSub}</p>
-          <div className="inline-flex items-center gap-2 border border-border rounded-md px-4 py-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-brand-600" />
-            <span className="font-sans text-muted-foreground text-xs">{p.pricingNote}</span>
-          </div>
+          <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed mb-5">{p.pageSub}</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            <span className="text-brand-600">▸</span> {p.pricingNote}
+          </p>
         </motion.div>
       </section>
 
-      {/* Products */}
-      <section className="space-y-px bg-background pb-12 border-t border-border pt-12">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 space-y-4">
-          <ProductSection
-            title={p.chicken.title}
-            desc={p.chicken.desc}
-            cuts={p.chicken.cuts}
-            imageSrc={productImages.chicken}
-            index={1}
-            {...sectionProps}
-          />
-          <ProductSection
-            title={p.pork.title}
-            desc={p.pork.desc}
-            cuts={p.pork.cuts}
-            imageSrc={productImages.pork}
-            reverse
-            index={2}
-            {...sectionProps}
-          />
-          <ProductSection
-            title={p.beef.title}
-            desc={p.beef.desc}
-            cuts={p.beef.cuts}
-            imageSrc={productImages.beef}
-            index={3}
-            {...sectionProps}
-          />
-        </div>
-      </section>
+      <SpecSection index={1} title={p.beef.title} esFlourish="Res de exportación" desc={p.beef.desc} cuts={p.beef.cuts} imageSrc={SPEC.beef.img} hs={SPEC.beef.hs} {...shared} />
+      <SpecSection index={2} title={p.pork.title} esFlourish="Cerdo premium" desc={p.pork.desc} cuts={p.pork.cuts} imageSrc={SPEC.pork.img} hs={SPEC.pork.hs} {...shared} />
+      <SpecSection index={3} title={p.chicken.title} esFlourish="Pollo selecto" desc={p.chicken.desc} cuts={p.chicken.cuts} imageSrc={SPEC.chicken.img} hs={SPEC.chicken.hs} {...shared} />
 
-      {/* CTA */}
-      <section className="py-28 relative overflow-hidden bg-brand-600">
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-medium tracking-[-0.04em] text-white text-4xl md:text-5xl mb-6">{t.home.ctaTitle}</h2>
-          <p className="font-sans text-white/80 text-lg mb-10 leading-relaxed">{p.pricingNote}</p>
-          <Link href="/contact" className="btn-white font-sans">{p.contactBtn}</Link>
-        </div>
-      </section>
+      <div className="border-t border-border" />
+      <CtaBand />
     </>
   )
 }

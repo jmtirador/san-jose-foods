@@ -92,10 +92,11 @@ export const translations = {
       eyebrow: 'What we supply',
       wholesale: 'Wholesale',
       pageTitle: 'Sourcing & Products',
-      pageSub: 'Meat products sourced through partnerships with US, Canadian, and Brazilian packing facilities, fully customizable to client volume and packaging specifications.',
-      pricingNote: 'Contact us for volume-specific pricing and packaging customization.',
+      pageSub: 'Beef, pork, and chicken from US, Canadian, and Brazilian packing plants, cut and packed to your volume and spec.',
+      pricingNote: 'Pricing is set by volume and packaging. Message the desk for a quote.',
       contactBtn: 'Request a Quote',
       getPricing: 'Get Pricing on WhatsApp',
+      quote: 'Quote',
       waCutPrefix: "Hi, I'd like a quote for",
       waVolume: 'Volume: ___',
       chicken: {
@@ -117,7 +118,7 @@ export const translations = {
       },
       pork: {
         title: 'Pork',
-        desc: 'A wide range of pork cuts sourced through international partnerships, fully adaptable to client volume and packaging requirements.',
+        desc: 'A full range of pork cuts from international packing plants, portioned and packed to your volume and packaging.',
         cuts: [
           'Pork Loin (Bone-In & Boneless)',
           'Pork Shoulder (Boston Butt)',
@@ -135,7 +136,7 @@ export const translations = {
       },
       beef: {
         title: 'Beef',
-        desc: 'Premium beef cuts sourced from international packing facilities: primal, sub-primal, and value cuts with full customization for volume and quality.',
+        desc: 'Primal, sub-primal, and value beef cuts from international packing plants, cut and packed to your volume and spec.',
         cuts: [
           'Chuck Roll',
           'Chuck Short Ribs',
@@ -316,10 +317,11 @@ export const translations = {
       eyebrow: 'Lo que suministramos',
       wholesale: 'Mayoreo',
       pageTitle: 'Suministro y Productos',
-      pageSub: 'Productos cárnicos suministrados mediante alianzas con empacadoras de EE.UU., Canadá y Brasil, totalmente personalizables en volumen y empaque.',
-      pricingNote: 'Contáctenos para precios por volumen y personalización de empaque.',
+      pageSub: 'Res, cerdo y pollo de plantas empacadoras en EE.UU., Canadá y Brasil, cortado y empacado a su volumen y especificación.',
+      pricingNote: 'El precio se define por volumen y empaque. Escríbanos para cotizar.',
       contactBtn: 'Solicitar Cotización',
       getPricing: 'Cotizar por WhatsApp',
+      quote: 'Cotizar',
       waCutPrefix: 'Hola, quiero cotizar',
       waVolume: 'Volumen: ___',
       chicken: {
@@ -341,7 +343,7 @@ export const translations = {
       },
       pork: {
         title: 'Cerdo',
-        desc: 'Amplia gama de cortes de cerdo suministrados mediante alianzas internacionales, totalmente adaptables a los requerimientos de volumen y empaque del cliente.',
+        desc: 'Gama completa de cortes de cerdo de plantas empacadoras internacionales, porcionado y empacado a su volumen y empaque.',
         cuts: [
           'Lomo de Cerdo (Con Hueso y Deshuesado)',
           'Paleta de Cerdo (Boston Butt)',
@@ -359,7 +361,7 @@ export const translations = {
       },
       beef: {
         title: 'Res',
-        desc: 'Cortes premium de res suministrados desde empacadoras internacionales: primales, sub-primales y de valor, totalmente personalizables.',
+        desc: 'Cortes de res primales, sub-primales y de valor de plantas empacadoras internacionales, cortado y empacado a su volumen y especificación.',
         cuts: [
           'Rollo de Paleta (Chuck Roll)',
           'Costillas Cortas de Paleta',
