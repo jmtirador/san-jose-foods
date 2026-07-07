@@ -163,10 +163,11 @@
     @apply border-t border-border;
   }
 
-  /* Mono numeric section marker — a real document reference, not decoration. */
+  /* Mono numeric section marker — a real document reference, not decoration.
+     Uses `primary` (brighter red in dark) so the red text clears contrast. */
   .doc-index {
     font-family: var(--font-mono);
-    @apply text-[11px] font-semibold tracking-[0.15em] text-brand-600;
+    @apply text-[11px] font-semibold tracking-[0.15em] text-primary;
     font-variant-numeric: tabular-nums;
   }
 

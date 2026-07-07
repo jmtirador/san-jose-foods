@@ -106,7 +106,7 @@ export default function Header() {
                     transition={morph}
                     className="overflow-hidden font-mono text-[9px] font-medium tracking-[0.28em] uppercase text-muted-foreground"
                   >
-                    <span className="text-brand-600">SJF</span>&nbsp;· International Meat Trade
+                    <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -176,7 +176,7 @@ export default function Header() {
                   onClick={() => setMenuOpen(false)}
                   className={`font-sans py-3 text-sm font-medium transition-colors ${
                     isActive(link.href)
-                      ? 'text-brand-600'
+                      ? 'text-primary'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >

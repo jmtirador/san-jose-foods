@@ -43,7 +43,7 @@ export default function Footer() {
               San Jose Foods
             </div>
             <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="text-brand-600">SJF</span> · International Meat Trade · Hidalgo, TX
+              <span className="text-primary">SJF</span> · International Meat Trade · Hidalgo, TX
             </div>
             <p className="mt-6 font-sans text-sm leading-relaxed text-muted-foreground max-w-md">{t.footer.tagline}</p>
             <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

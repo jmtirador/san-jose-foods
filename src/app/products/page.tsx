@@ -107,7 +107,7 @@ export default function ProductsPage() {
           </h1>
           <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed mb-5">{p.pageSub}</p>
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            <span className="text-brand-600">▸</span> {p.pricingNote}
+            <span className="text-primary">▸</span> {p.pricingNote}
           </p>
         </motion.div>
       </section>

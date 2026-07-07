@@ -51,7 +51,7 @@ function ProductCard({
           <span className="doc-index">No. 0{index}</span>
           <h3 className="font-display text-card-foreground font-medium tracking-tight text-xl">{title}</h3>
         </div>
-        <p className="flourish text-muted-foreground/70 text-sm mb-3 mt-0.5">{esTitle}</p>
+        <p className="flourish text-muted-foreground text-sm mb-3 mt-0.5">{esTitle}</p>
         <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>
         <div className="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground group-hover:text-brand-600 transition-colors">
           <span>{cta}</span>
@@ -148,23 +148,23 @@ export default function HomePage() {
             <span className="label">§01 — {h.statsEyebrow}</span>
             <span className="meta">SJF · REV 2026.07</span>
           </div>
-          <dl>
+          <div>
             {figures.map((f, i) => (
               <div key={f.label} className="flex items-baseline gap-4 sm:gap-6 py-7 border-b border-border">
                 <span className="doc-index shrink-0 hidden sm:block w-14">No. 0{i + 1}</span>
-                <dt className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1">
                   <div className="font-mono text-xs uppercase tracking-[0.18em] text-foreground">{f.label}</div>
-                  <div className="flourish text-muted-foreground/70 text-sm mt-0.5">{f.es}</div>
+                  <div className="flourish text-muted-foreground text-sm mt-0.5">{f.es}</div>
                   <div className="font-sans text-sm text-muted-foreground mt-1.5 max-w-sm leading-relaxed">{f.desc}</div>
-                </dt>
+                </div>
                 <div className="hidden md:block flex-1 self-center border-b border-dotted border-border/70" aria-hidden />
-                <dd className="shrink-0 flex items-baseline gap-2 text-right">
+                <div className="shrink-0 flex items-baseline gap-2 text-right">
                   <span className="font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.4rem, 4vw, 3.6rem)' }}>{f.value}</span>
                   <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground w-16 text-left">{f.unit}</span>
-                </dd>
+                </div>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 
