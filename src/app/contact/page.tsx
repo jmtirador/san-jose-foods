@@ -5,6 +5,7 @@ import { motion } from 'motion/react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { CropMarks } from '@/components/CropMarks'
 
 const inputClass =
   'w-full bg-background border border-border rounded-sm px-4 py-3 text-sm font-sans text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors [&:user-invalid]:border-destructive [&:user-invalid]:ring-1 [&:user-invalid]:ring-destructive'
@@ -44,7 +45,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Header */}
-      <section className="bg-background">
+      <section className="doc-grid bg-background">
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -64,12 +65,13 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      <section className="border-t border-border bg-background">
+      <section className="doc-grid border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
             {/* Form — earns its container */}
-            <div className="lg:col-span-3 border border-border bg-card p-8">
+            <div className="lg:col-span-3 relative border border-border bg-card p-8">
+              <CropMarks />
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="doc-index">RFQ</span>
                 <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>

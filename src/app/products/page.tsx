@@ -6,6 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
 import { CtaBand } from '@/components/CtaBand'
+import { CropMarks } from '@/components/CropMarks'
 
 // Real, public reference facts only (WCO HS chapter 02): operator credibility
 // without fabricating anything company-specific.
@@ -23,9 +24,10 @@ function SpecSection({
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
 }) {
   return (
-    <section className="border-t border-border">
+    <section className="doc-grid border-t border-border">
       {/* Document section header */}
-      <div className="section-bar">
+      <div className="section-bar relative">
+        <CropMarks />
         <span className="label flex items-baseline gap-3">
           <span className="doc-index">§0{index}</span>
           {title}
@@ -89,7 +91,7 @@ export default function ProductsPage() {
   return (
     <>
       {/* Page header — document masthead */}
-      <section className="bg-background">
+      <section className="doc-grid bg-background">
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

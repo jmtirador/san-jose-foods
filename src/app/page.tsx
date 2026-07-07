@@ -8,6 +8,8 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { CtaBand } from '@/components/CtaBand'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { CropMarks } from '@/components/CropMarks'
+import { Counter } from '@/components/Counter'
 
 function Marquee({ items }: { items: readonly string[] }) {
   const loop = [...items, ...items]
@@ -73,7 +75,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO — editorial split, de-decorated ─────────────── */}
-      <section className="relative min-h-[calc(100vh-68px)] bg-background overflow-hidden">
+      <section className="doc-grid relative min-h-[calc(100vh-76px)] bg-background overflow-hidden">
         <div className="absolute left-0 top-0 bottom-0 w-px bg-border hidden lg:block" aria-hidden />
 
         {/* Right: photography — functional gradient only (no grain, no tint) */}
@@ -138,32 +140,43 @@ export default function HomePage() {
 
       <Marquee items={h.ticker} />
 
-      {/* ── KEY FIGURES — ledger, not a centered count-up band ── */}
-      <section className="py-24 bg-background">
+      {/* ── KEY FIGURES — ledger with count-up + registration marks ── */}
+      <section className="doc-grid py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
-          <div className="section-bar">
+          <div className="section-bar relative">
+            <CropMarks />
             <span className="label">§01 — {h.statsEyebrow}</span>
             <span className="meta">SJF · REV 2026.07</span>
           </div>
-          <div>
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+            className="reveal-on-scroll"
+          >
             {figures.map((f, i) => (
-              <div key={f.label} className="flex items-baseline gap-6 py-8 border-b border-border">
+              <motion.div
+                key={f.label}
+                variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }}
+                className="flex items-baseline gap-6 py-8 border-b border-border"
+              >
                 <span className="doc-index shrink-0 hidden sm:block w-12">No. 0{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <div className="font-mono text-xs uppercase tracking-[0.18em] text-foreground">{f.label}</div>
                   <div className="flourish text-muted-foreground text-sm mt-1">{f.es}</div>
                   <div className="font-sans text-sm text-muted-foreground mt-2 max-w-sm leading-relaxed">{f.desc}</div>
                 </div>
-                {/* Dotted leader ends at a fixed x — the figure columns are fixed
-                    width so numbers right-align and units left-align across rows. */}
+                {/* Dotted leader ends at a fixed x — figure columns are fixed width
+                    so numbers right-align and units left-align across rows. */}
                 <div className="hidden md:block flex-1 self-center border-b border-dotted border-border/70" aria-hidden />
                 <div className="shrink-0 flex items-baseline">
-                  <span className="w-[128px] text-right font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>{f.value}</span>
+                  <span className="w-[128px] text-right font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>
+                    <Counter value={f.value} />
+                  </span>
                   <span className="w-[116px] pl-3 font-mono text-[10px] uppercase tracking-[0.16em] leading-tight text-muted-foreground">{f.unit}</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

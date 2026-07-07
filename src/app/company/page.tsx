@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'motion/react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { CtaBand } from '@/components/CtaBand'
+import { CropMarks } from '@/components/CropMarks'
 
 export default function CompanyPage() {
   const { t } = useLanguage()
@@ -28,7 +29,7 @@ export default function CompanyPage() {
   return (
     <>
       {/* Header */}
-      <section className="bg-background">
+      <section className="doc-grid bg-background">
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -49,8 +50,9 @@ export default function CompanyPage() {
       </section>
 
       {/* SS01 — Who We Are + Operations manifest */}
-      <section className="border-t border-border">
-        <div className="section-bar">
+      <section className="doc-grid border-t border-border">
+        <div className="section-bar relative">
+          <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§01</span> {a.storyTitle}</span>
           <span className="meta hidden sm:block">{co.s1Meta}</span>
         </div>
@@ -84,8 +86,9 @@ export default function CompanyPage() {
       </section>
 
       {/* SS02 — Mandate */}
-      <section className="border-t border-border">
-        <div className="section-bar">
+      <section className="doc-grid border-t border-border">
+        <div className="section-bar relative">
+          <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§02</span> {co.s2}</span>
         </div>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
@@ -99,10 +102,12 @@ export default function CompanyPage() {
       </section>
 
       {/* SS03 — Capabilities */}
-      <section className="border-t border-border">
-        <div className="section-bar">
+      <section className="doc-grid border-t border-border">
+        <div className="section-bar relative">
+          <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§03</span> {co.s3}</span>
         </div>
+        <h2 className="sr-only">{co.s3}</h2>
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           {capabilities.map((c, i) => (
             <div key={c.title} className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-14 py-10 border-b border-border">
@@ -118,10 +123,12 @@ export default function CompanyPage() {
       </section>
 
       {/* SS04 — Reference */}
-      <section className="border-t border-border">
-        <div className="section-bar">
+      <section className="doc-grid border-t border-border">
+        <div className="section-bar relative">
+          <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§04</span> {co.s4}</span>
         </div>
+        <h2 className="sr-only">{co.s4}</h2>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {reference.map((r) => (
             <div key={r.title}>
