@@ -9,8 +9,8 @@ import { waLink } from '@/lib/whatsapp'
 
 const productImages = {
   chicken: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=900&q=80',
-  pork:    'https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80',
-  beef:    'https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=900&q=80',
+  pork:    'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=900&q=80',
+  beef:    'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=900&q=80',
 }
 
 function ProductSection({
@@ -40,7 +40,7 @@ function ProductSection({
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-xl border border-border bg-card">
       {/* Image */}
       <div className={`relative h-72 lg:h-auto min-h-[400px] overflow-hidden ${reverse ? 'lg:order-2' : ''}`}>
-        <Image src={imageSrc} alt={title} fill className="object-cover" />
+        <Image src={imageSrc} alt={title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
         {/* gradient fades photo into card surface — flips with theme */}
         <div
           className="absolute inset-0"

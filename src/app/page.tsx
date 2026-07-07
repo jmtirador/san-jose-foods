@@ -154,6 +154,7 @@ function ProductCard({
           src={imageSrc}
           alt={title}
           fill
+          sizes="(max-width: 768px) 100vw, 40vw"
           className="object-cover opacity-75 group-hover:opacity-90 group-hover:scale-[1.04] transition-all duration-[900ms] ease-out"
         />
         {/* gradient fades photo into card surface — flips with theme */}
@@ -215,6 +216,7 @@ export default function HomePage() {
             alt="Premium meat products"
             fill
             priority
+            sizes="(max-width: 1024px) 0px, 48vw"
             className="object-cover"
           />
 
@@ -453,8 +455,8 @@ export default function HomePage() {
             className="reveal-on-scroll grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-4"
           >
             {[
-              { title: h.beef, desc: h.beefDesc, src: 'https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=1200&q=85', category: 'Beef', index: 1, es: 'Res de exportación', cls: 'md:col-span-2 md:row-span-2' },
-              { title: h.pork, desc: h.porkDesc, src: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',  category: 'Pork', index: 2, es: 'Cerdo premium',     cls: '' },
+              { title: h.beef, desc: h.beefDesc, src: 'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=1200&q=85', category: 'Beef', index: 1, es: 'Res de exportación', cls: 'md:col-span-2 md:row-span-2' },
+              { title: h.pork, desc: h.porkDesc, src: 'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=800&q=80',  category: 'Pork', index: 2, es: 'Cerdo premium',     cls: '' },
               { title: h.chicken, desc: h.chickenDesc, src: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80', category: 'Chicken', index: 3, es: 'Pollo selecto', cls: '' },
             ].map((p) => (
               <motion.div

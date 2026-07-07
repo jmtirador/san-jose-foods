@@ -63,9 +63,10 @@ export default function AboutPage() {
             </div>
             <div className="relative overflow-hidden rounded-xl h-80 lg:min-h-[460px]">
               <Image
-                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80"
-                alt="San Jose Foods team"
+                src="https://images.unsplash.com/photo-1560166444-441876015a70?w=900&q=80"
+                alt="Meat processing operations"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-foreground/20" />
