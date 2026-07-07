@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { CtaBand } from '@/components/CtaBand'
+import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
 
 function Marquee({ items, pin }: { items: readonly string[]; pin: string }) {
   const loop = [...items, ...items]
@@ -129,7 +130,7 @@ export default function HomePage() {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.78 }} className="flex flex-wrap gap-4">
                 <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
                   {h.heroCta}
-                  <ArrowRight className="w-4 h-4" />
+                  <WhatsAppGlyph className="w-4 h-4" />
                 </a>
                 <Link href="/products" className="btn-ghost font-sans text-sm">{h.heroSubCta}</Link>
               </motion.div>

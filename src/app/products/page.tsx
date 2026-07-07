@@ -27,7 +27,7 @@ function SpecSection({
       {/* Document section header */}
       <div className="section-bar">
         <span className="label flex items-baseline gap-3">
-          <span className="doc-index">No. 0{index}</span>
+          <span className="doc-index">§0{index}</span>
           {title}
         </span>
         <span className="meta hidden sm:block">US · CA · BR · {hs} · FRESH / FROZEN</span>
@@ -69,7 +69,7 @@ function SpecSection({
             href={waLink(`${waPrefix} ${title}. ${waVolume}`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20bf5c] text-white font-sans font-medium px-6 py-3 rounded-sm transition-colors text-sm"
+            className="btn-primary font-sans text-sm mt-8"
           >
             <WhatsAppGlyph className="w-4 h-4" />
             {getPricing}

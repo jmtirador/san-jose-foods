@@ -50,9 +50,12 @@ export default function ContactPage() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
         >
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-10 h-px bg-brand-600" />
-            <span className="eyebrow text-muted-foreground">{c.eyebrow}</span>
+          <div className="flex items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-px bg-brand-600" />
+              <span className="eyebrow text-muted-foreground">{c.eyebrow}</span>
+            </div>
+            <span className="doc-stamp hidden sm:block">SJF-RFQ · REV 2026.07</span>
           </div>
           <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {c.pageTitle}
@@ -76,7 +79,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-5" noValidate={false}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className={labelClass}>{c.name}</label>
+                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-primary"> *</span></label>
                     <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} />
                   </div>
                   <div>
@@ -86,7 +89,7 @@ export default function ContactPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="email" className={labelClass}>{c.email}</label>
+                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-primary"> *</span></label>
                     <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} />
                   </div>
                   <div>
@@ -102,7 +105,7 @@ export default function ContactPage() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="message" className={labelClass}>{c.message}</label>
+                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-primary"> *</span></label>
                   <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} />
                 </div>
                 <button type="submit" className="btn-primary w-full justify-center font-sans">
@@ -132,9 +135,9 @@ export default function ContactPage() {
               <a
                 href={waLink(c.waIntro)}
                 target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-3 bg-[#25D366] hover:bg-[#20bf5c] text-white font-sans font-semibold px-5 py-3.5 rounded-sm transition-colors w-full justify-center text-sm"
+                className="btn-outline-brand font-sans text-sm w-full justify-center"
               >
-                <WhatsAppGlyph className="w-5 h-5" />
+                <WhatsAppGlyph className="w-4 h-4" />
                 {c.waBtn}
               </a>
 

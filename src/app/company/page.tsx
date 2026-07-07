@@ -51,7 +51,7 @@ export default function CompanyPage() {
       {/* SS01 — Who We Are + Operations manifest */}
       <section className="border-t border-border">
         <div className="section-bar">
-          <span className="label flex items-baseline gap-3"><span className="doc-index">SS01</span> {a.storyTitle}</span>
+          <span className="label flex items-baseline gap-3"><span className="doc-index">§01</span> {a.storyTitle}</span>
           <span className="meta hidden sm:block">Hidalgo, TX · United States</span>
         </div>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-12 lg:gap-16">
@@ -68,6 +68,7 @@ export default function CompanyPage() {
             <div className="relative border border-border overflow-hidden aspect-[4/3]">
               <Image src="https://images.unsplash.com/photo-1560166444-441876015a70?w=900&q=80" alt="Meat processing operations" fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
             </div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">Fig. 01 · Operations</p>
             <div className="mt-8">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{co.opsTitle}</div>
               {co.ops.map((row) => (
@@ -85,7 +86,7 @@ export default function CompanyPage() {
       {/* SS02 — Mandate */}
       <section className="border-t border-border">
         <div className="section-bar">
-          <span className="label flex items-baseline gap-3"><span className="doc-index">SS02</span> {co.s2}</span>
+          <span className="label flex items-baseline gap-3"><span className="doc-index">§02</span> {co.s2}</span>
         </div>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
           {mandate.map((m) => (
@@ -100,7 +101,7 @@ export default function CompanyPage() {
       {/* SS03 — Capabilities */}
       <section className="border-t border-border">
         <div className="section-bar">
-          <span className="label flex items-baseline gap-3"><span className="doc-index">SS03</span> {co.s3}</span>
+          <span className="label flex items-baseline gap-3"><span className="doc-index">§03</span> {co.s3}</span>
         </div>
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           {capabilities.map((c, i) => (
@@ -119,7 +120,7 @@ export default function CompanyPage() {
       {/* SS04 — Reference */}
       <section className="border-t border-border">
         <div className="section-bar">
-          <span className="label flex items-baseline gap-3"><span className="doc-index">SS04</span> {co.s4}</span>
+          <span className="label flex items-baseline gap-3"><span className="doc-index">§04</span> {co.s4}</span>
         </div>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {reference.map((r) => (
