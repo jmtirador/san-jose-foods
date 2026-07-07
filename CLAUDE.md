@@ -21,8 +21,10 @@ Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 
 ## Typography system
 
-- **Font:** Geist Sans (body + headlines) + Geist Mono (spec-sheet details). Loaded via `next/font/google` in `src/app/layout.tsx`.
+- **Font:** Geist Sans (body + headlines) + Geist Mono (all labels, spec details, data) + **Source Serif 4 italic** for accents only. Loaded via `next/font/google` in `src/app/layout.tsx`.
+- **Serif accent (`.flourish`):** Source Serif 4 italic carries the Spanish heritage flourishes (`Res de exportación`) and exactly ONE red accent word per major headline (e.g. the hero's `delivered by the load`). Accent only, never body copy.
 - **Never use** Playfair Display, DM Sans, or Inter. We migrated away from them deliberately.
+- **All eyebrows / field labels / spec labels are Geist Mono** (uppercase, tracked). No uppercase tracked labels in Geist Sans.
 
 ### Weight discipline (Geist runs heavier than Inter at the same numbers)
 
@@ -48,7 +50,7 @@ Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 - Product card corner labels ("BEEF / 01")
 - CTA trust line ("From Texas to Mexico · 20 years")
 
-Italic on Geist looks digital (oblique slant, not a real italic). Avoid italic on headers. Spanish heritage flourishes (`Res de exportación`, `Años exportando`) are an exception — they're allowed italic because the convention reads as a translation/heritage signal.
+Italic on Geist looks digital (oblique slant). Avoid Geist italic entirely — Spanish heritage flourishes and headline accent words now use the real **Source Serif 4 italic** via `.flourish`, which carries the translation/heritage register Geist's oblique can't.
 
 ## Color system
 
@@ -57,14 +59,13 @@ Italic on Geist looks digital (oblique slant, not a real italic). Avoid italic o
 - **Dark mode:** soft warm gray background (`oklch(0.275 0.003 60)`) — Claude/ChatGPT-style, **not** near-black ink. Cards lift to `oklch(0.32)`.
 - **Theme behavior:** the entire page flips between modes. The marquee bar and CTA section stay red in both modes (brand assertion, not a theme choice). Default theme is `dark`.
 
-## Radius system (tiered, Linear/Vercel style)
+## Radius system (Trade Desk: near-square)
 
-- **Big surfaces** (cards, panels, form, story image): `rounded-xl` (12px)
-- **Buttons, inputs, small icon containers (w-9/10/11):** `rounded-lg` (8px)
-- **Small chips, nav pills, corner badges:** `rounded-md` (6px)
-- **shadcn `--radius` variable:** `0.75rem`
+Structure comes from **1px hairlines + whitespace, not rounding**. Nothing rounder than ~4px.
 
-Bigger surface = bigger radius. Don't share radii between buttons and cards.
+- **`--radius: 0.125rem` (2px).** Tiers: `rounded-sm` 0px, `rounded-md`/`rounded-lg` 2px, `rounded-xl` 4px.
+- Large surfaces (cards, panels, image plates) read as **spec plates** with a 1px `border-border`, not rounded chrome.
+- No soft drop shadows / glass / backdrop-blur as decoration. Elevation is not a device; hover is a **color shift, not a lift**.
 
 ## Motion philosophy
 
@@ -99,7 +100,8 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 
 ## Project structure pointers
 
-- Pages: `src/app/{page,about,products,contact,why-san-jose-foods}/page.tsx`
+- Pages (4): `src/app/{page,products,company,contact}/page.tsx`. About + Why merged into `/company`; `/about` and `/why-san-jose-foods` are permanent redirects in `next.config.js`. Per-route `<title>`/description live in each segment's `layout.tsx`.
+- Shared components: `CtaBand` (one WhatsApp-first sign-off), `WhatsAppGlyph`, `Header` (flush bar → bordered document tab morph), `Footer` (trade-letterhead ledger).
 - Layout + ThemeProvider wrap: `src/app/layout.tsx`
 - Translations: `src/translations/index.ts` (single source of truth for all bilingual content)
 - Theme + nav components: `src/components/{Header,Footer,ThemeProvider,ThemeToggle}.tsx`
@@ -112,8 +114,17 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 - **Pre-flight before pushing:** `npm run build` locally. If it passes locally, Vercel ~95% passes too.
 - **Vercel install gotcha:** `.npmrc` with `legacy-peer-deps=true` is committed for a reason. Don't remove it.
 
+## Design direction: Trade Desk (Phase 3, locked)
+
+The site reads like a **trade document / spec sheet**, not a marketing site: mono labels, 1px ruled hairlines, dotted-leader spec tables, numbered document sections (`§01`, `No. 0X`, `SS0X`), tabular numerals, `doc-stamp` revision marks. Grew out of a whole-site AI-tell audit — the shadcn defaults (rounded cards, soft shadows, icon-in-tinted-square rows, centered count-up stats, glassy nav) were the loudest tells and were all removed. Primitives live in `globals.css` `@layer components`: `.flourish`, `.section-bar`, `.spec-row` (+`.lead-dots`, `.val`), `.doc-index`, `.doc-stamp`, `.rule`, `.tnum`. Real public trade facts (WCO HS codes 0201/0202/0203/0207, USDA·CFIA·SIF, border crossings) are used as content for credibility — never fabricated company data.
+
+**Ban site-wide:** icon-in-tinted-rounded-square cards, equal-column feature/value grids, Mission/Vision sections, decorative icons, soft shadows/glass, centered count-up stat bands, check-in-circle bullet lists, and AI filler vocab (strategic/comprehensive/leading/seamless/optimize/premium).
+
 ## What's been deliberately decided (don't undo without asking)
 
+- **Serif accent is sanctioned** (Source Serif 4 italic via `.flourish`). This SUPERSEDES the old "CTA h2 upright / no italic" and "Geist-italic flourishes" decisions.
+- **Stats are a left-aligned ledger** (mono label · dotted leader · right-aligned tabular figure), NOT a centered count-up band. Supersedes the old "stats centered" decision.
+- **Neutrals are warm paper tones** (hue ~52), not the stock stone preset.
 - **Default theme:** dark.
 - **No ghost decorative text behind CTAs.** "Carnicería" and "Pricing" ghosts were removed. Don't reintroduce.
 - **No "Est · 2017" claim.** No founding year confirmed. Marquee pin reads `USA · CA · BR` (the three sourcing countries).
