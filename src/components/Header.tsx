@@ -93,7 +93,7 @@ export default function Header() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={morph}
-                    className="overflow-hidden text-brand-600 font-sans text-[9px] font-semibold tracking-[0.32em] uppercase"
+                    className="overflow-hidden text-primary font-sans text-[9px] font-semibold tracking-[0.32em] uppercase"
                   >
                     Meat Exports
                   </motion.span>

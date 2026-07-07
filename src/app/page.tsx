@@ -111,7 +111,7 @@ function Marquee({ items, pin }: { items: readonly string[]; pin: string }) {
           {loop.map((item, i) => (
             <span
               key={i}
-              className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 px-7 flex items-center gap-7"
+              className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white px-7 flex items-center gap-7"
             >
               {item}
               <span className="text-white/35 text-xs font-light">|</span>
@@ -286,7 +286,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className="block text-brand-600"
+                  className="block text-primary"
                 >
                   {h.heroLine2}
                 </motion.span>
@@ -339,7 +339,7 @@ export default function HomePage() {
 
         {/* Scroll indicator — pinned to far-left edge of the section, below content */}
         <div className="absolute bottom-12 left-6 hidden lg:flex flex-col items-center gap-3 z-20" aria-hidden>
-          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
+          <span className="font-sans text-[9px] uppercase tracking-[0.36em] text-foreground/55 [writing-mode:vertical-rl] rotate-180">
             Scroll
           </span>
           <div className="relative w-px h-16 bg-foreground/15 overflow-hidden">

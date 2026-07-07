@@ -133,8 +133,10 @@
   .btn-ghost {
     @apply inline-flex items-center gap-2 border border-foreground/20 text-foreground/70 hover:text-foreground hover:border-foreground/50 font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
   }
+  /* Uses the theme `primary` (identical red in light, tuned brighter red in dark)
+     so the red text/border clears contrast on the dark background. */
   .btn-outline-brand {
-    @apply inline-flex items-center gap-2 border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
+    @apply inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white font-medium px-7 py-3.5 rounded-lg transition-all duration-200;
   }
   .btn-white {
     @apply inline-flex items-center gap-2 bg-white text-brand-700 font-medium px-8 py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200;

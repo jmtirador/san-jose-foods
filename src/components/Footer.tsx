@@ -28,7 +28,7 @@ export default function Footer() {
               >
                 San Jose Foods
               </div>
-              <div className="font-sans text-[9px] font-semibold tracking-[0.32em] uppercase mt-1 text-brand-600">
+              <div className="font-sans text-[9px] font-semibold tracking-[0.32em] uppercase mt-1 text-primary">
                 Meat Exports
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-4 font-sans text-sm">
               <li>
-                <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
+                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.usPhone}
                 </span>
                 <a href="tel:+528180163885" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -69,7 +69,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
+                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.mxPhone}
                 </span>
                 <a href="mailto:ventas1@sanjosefoods.net" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -77,7 +77,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <span className="text-muted-foreground/70 text-[10px] uppercase tracking-widest block mb-0.5">
+                <span className="text-muted-foreground text-[10px] uppercase tracking-widest block mb-0.5">
                   {t.footer.email}
                 </span>
                 <span className="text-muted-foreground">
@@ -89,7 +89,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 font-sans text-xs text-muted-foreground/70">
+        <div className="border-t border-border mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 font-sans text-xs text-muted-foreground">
           <span>© {new Date().getFullYear()} San Jose Foods LLC. {t.footer.rights}</span>
           <span>Hidalgo, TX · International Trade</span>
         </div>
