@@ -19,9 +19,32 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'San Jose Foods | Premium US Meat Exports to Mexico',
+  metadataBase: new URL('https://san-jose-foods.vercel.app'),
+  title: {
+    default: 'San Jose Foods — International Meat Trade | Comercio Internacional de Carnes',
+    template: '%s · San Jose Foods',
+  },
   description:
-    'San Jose Foods is a US-based wholesale meat exporter supplying chicken, pork, and beef to Mexico. USDA-compliant, reliable cold-chain logistics.',
+    'Res, cerdo y pollo de mayoreo desde plantas USDA, CFIA y SIF en EE.UU., Canadá y Brasil para el mercado mexicano. Crédito respaldado por LLC, carga asegurada, respuesta comercial 24/7. Hidalgo, TX.',
+  keywords: [
+    'meat exports', 'exportación de carne', 'mayoreo de carne', 'res cerdo pollo',
+    'USDA', 'CFIA', 'SIF', 'Hidalgo TX', 'suministro cárnico México', 'wholesale meat Mexico',
+  ],
+  openGraph: {
+    type: 'website',
+    siteName: 'San Jose Foods',
+    locale: 'es_MX',
+    alternateLocale: 'en_US',
+    title: 'San Jose Foods — Comercio Internacional de Carnes',
+    description:
+      'Res, cerdo y pollo de mayoreo desde plantas USDA, CFIA y SIF en EE.UU., Canadá y Brasil para el mercado mexicano. Hidalgo, TX · 24/7.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'San Jose Foods — Comercio Internacional de Carnes',
+    description:
+      'Res, cerdo y pollo de mayoreo · EE.UU. · Canadá · Brasil → México · USDA · CFIA · SIF · Hidalgo, TX.',
+  },
 }
 
 export default function RootLayout({
@@ -32,6 +55,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
+        {/* Without JS, scroll-reveal sections would stay hidden — force them visible. */}
+        <noscript>
+          <style>{`.reveal-on-scroll{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>
             <Header />
