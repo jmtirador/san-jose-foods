@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import { ThemeProvider } from '@/components/ThemeProvider'
@@ -15,6 +15,15 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
+  display: 'swap',
+})
+
+// Serif italic accent only — the "heritage / translation" register for Spanish
+// flourishes and one accent word per major headline. Never body copy.
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-source-serif',
+  style: ['normal', 'italic'],
   display: 'swap',
 })
 
@@ -53,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable}`}>
       <body>
         {/* Without JS, scroll-reveal sections would stay hidden — force them visible. */}
         <noscript>

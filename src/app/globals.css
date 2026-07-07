@@ -54,6 +54,7 @@
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-display: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
 
   --animate-marquee: marquee 45s linear infinite;
   @keyframes marquee {
@@ -157,4 +158,53 @@
   .dark .nav-pill-shadow {
     box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.6);
   }
+
+  /* ── Trade Desk primitives — the site reads like a trade document ──────── */
+
+  /* Spanish heritage flourish — a true serif italic carries the translation /
+     heritage register that Geist's oblique can't. Accents only, never body. */
+  .flourish {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Document section bar — a muted header band with a mono field label + optional
+     right-aligned meta, the way a spec sheet or market report groups a section. */
+  .section-bar {
+    @apply flex items-baseline justify-between gap-4 border-y border-border bg-secondary/60 px-4 py-2.5;
+  }
+  .section-bar .label {
+    font-family: var(--font-mono);
+    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground;
+  }
+  .section-bar .meta {
+    font-family: var(--font-mono);
+    @apply text-[10px] uppercase tracking-[0.16em] text-muted-foreground;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Dotted-leader spec row — label ............ value, invoice / menu style.
+     Numbers stay tabular so columns align down the list. */
+  .spec-row {
+    @apply flex items-baseline gap-3 py-2;
+  }
+  .spec-row .lead-dots {
+    @apply flex-1 self-end mb-[3px] border-b border-dotted;
+    border-color: color-mix(in oklab, var(--border) 85%, var(--foreground));
+  }
+  .spec-row .val {
+    font-variant-numeric: tabular-nums;
+    @apply text-foreground text-right;
+  }
+
+  /* Mono document stamp — a restrained revision / page marker (one per page). */
+  .doc-stamp {
+    font-family: var(--font-mono);
+    @apply text-[10px] uppercase tracking-[0.18em] text-muted-foreground;
+    font-variant-numeric: tabular-nums;
+  }
 }
+
+/* Tabular figures wherever data lives */
+.tnum { font-variant-numeric: tabular-nums; }
