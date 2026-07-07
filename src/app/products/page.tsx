@@ -89,7 +89,7 @@ function ProductSection({
               >
                 <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-brand-600" />
                 <span className="flex-1">{cut}</span>
-                <MessageCircle className="w-3.5 h-3.5 mt-0.5 opacity-0 group-hover/cut:opacity-100 transition-opacity flex-shrink-0" aria-hidden />
+                <MessageCircle className="w-3.5 h-3.5 mt-0.5 text-brand-600/70 opacity-40 group-hover/cut:opacity-100 transition-opacity flex-shrink-0" aria-hidden />
               </a>
             </li>
           ))}

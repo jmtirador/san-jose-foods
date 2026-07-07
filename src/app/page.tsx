@@ -375,9 +375,9 @@ export default function HomePage() {
             ].map((stat, idx) => (
               <motion.div
                 key={stat.value}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
+                initial={{ y: 24 }}
+                whileInView={{ y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="reveal-on-scroll relative py-12 md:py-6 md:px-14 first:md:pl-0 last:md:pr-0 text-center"
               >
@@ -462,8 +462,8 @@ export default function HomePage() {
               <motion.div
                 key={p.category}
                 variants={{
-                  hidden: { opacity: 0, y: 24 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: { y: 24 },
+                  visible: { y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
                 }}
                 className={p.cls}
               >
