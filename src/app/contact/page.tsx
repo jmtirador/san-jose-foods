@@ -50,12 +50,12 @@ export default function ContactPage() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
         >
-          <div className="flex items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-px bg-brand-600" />
+          <div className="flex items-start justify-between gap-4 mb-8">
+            <div>
+              <div className="w-10 h-px bg-brand-600 mb-4" />
               <span className="eyebrow text-muted-foreground">{c.eyebrow}</span>
             </div>
-            <span className="doc-stamp hidden sm:block">SJF-RFQ · REV 2026.07</span>
+            <span className="doc-stamp hidden sm:block mt-1">SJF-RFQ · REV 2026.07</span>
           </div>
           <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {c.pageTitle}

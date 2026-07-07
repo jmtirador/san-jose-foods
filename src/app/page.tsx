@@ -172,8 +172,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
             <div>
-              <div className="flex items-center gap-4 mb-5">
-                <div className="w-10 h-px bg-brand-600" />
+              <div className="mb-5">
+                <div className="w-10 h-px bg-brand-600 mb-4" />
                 <span className="eyebrow text-muted-foreground">§02 — {h.productsEyebrow}</span>
               </div>
               <h2 className="font-display font-medium tracking-[-0.04em] text-foreground" style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
