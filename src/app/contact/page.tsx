@@ -76,7 +76,7 @@ export default function ContactPage() {
               </div>
               <p className="font-sans text-muted-foreground text-sm mb-7">{c.formNote}</p>
 
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate={false}>
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className={labelClass}>{c.name}<span className="text-primary"> *</span></label>

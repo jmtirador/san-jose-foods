@@ -54,7 +54,7 @@ export default function Footer() {
           {/* Contact ledger — mono dotted-leader spec table */}
           <div className="lg:pt-1">
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">
-              Direct Lines
+              {t.contact.infoTitle}
             </div>
             {lines.map((l) => (
               <div key={l.label} className="spec-row border-b border-border/60">

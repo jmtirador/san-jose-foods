@@ -25,6 +25,7 @@ export const translations = {
       heroSub: 'A trusted commercial link between packing facilities in the United States, Canada, and Brazil, and the Mexican market, with customized volume, quality, and packaging.',
       heroCta: 'Request a Quote',
       heroSubCta: 'Learn About Our Operations',
+      heroFig: 'Fig. 01 · Sourced product',
       heroWaMessage: 'Hi, I would like information about your meat supply and a quote.',
       ticker: [
         'USDA · CFIA · SIF Inspected',
@@ -65,7 +66,6 @@ export const translations = {
 
     // About
     about: {
-      storyEyebrow: 'Our story',
       pageTitle: 'About San Jose Foods',
       pageSub: 'A specialized international supplier of meat products, connecting global packing facilities with the Mexican market.',
       storyTitle: 'Who We Are',
@@ -82,13 +82,12 @@ export const translations = {
     // Products
     products: {
       eyebrow: 'What we supply',
-      wholesale: 'Wholesale',
       pageTitle: 'Sourcing & Products',
       pageSub: 'Beef, pork, and chicken from US, Canadian, and Brazilian packing plants, cut and packed to your volume and spec.',
       pricingNote: 'Pricing is set by volume and packaging. Message the desk for a quote.',
-      contactBtn: 'Request a Quote',
       getPricing: 'Get Pricing on WhatsApp',
       quote: 'Quote',
+      metaFormats: 'Fresh / Frozen',
       waCutPrefix: "Hi, I'd like a quote for",
       waVolume: 'Volume: ___',
       chicken: {
@@ -152,9 +151,6 @@ export const translations = {
 
     // Why
     why: {
-      eyebrow: 'The difference',
-      pageTitle: 'The Difference',
-      pageSub: 'We facilitate large-scale supply operations, generate competitive market conditions, and act as a strategic link for efficient commercial decisions.',
       diff1Title: 'Operational Capacity',
       diff1P1: 'A flexible model that lets us manage variable volumes depending on the availability of international packing facilities.',
       diff1P2: 'Access to multiple suppliers and spot availability for immediate loads.',
@@ -190,6 +186,9 @@ export const translations = {
       s2: 'Mandate',
       s3: 'Capabilities',
       s4: 'Reference',
+      s1Meta: 'Hidalgo, TX · United States',
+      positioning: 'Positioning',
+      figOps: 'Fig. 01 · Operations',
       opsTitle: 'Operations',
       ops: [
         { k: 'Origins', v: 'US · Canada · Brazil' },
@@ -259,6 +258,7 @@ export const translations = {
       heroSub: 'Enlace comercial confiable entre empacadoras de Estados Unidos, Canadá y Brasil, y el mercado mexicano, con volumen, calidad y empaque personalizados.',
       heroCta: 'Solicitar Cotización',
       heroSubCta: 'Conozca Nuestras Operaciones',
+      heroFig: 'Fig. 01 · Producto de origen',
       heroWaMessage: 'Hola, quiero información sobre su suministro de carne y una cotización.',
       ticker: [
         'Inspección USDA · CFIA · SIF',
@@ -299,8 +299,7 @@ export const translations = {
 
     // About
     about: {
-      storyEyebrow: 'Nuestra historia',
-      pageTitle: 'Quiénes Somos',
+      pageTitle: 'La Empresa',
       pageSub: 'Empresa especializada en suministro internacional de productos cárnicos, conectando empacadoras globales con el mercado mexicano.',
       storyTitle: 'Quiénes Somos',
       storyP1: 'San Jose Foods LLC es una empresa especializada en la gestión y suministro internacional de productos cárnicos. La empresa opera mediante alianzas estratégicas con empacadoras ubicadas en Estados Unidos, Canadá y Brasil.',
@@ -316,13 +315,12 @@ export const translations = {
     // Products
     products: {
       eyebrow: 'Lo que suministramos',
-      wholesale: 'Mayoreo',
       pageTitle: 'Suministro y Productos',
       pageSub: 'Res, cerdo y pollo de plantas empacadoras en EE.UU., Canadá y Brasil, cortado y empacado a su volumen y especificación.',
       pricingNote: 'El precio se define por volumen y empaque. Escríbanos para cotizar.',
-      contactBtn: 'Solicitar Cotización',
       getPricing: 'Cotizar por WhatsApp',
       quote: 'Cotizar',
+      metaFormats: 'Fresco / Congelado',
       waCutPrefix: 'Hola, quiero cotizar',
       waVolume: 'Volumen: ___',
       chicken: {
@@ -386,9 +384,6 @@ export const translations = {
 
     // Why
     why: {
-      eyebrow: 'La diferencia',
-      pageTitle: 'La Diferencia',
-      pageSub: 'Facilitamos operaciones de abastecimiento a gran escala, generamos condiciones competitivas y actuamos como enlace estratégico para decisiones comerciales eficientes.',
       diff1Title: 'Capacidad de Operación',
       diff1P1: 'Modelo flexible que permite gestionar volúmenes variables según la disponibilidad de empacadoras internacionales.',
       diff1P2: 'Acceso a múltiples proveedores y disponibilidad spot para cargas inmediatas.',
@@ -424,6 +419,9 @@ export const translations = {
       s2: 'Mandato',
       s3: 'Capacidades',
       s4: 'Referencia',
+      s1Meta: 'Hidalgo, TX · Estados Unidos',
+      positioning: 'Posicionamiento',
+      figOps: 'Fig. 01 · Operaciones',
       opsTitle: 'Operaciones',
       ops: [
         { k: 'Orígenes', v: 'EE.UU. · Canadá · Brasil' },

@@ -95,7 +95,7 @@ export default function HomePage() {
           <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: `linear-gradient(to top, var(--background), transparent)` }} aria-hidden />
           {/* Flat mono figure stamp */}
           <div className="absolute bottom-6 right-6 z-10 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/40 px-2.5 py-1">
-            Fig. 01 · Sourced product
+            {h.heroFig}
           </div>
         </div>
 

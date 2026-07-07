@@ -16,11 +16,11 @@ const SPEC = {
 }
 
 function SpecSection({
-  index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, waPrefix, waVolume,
+  index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, metaFormats, waPrefix, waVolume,
 }: {
   index: number; title: string; esFlourish: string; desc: string
   cuts: readonly string[]; imageSrc: string; hs: string
-  getPricing: string; quote: string; waPrefix: string; waVolume: string
+  getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
 }) {
   return (
     <section className="border-t border-border">
@@ -30,7 +30,7 @@ function SpecSection({
           <span className="doc-index">§0{index}</span>
           {title}
         </span>
-        <span className="meta hidden sm:block">US · CA · BR · {hs} · FRESH / FROZEN</span>
+        <span className="meta hidden sm:block">US · CA · BR · {hs} · {metaFormats}</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-12 grid grid-cols-1 lg:grid-cols-[0.8fr_1.35fr] gap-10 lg:gap-14">
@@ -84,7 +84,7 @@ export default function ProductsPage() {
   const { t } = useLanguage()
   const p = t.products
 
-  const shared = { getPricing: p.getPricing, quote: p.quote, waPrefix: p.waCutPrefix, waVolume: p.waVolume }
+  const shared = { getPricing: p.getPricing, quote: p.quote, metaFormats: p.metaFormats, waPrefix: p.waCutPrefix, waVolume: p.waVolume }
 
   return (
     <>
