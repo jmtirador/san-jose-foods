@@ -41,7 +41,9 @@ export default function Header() {
     if (y > ENTER) setMenuOpen((o) => (o ? false : o))
   })
 
-  const morph = reduce ? { duration: 0 } : { duration: 0.34, ease: [0.22, 1, 0.36, 1] as const }
+  // Smooth ease-in-out (not the site's ease-out-expo) reads calmer for a container
+  // morph where elements travel a distance, and avoids the "twitchy" fast start.
+  const morph = reduce ? { duration: 0 } : { duration: 0.42, ease: [0.4, 0, 0.2, 1] as const }
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -81,7 +83,10 @@ export default function Header() {
             <Link href="/" className="flex flex-col justify-center group">
               <span
                 className="text-foreground font-medium leading-tight tracking-tight font-display"
-                style={{ fontSize: condensed ? '1.05rem' : '1.2rem' }}
+                style={{
+                  fontSize: condensed ? '1.05rem' : '1.2rem',
+                  transition: reduce ? undefined : 'font-size 0.42s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
               >
                 San Jose Foods
               </span>
@@ -102,8 +107,9 @@ export default function Header() {
             </Link>
           </motion.div>
 
-          {/* Desktop Nav — persists into the pill (multi-page site) */}
-          <nav className="hidden lg:flex items-center gap-0.5">
+          {/* Desktop Nav — persists into the pill. `layout` so the links glide with
+              the morph instead of teleporting to their new packed position. */}
+          <motion.nav layout transition={morph} className="hidden lg:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -120,7 +126,7 @@ export default function Header() {
                 )}
               </Link>
             ))}
-          </nav>
+          </motion.nav>
 
           {/* Right: theme toggle + language toggle + mobile button */}
           <motion.div layout transition={morph} className="flex items-center gap-3">
