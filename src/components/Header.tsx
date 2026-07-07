@@ -1,13 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-} from 'motion/react'
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -35,9 +29,6 @@ export default function Header() {
     if (y > ENTER) setMenuOpen((o) => (o ? false : o))
   })
 
-  // Calm ease-in-out at 0.42s reads smooth for a container morph where elements travel.
-  const morph = reduce ? { duration: 0 } : { duration: 0.42, ease: [0.4, 0, 0.2, 1] as const }
-
   const navLinks = [
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.products },
@@ -48,104 +39,87 @@ export default function Header() {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
-  const langBtn = (lang: 'en' | 'es', label: string) => (
+  // A two-option mono control (EN/ES, LIGHT/DARK): active = foreground + a red
+  // baseline tick; inactive = muted. Reads as a real setting, not plain text.
+  const seg = (active: boolean, label: string, onClick: () => void) => (
     <button
       type="button"
-      onClick={() => setLanguage(lang)}
-      aria-pressed={language === lang}
-      className={
-        language === lang
-          ? 'text-foreground'
-          : 'text-muted-foreground hover:text-foreground transition-colors'
-      }
+      onClick={onClick}
+      aria-pressed={active}
+      className={`relative px-0.5 pb-1 transition-colors ${active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
     >
       {label}
+      {active && <span className="absolute inset-x-0 -bottom-px h-[1.5px] bg-brand-600" aria-hidden />}
     </button>
   )
 
-  // Flush, opaque, hairline-ruled bar; on scroll it detaches into a bordered (not
-  // glassy/shadowed) document tab — the morph, reskinned to Trade Desk language.
-  const chromeClass = condensed
-    ? 'mx-auto mt-3 flex w-fit max-w-[calc(100%-1.5rem)] items-center gap-5 rounded-sm border border-border bg-background px-5 py-2.5'
-    : 'mx-auto flex h-16 md:h-[68px] w-full max-w-7xl items-center justify-between gap-3 px-6 sm:px-10'
+  const controls = (
+    <div className="flex items-stretch font-mono text-[11px] tracking-[0.12em]">
+      <div className="flex items-center gap-3">
+        {seg(language === 'en', 'EN', () => setLanguage('en'))}
+        {seg(language === 'es', 'ES', () => setLanguage('es'))}
+      </div>
+      <div className="mx-5 w-px self-center h-3 bg-border" aria-hidden />
+      <ThemeToggle />
+    </div>
+  )
+
+  // Morph is CSS-transition based (max-width, padding, radius, bg, border, margin),
+  // NOT Framer layout/FLIP — so the flex children reflow via justify-between and
+  // never teleport at animation end. Structure stays identical in both states.
+  const morphTransition = reduce
+    ? undefined
+    : 'max-width 0.5s cubic-bezier(0.4,0,0.2,1), margin-top 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1), border-radius 0.5s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
 
   return (
-    <header className="sticky top-0 z-50 h-16 md:h-[68px]">
-      {/* Flush opaque bar with a single bottom hairline — no blur, no shadow.
-          Fades out as the chrome detaches so content shows behind the tab. */}
-      <motion.div
+    <header className="sticky top-0 z-50 h-[76px]">
+      {/* Full-bleed flush bar background + bottom hairline — fades out on condense
+          so the bar reads as detaching into a floating panel. */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 border-b border-border bg-background"
-        initial={false}
-        animate={{ opacity: condensed ? 0 : 1 }}
-        transition={morph}
+        className="pointer-events-none absolute inset-0 border-b bg-background transition-[opacity,border-color] duration-400"
+        style={{ opacity: condensed ? 0 : 1, borderColor: 'var(--border)' }}
       />
 
-      <div className="absolute inset-x-0 top-0">
-        <motion.div layout transition={morph} className={chromeClass}>
+      <div className="absolute inset-x-0 top-0 flex justify-center">
+        <div
+          className={`flex h-[68px] w-full items-center justify-between gap-6 border ${
+            condensed ? 'max-w-6xl mt-2 rounded-xl border-border bg-card px-6 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)]' : 'max-w-7xl mt-0 rounded-none border-transparent bg-transparent px-6 sm:px-10'
+          }`}
+          style={{ transition: morphTransition }}
+        >
+          {/* Wordmark + descriptor — constant structure (no collapse) so nothing
+              reflows the logo mid-morph. */}
+          <Link href="/" className="flex flex-col justify-center flex-shrink-0 group">
+            <span className="text-foreground font-medium leading-none tracking-tight font-display text-[1.15rem]">
+              San&nbsp;Jose&nbsp;Foods
+            </span>
+            <span className="mt-1 font-mono text-[9px] font-medium tracking-[0.26em] uppercase text-muted-foreground whitespace-nowrap">
+              <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
+            </span>
+          </Link>
 
-          {/* Wordmark + mono descriptor (descriptor collapses into the tab) */}
-          <motion.div layout transition={morph} className="flex-shrink-0">
-            <Link href="/" className="flex flex-col justify-center group">
-              <span
-                className="text-foreground font-medium leading-tight tracking-tight font-display"
-                style={{
-                  fontSize: condensed ? '1.05rem' : '1.15rem',
-                  transition: reduce ? undefined : 'font-size 0.42s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
-              >
-                San&nbsp;Jose&nbsp;Foods
-              </span>
-              <AnimatePresence initial={false}>
-                {!condensed && (
-                  <motion.span
-                    key="descriptor"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={morph}
-                    className="overflow-hidden font-mono text-[9px] font-medium tracking-[0.28em] uppercase text-muted-foreground"
-                  >
-                    <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
-          </motion.div>
-
-          {/* Nav — motion.nav so links glide (not teleport) through the morph */}
-          <motion.nav layout transition={morph} className="hidden lg:flex items-center gap-1">
+          {/* Nav — plain flex, no layout FLIP; stays justify-between so it can't teleport */}
+          <nav className="hidden lg:flex items-center gap-1.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-sans px-3 py-2 text-[13px] font-medium tracking-wide transition-colors duration-200 ${
-                  isActive(link.href)
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                className={`relative font-sans px-3.5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-200 ${
+                  isActive(link.href) ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
                 {isActive(link.href) && (
-                  <span className="absolute left-3 right-3 -bottom-0.5 block h-[2px] bg-brand-600" aria-hidden />
+                  <span className="absolute left-3.5 right-3.5 -bottom-1 block h-[2px] bg-brand-600" aria-hidden />
                 )}
               </Link>
             ))}
-          </motion.nav>
+          </nav>
 
-          {/* Control cluster — mono document-settings strip: EN/ES | LIGHT/DARK */}
-          <motion.div layout transition={morph} className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-3 font-mono text-[11px] tracking-wider">
-              <div className="flex items-center gap-1.5">
-                {langBtn('en', 'EN')}
-                <span className="text-border" aria-hidden>/</span>
-                {langBtn('es', 'ES')}
-              </div>
-              <span className="w-px h-3 bg-border" aria-hidden />
-              <ThemeToggle />
-            </div>
-
-            {/* Mobile menu button */}
+          {/* Control cluster */}
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">{controls}</div>
             <button
               className="lg:hidden text-muted-foreground hover:text-foreground p-1.5 transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -154,11 +128,11 @@ export default function Header() {
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
-      {/* Mobile menu — flush ruled panel, auto-closes when the bar condenses */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -175,23 +149,13 @@ export default function Header() {
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
                   className={`font-sans py-3 text-sm font-medium transition-colors ${
-                    isActive(link.href)
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground'
+                    isActive(link.href) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="flex items-center gap-3 pt-4 font-mono text-[11px] tracking-wider">
-                <div className="flex items-center gap-1.5">
-                  {langBtn('en', 'EN')}
-                  <span className="text-border" aria-hidden>/</span>
-                  {langBtn('es', 'ES')}
-                </div>
-                <span className="w-px h-3 bg-border" aria-hidden />
-                <ThemeToggle />
-              </div>
+              <div className="pt-4">{controls}</div>
             </nav>
           </motion.div>
         )}
