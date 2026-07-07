@@ -77,14 +77,6 @@ export const translations = {
       value1Desc: 'To be the dependable link between international packing plants and the Mexican market, known for reliability, operational capacity, and speed of response.',
       value2Title: 'Vision',
       value2Desc: 'To source internationally with full traceability and compliance, through direct relationships with plants in the US, Canada, and Brazil.',
-      value3Title: 'International Reach',
-      value3Desc: 'Sourcing from packing facilities in the United States, Canada, and Brazil, with Mexico as the destination market.',
-      value4Title: 'Strategic Link',
-      value4Desc: 'A trusted commercial intermediary between global suppliers and Mexican clients, focused on optimization and compliance.',
-      statsTitle: 'By the Numbers',
-      stat1: 'Countries Sourced',
-      stat2: 'Core Services',
-      stat3: 'Commercial Response',
     },
 
     // Products
@@ -319,14 +311,6 @@ export const translations = {
       value1Desc: 'Ser el enlace confiable entre las plantas empacadoras internacionales y el mercado mexicano, reconocidos por confiabilidad, capacidad operativa y rapidez de respuesta.',
       value2Title: 'Visión',
       value2Desc: 'Abastecer a nivel internacional con trazabilidad y cumplimiento completos, mediante relaciones directas con plantas en EE.UU., Canadá y Brasil.',
-      value3Title: 'Alcance Internacional',
-      value3Desc: 'Suministro desde empacadoras en Estados Unidos, Canadá y Brasil, con México como mercado destino.',
-      value4Title: 'Enlace Estratégico',
-      value4Desc: 'Intermediario comercial confiable entre proveedores globales y clientes mexicanos, enfocado en optimización y cumplimiento.',
-      statsTitle: 'En Números',
-      stat1: 'Países de Origen',
-      stat2: 'Servicios Principales',
-      stat3: 'Respuesta Comercial',
     },
 
     // Products
