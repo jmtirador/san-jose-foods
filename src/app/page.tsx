@@ -30,14 +30,14 @@ function Marquee({ items }: { items: readonly string[] }) {
 }
 
 function ProductCard({
-  title, desc, imageSrc, category, index, esTitle, cta, className = '',
+  title, desc, imageSrc, category, index, esTitle, cta, className = '', compact = false,
 }: {
   title: string; desc: string; imageSrc: string; category: string
-  index: number; esTitle: string; cta: string; className?: string
+  index: number; esTitle: string; cta: string; className?: string; compact?: boolean
 }) {
   return (
     <Link href="/products" className={`group relative overflow-hidden border border-border bg-card flex flex-col h-full ${className}`}>
-      <div className="relative flex-1 overflow-hidden min-h-[16rem]">
+      <div className="relative flex-1 overflow-hidden min-h-[16rem] md:min-h-0">
         <Image src={imageSrc} alt={title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover opacity-70 transition-opacity duration-500 group-hover:opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
         {/* Flat stamped index — no glass/backdrop-blur */}
@@ -52,10 +52,10 @@ function ProductCard({
           <h3 className="font-display text-card-foreground font-medium tracking-tight text-xl">{title}</h3>
         </div>
         <p className="flourish text-muted-foreground text-sm mb-3 mt-0.5">{esTitle}</p>
-        <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>
+        {!compact && <p className="text-muted-foreground text-sm font-sans leading-relaxed">{desc}</p>}
         <div className="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground group-hover:text-brand-600 transition-colors">
           <span>{cta}</span>
-          <ArrowRight className="w-3 h-3" />
+          <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" />
         </div>
       </div>
     </Link>
@@ -157,7 +157,7 @@ export default function HomePage() {
               <motion.div
                 key={f.label}
                 variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }}
-                className="flex items-baseline gap-6 py-8 border-b border-border"
+                className="flex items-center gap-6 py-8 border-b border-rule"
               >
                 <span className="doc-index shrink-0 hidden sm:block w-12">No. 0{i + 1}</span>
                 <div className="min-w-0 flex-1">
@@ -169,7 +169,7 @@ export default function HomePage() {
                     so numbers right-align and units left-align across rows. */}
                 <div className="hidden md:block flex-1 self-center border-b border-dotted border-border/70" aria-hidden />
                 <div className="shrink-0 flex items-baseline">
-                  <span className="w-[128px] text-right font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>
+                  <span className="font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>
                     <Counter value={f.value} />
                   </span>
                   <span className="w-[116px] pl-3 font-mono text-[10px] uppercase tracking-[0.16em] leading-tight text-muted-foreground">{f.unit}</span>
@@ -177,11 +177,36 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Sourcing lanes — a routing manifest (inspection authority · origin → market).
+              Adds the authority-per-lane fact the stats above don't state; built on the same
+              .spec-row primitive as the rest of the document, so it reads native, not bolted-on. */}
+          <div className="mt-16 pt-10 border-t border-rule">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-4">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground">{h.lanesTitle}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{h.lanesCaption}</span>
+            </div>
+            {[
+              { auth: 'USDA', code: 'US' },
+              { auth: 'CFIA', code: 'CA' },
+              { auth: 'SIF', code: 'BR' },
+            ].map((lane) => (
+              <div key={lane.code} className="spec-row border-b border-border/60">
+                <span className="font-mono text-[12px] tracking-[0.1em] text-foreground shrink-0">
+                  {lane.auth} <span className="text-muted-foreground">· {lane.code}</span>
+                </span>
+                <span className="lead-dots" />
+                <span className="val font-mono text-[12px] tracking-[0.1em] text-foreground shrink-0 inline-flex items-center gap-2">
+                  <span className="text-brand-600" aria-hidden>→</span> MX
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── PRODUCTS — preview, de-decorated ─────────────────── */}
-      <section className="py-24 bg-background border-t border-border">
+      <section className="doc-grid py-24 bg-background border-t border-rule">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
             <div>
@@ -207,7 +232,7 @@ export default function HomePage() {
               { title: h.chicken, desc: h.chickenDesc, src: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80', category: 'Chicken', index: 3, es: 'Pollo selecto', cls: '' },
             ].map((p) => (
               <motion.div key={p.category} variants={{ hidden: { y: 20 }, visible: { y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }} className={p.cls}>
-                <ProductCard title={p.title} desc={p.desc} imageSrc={p.src} category={p.category} index={p.index} esTitle={p.es} cta={h.viewCuts} />
+                <ProductCard title={p.title} desc={p.desc} imageSrc={p.src} category={p.category} index={p.index} esTitle={p.es} cta={h.viewCuts} compact={!p.cls} />
               </motion.div>
             ))}
           </motion.div>

@@ -43,6 +43,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
+  --color-rule: var(--rule);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -87,8 +88,10 @@
   --border: oklch(0.9 0.004 52);
   --input: oklch(0.9 0.004 52);
   --ring: oklch(0.557 0.225 23.5);
+  --destructive: oklch(0.585 0.205 33);             /* error — hue-shifted off brand red so it reads as its own signal */
   --radius: 0.125rem;
   --grid-line: rgba(20, 12, 8, 0.035);              /* faint technical graph paper */
+  --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
   color-scheme: light;
 }
 
@@ -112,11 +115,19 @@
   --border: oklch(0.42 0.004 60);
   --input: oklch(0.42 0.004 60);
   --ring: oklch(0.65 0.22 23.5);
+  --destructive: oklch(0.7 0.19 33);                /* error — hue-shifted off brand red so it reads as its own signal */
   --grid-line: rgba(255, 250, 245, 0.028);
+  --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
   color-scheme: dark;
 }
 
 @layer base {
+  /* Keyboard focus ring for non-button links (buttons carry their own via .btn-*). */
+  a:not([class*="btn-"]):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
@@ -136,23 +147,25 @@
   /* ── Buttons ──────────────────────────────────────────── */
   /* Flat, square, no elevation: hover is a color shift, never a lift (shadows +
      rounded-lg read as SaaS "Get Started" polish). */
+  /* Every button carries the full state set (default / hover / active-pressed /
+     focus-visible / disabled) per the Feedback & States rule. Press is a color
+     shift, not a lift — consistent with the Trade Desk no-elevation stance. */
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-7 py-3.5 rounded-sm transition-colors duration-200;
+    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
   }
   /* Ghost button sits on the theme background (cream in light, gray in dark), so
      it must use foreground tones, not white — white was invisible in light mode. */
   .btn-ghost {
-    @apply inline-flex items-center gap-2 border border-foreground/25 text-foreground/70 hover:text-foreground hover:border-foreground/60 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200;
+    @apply inline-flex items-center gap-2 border border-foreground/25 text-foreground/70 hover:text-foreground hover:border-foreground/60 active:bg-foreground/5 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
   }
   /* Uses the theme `primary` (identical red in light, tuned brighter red in dark)
      so the red text/border clears contrast on the dark background. */
   .btn-outline-brand {
-    @apply inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white font-medium px-7 py-3.5 rounded-sm transition-colors duration-200;
+    @apply inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white active:bg-brand-700 active:text-white active:border-brand-700 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-white {
-    @apply inline-flex items-center gap-2 bg-white text-brand-700 font-medium px-8 py-3.5 rounded-sm transition-colors duration-200;
+    @apply inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-warm-50 active:bg-warm-100 font-medium px-8 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
   }
-  .btn-white:hover { background-color: #FFF8F5; }
 
   /* ── Eyebrow label — mono for that "spec sheet" feel ── */
   .eyebrow {
@@ -186,7 +199,7 @@
   /* Document section bar — a muted header band with a mono field label + optional
      right-aligned meta, the way a spec sheet or market report groups a section. */
   .section-bar {
-    @apply flex items-baseline justify-between gap-4 border-y border-border bg-accent px-4 py-2.5;
+    @apply flex items-baseline justify-between gap-4 border-y border-rule bg-accent px-4 py-2.5;
   }
   .section-bar .label {
     font-family: var(--font-mono);
