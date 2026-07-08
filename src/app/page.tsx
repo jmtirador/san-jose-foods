@@ -9,6 +9,7 @@ import { waLink } from '@/lib/whatsapp'
 import { CtaBand } from '@/components/CtaBand'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
 import { CropMarks } from '@/components/CropMarks'
+import { Counter } from '@/components/Counter'
 
 function Marquee({ items }: { items: readonly string[] }) {
   const loop = [...items, ...items]
@@ -66,9 +67,9 @@ export default function HomePage() {
   const h = t.home
 
   const figures = [
-    { value: '3',    unit: h.trust1Unit, es: 'EE.UU. · Canadá · Brasil', auth: 'USDA · CFIA · SIF' },
-    { value: '24/7', unit: h.trust2Unit, es: 'Respuesta inmediata' },
-    { value: '5',    unit: h.trust3Unit, es: 'Cinco servicios centrales' },
+    { value: '3',    unit: h.trust1Unit, label: h.trust1Title, es: 'EE.UU. · Canadá · Brasil', desc: h.trust1Desc },
+    { value: '24/7', unit: h.trust2Unit, label: h.trust2Title, es: 'Respuesta inmediata',       desc: h.trust2Desc },
+    { value: '5',    unit: h.trust3Unit, label: h.trust3Title, es: 'Cinco servicios centrales',  desc: h.trust3Desc },
   ]
 
   return (
@@ -139,7 +140,8 @@ export default function HomePage() {
 
       <Marquee items={h.ticker} />
 
-      {/* ── KEY FIGURES — whitespace triptych: giant numeral, mono unit, no leaders/rules/grid ── */}
+      {/* ── KEY FIGURES — ledger: label block, dotted leader, right-aligned count-up numeral.
+             No grid behind and no per-row separator (the leader is the only line per row). ── */}
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="section-bar relative">
@@ -148,23 +150,29 @@ export default function HomePage() {
             <span className="meta">SJF · REV 2026.07</span>
           </div>
           <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.14 } } }}
-            className="reveal-on-scroll grid grid-cols-1 sm:grid-cols-3 gap-y-14 sm:gap-x-8 lg:gap-x-16 pt-20"
+            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+            className="reveal-on-scroll"
           >
-            {figures.map((f) => (
+            {figures.map((f, i) => (
               <motion.div
-                key={f.value}
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+                key={f.label}
+                variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }}
+                className="flex items-center gap-6 py-8"
               >
-                <div className="font-display font-normal tabular-nums text-primary leading-[0.82] tracking-[-0.045em]" style={{ fontSize: 'clamp(4rem, 7vw, 6.5rem)' }}>
-                  {f.value}
+                <span className="doc-index shrink-0 hidden sm:block w-12">No. 0{i + 1}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="font-mono text-xs uppercase tracking-[0.18em] text-foreground">{f.label}</div>
+                  <div className="flourish text-muted-foreground text-sm mt-1">{f.es}</div>
+                  <div className="font-sans text-sm text-muted-foreground mt-2 max-w-sm leading-relaxed">{f.desc}</div>
                 </div>
-                <div className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-foreground">{f.unit}</div>
-                <div className="flourish text-muted-foreground text-sm mt-2">{f.es}</div>
-                {f.auth && (
-                  <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{f.auth}</div>
-                )}
+                <div className="hidden md:block flex-1 self-center border-b border-dotted" style={{ borderColor: 'color-mix(in oklab, var(--border) 60%, var(--foreground))' }} aria-hidden />
+                <div className="shrink-0 flex items-baseline">
+                  <span className="font-display font-normal tabular-nums text-primary tracking-[-0.03em] leading-none" style={{ fontSize: 'clamp(2.2rem, 3.4vw, 3.25rem)' }}>
+                    <Counter value={f.value} />
+                  </span>
+                  <span className="w-[116px] pl-3 font-mono text-[10px] uppercase tracking-[0.16em] leading-tight text-muted-foreground">{f.unit}</span>
+                </div>
               </motion.div>
             ))}
           </motion.div>
