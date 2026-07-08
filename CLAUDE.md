@@ -127,8 +127,14 @@ The site reads like a **trade document / spec sheet**, not a marketing site: mon
 - **Neutrals are warm paper tones** (hue ~52), not the stock stone preset.
 - **Default theme:** dark.
 - **No ghost decorative text behind CTAs.** "Carnicería" and "Pricing" ghosts were removed. Don't reintroduce.
-- **No "Est · 2017" claim.** No founding year confirmed. Marquee pin reads `USA · CA · BR` (the three sourcing countries).
+- **No "Est · 2017" claim.** No founding year confirmed. The marquee pin was removed; the marquee is scroll-only (no pinned label).
 - **CTA h2 is upright, not italic.** Geist italic doesn't carry the heritage feel.
 - **The hero "Across Borders" line is `font-medium`** like the rest of the headline — it had a leftover `font-bold` override that was bolder than the other lines. Stays at medium.
 - **Product cards use asymmetric grid** (beef hero spans 2 cols × 2 rows, pork + chicken stack on right). Don't flatten back to 3 equal columns.
-- **Stats section is centered** (eyebrow + numeral + unit + label all center-aligned). Left-aligning broke optical balance because of Geist's side bearing.
+- **Stats are a left-aligned ledger row** (No. 0X marker, label block, dotted leader, right-aligned numeral + fixed unit column), vertically centered per row. The numeral is content-width so each dotted leader reaches it; the fixed unit column keeps the right edges aligned. Supersedes the earlier "centered stat band."
+- **Real logo mark is integrated** via `SjfMark` (`src/components/SjfMark.tsx`): the two-tone red "A" peak, extracted from the `branding-san-jose` vector. It sits left of the wordmark in the nav, in the footer masthead, and as the favicon (white mark on the brand-red chip). Supersedes the text-only wordmark.
+- **Sourcing Lanes routing manifest** on the home page (`USDA · US → MX`, `CFIA · CA → MX`, `SIF · BR → MX`) under §01. It is a document *manifest* built on `.spec-row`, NOT a route map or animated globe (deliberately avoided as a consumer-tech cliché). It earns its place by adding authority-per-lane, so don't make it duplicate the "3 countries" stat.
+- **Section dividers use the `--rule` token** (border mixed ~78% toward foreground), not plain `border-border`, so they out-read the faint `doc-grid` graph paper in both themes. The grid stays a whisper; structure lines stay legible.
+- **Every `.btn-*` carries the full state set** (hover, active-pressed, focus-visible ring, disabled). Press is a color shift, not a lift.
+- **Error red is hue-shifted** (`--destructive` at hue ~33) so form errors read as their own signal, distinct from brand red (hue 23.5), the site's all-purpose emphasis color.
+- **Secondary product cards (pork/chicken) use a compact footer** (title + Spanish flourish + CTA, no description paragraph) so the caption fits the 280px grid row; the beef hero keeps the full caption. The Spanish flourish stays visible on every card.
