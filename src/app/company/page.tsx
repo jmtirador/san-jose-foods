@@ -12,10 +12,6 @@ export default function CompanyPage() {
   const w = t.why
   const co = t.company
 
-  const mandate = [
-    { n: '01', title: a.value1Title, body: a.value1Desc },
-    { n: '02', title: a.value2Title, body: a.value2Desc },
-  ]
   const capabilities = [
     { title: w.diff1Title, p1: w.diff1P1, p2: w.diff1P2 },
     { title: w.diff2Title, p1: w.diff2P1, p2: w.diff2P2 },
@@ -91,13 +87,10 @@ export default function CompanyPage() {
           <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§02</span> {co.s2}</span>
         </div>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
-          {mandate.map((m) => (
-            <div key={m.n}>
-              <div className="doc-index mb-3">{m.n} / {m.title}</div>
-              <p className="font-sans text-foreground/90 text-lg leading-relaxed max-w-md">{m.body}</p>
-            </div>
-          ))}
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
+          <p className="font-display font-medium text-foreground max-w-4xl leading-[1.3] tracking-[-0.02em]" style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.25rem)' }}>
+            {a.value1Desc} <span className="text-foreground/45">{a.value2Desc}</span>
+          </p>
         </div>
       </section>
 
@@ -110,8 +103,8 @@ export default function CompanyPage() {
         <h2 className="sr-only">{co.s3}</h2>
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           {capabilities.map((c, i) => (
-            <div key={c.title} className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-14 py-10 border-b border-border">
-              <div className="font-mono font-semibold tabular-nums text-brand-600 tracking-[-0.02em] leading-none" style={{ fontSize: '2.2rem' }}>0{i + 1}</div>
+            <div key={c.title} className="grid grid-cols-1 lg:grid-cols-[auto_1fr] lg:items-baseline gap-3 lg:gap-14 py-12">
+              <div className="font-mono font-semibold tabular-nums text-brand-600 tracking-[-0.02em] leading-none" style={{ fontSize: '2.6rem' }}>0{i + 1}</div>
               <div className="max-w-2xl">
                 <h3 className="font-display font-medium tracking-[-0.015em] text-foreground text-xl mb-3">{c.title}</h3>
                 <p className="font-sans text-muted-foreground leading-relaxed text-sm mb-2">{c.p1}</p>
