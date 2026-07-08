@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
@@ -29,6 +29,16 @@ export default function Header() {
     })
     if (y > ENTER) setMenuOpen((o) => (o ? false : o))
   })
+
+  // The Header lives in the layout and persists across navigation, so its
+  // condensed state (and the browser's smooth scroll) can carry into the next
+  // page and leave the bar floating a few px down. On every route change, snap
+  // to the very top instantly and reset the bar to its expanded state.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    setCondensed(false)
+    setMenuOpen(false)
+  }, [pathname])
 
   const navLinks = [
     { href: '/', label: t.nav.home },
