@@ -65,7 +65,7 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      <section className="doc-grid border-t border-border bg-background">
+      <section className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
@@ -122,11 +122,11 @@ export default function ContactPage() {
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{c.infoTitle}</div>
                 {dlines.map((l) => (
-                  <div key={l.label} className="spec-row border-b border-border/60">
+                  <div key={l.label} className="spec-row">
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground shrink-0">{l.label}</span>
                     <span className="lead-dots" />
                     {l.href ? (
-                      <a href={l.href} className="val font-mono text-[12px] text-foreground underline decoration-1 decoration-muted-foreground/40 underline-offset-[3px] hover:text-brand-600 hover:decoration-brand-600 transition-colors">{l.value}</a>
+                      <a href={l.href} className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors">{l.value}</a>
                     ) : (
                       <span className="val font-mono text-[12px] text-right">{l.value}</span>
                     )}

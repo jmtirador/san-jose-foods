@@ -24,7 +24,7 @@ function SpecSection({
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
 }) {
   return (
-    <section className="doc-grid border-t border-border">
+    <section className="border-t border-border">
       {/* Document section header */}
       <div className="section-bar relative">
         <CropMarks />
@@ -56,7 +56,7 @@ function SpecSection({
                 href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/cut spec-row border-b border-border/70"
+                className="group/cut spec-row"
               >
                 <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground transition-colors">{cut}</span>
                 <span className="lead-dots" />

@@ -63,7 +63,7 @@ export default function Footer() {
               {t.contact.infoTitle}
             </div>
             {lines.map((l) => (
-              <div key={l.label} className="spec-row border-b border-border/60">
+              <div key={l.label} className="spec-row">
                 <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground shrink-0">{l.label}</span>
                 <span className="lead-dots" />
                 {l.href ? (
@@ -71,7 +71,7 @@ export default function Footer() {
                     href={l.href}
                     target={l.href.startsWith('http') ? '_blank' : undefined}
                     rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="val font-mono text-[12px] text-foreground underline decoration-1 decoration-muted-foreground/40 underline-offset-[3px] hover:text-brand-600 hover:decoration-brand-600 transition-colors"
+                    className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors"
                   >
                     {l.value}
                   </a>
