@@ -232,6 +232,8 @@ export const translations = {
       serviceDesc: 'Border-side operations route shipments into Mexico through Reynosa, Nuevo Laredo, and Matamoros.',
       hoursTitle: 'Availability',
       hours: 'Commercial response: 24/7 (WhatsApp & phone)\nOffice hours: Monday to Friday',
+      errRequired: 'This field is required',
+      errEmail: 'Enter a valid email address',
     },
   },
 
@@ -466,6 +468,8 @@ export const translations = {
       serviceDesc: 'Las operaciones fronterizas encaminan los embarques hacia México por Reynosa, Nuevo Laredo y Matamoros.',
       hoursTitle: 'Disponibilidad',
       hours: 'Respuesta comercial: 24/7 (WhatsApp y teléfono)\nHorario de oficina: Lunes a Viernes',
+      errRequired: 'Este campo es obligatorio',
+      errEmail: 'Ingresa un correo válido',
     },
   },
 } as const
