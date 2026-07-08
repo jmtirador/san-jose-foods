@@ -232,13 +232,12 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Faint technical graph paper — reads as a spec / engineering document, not
-     decorative texture. Kept near-invisible; structure, not ornament. */
+  /* Faint vertical column rules — a spec-sheet ledger texture. Vertical ONLY, so the
+     lines run perpendicular to the horizontal dotted leaders and never blend with them
+     (the old horizontal grid lines ran parallel to the leaders and fought them). */
   .doc-grid {
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 100%;
   }
 
   /* Registration / crop marks — the print-proof signature device. Each is an

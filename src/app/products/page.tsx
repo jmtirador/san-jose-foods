@@ -24,7 +24,7 @@ function SpecSection({
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
 }) {
   return (
-    <section className="border-t border-border">
+    <section className="doc-grid border-t border-border">
       {/* Document section header */}
       <div className="section-bar relative">
         <CropMarks />

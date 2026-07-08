@@ -141,8 +141,8 @@ export default function HomePage() {
       <Marquee items={h.ticker} />
 
       {/* ── KEY FIGURES — ledger: label block, dotted leader, right-aligned count-up numeral.
-             No grid behind and no per-row separator (the leader is the only line per row). ── */}
-      <section className="py-24 bg-background">
+             One line per row (the leader), no per-row separator. ── */}
+      <section className="doc-grid py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="section-bar relative">
             <CropMarks />

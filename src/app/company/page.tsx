@@ -50,7 +50,7 @@ export default function CompanyPage() {
       </section>
 
       {/* SS01 — Who We Are + Operations manifest */}
-      <section className="border-t border-border">
+      <section className="doc-grid border-t border-border">
         <div className="section-bar relative">
           <CropMarks />
           <span className="label flex items-baseline gap-3"><span className="doc-index">§01</span> {a.storyTitle}</span>
