@@ -95,7 +95,7 @@ export default function ContactPage() {
                 <span className="doc-index">RFQ</span>
                 <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>
               </div>
-              <p className="font-sans text-muted-foreground text-sm mb-7">{c.formNote}</p>
+              <p className="font-sans text-muted-foreground text-[15px] leading-relaxed mb-7">{c.formNote}</p>
 
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -167,13 +167,13 @@ export default function ContactPage() {
 
               <div className="border-t border-border pt-5">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600 mb-2">{c.serviceTitle}</div>
-                <p className="font-sans text-muted-foreground text-sm leading-relaxed">{c.serviceDesc}</p>
+                <p className="font-sans text-muted-foreground text-[15px] leading-relaxed">{c.serviceDesc}</p>
               </div>
 
               <div className="border-t border-border pt-5">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">{c.hoursTitle}</div>
                 {c.hours.split('\n').map((line) => (
-                  <p key={line} className="font-sans text-muted-foreground text-sm">{line}</p>
+                  <p key={line} className="font-sans text-muted-foreground text-[15px] leading-relaxed">{line}</p>
                 ))}
               </div>
             </div>

@@ -42,8 +42,8 @@ function ProductCard({
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
         {/* Flat stamped index — no glass/backdrop-blur */}
         <div className="absolute top-0 right-0 z-10 flex items-center gap-2 bg-background px-3 py-1.5 border-l border-b border-border">
-          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-foreground font-semibold">{category}</span>
-          <span className="font-mono text-[9px] tracking-[0.2em] text-brand-600 font-bold tabular-nums">0{index}</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground font-semibold">{category}</span>
+          <span className="font-mono text-[10px] tracking-[0.2em] text-brand-600 font-bold tabular-nums">0{index}</span>
         </div>
       </div>
       <div className="p-6 border-t border-border">
@@ -210,7 +210,7 @@ export default function HomePage() {
             ))}
           </motion.div>
 
-          <p className="font-sans text-muted-foreground text-sm mt-8 max-w-lg leading-relaxed">{h.productsSub}</p>
+          <p className="font-sans text-muted-foreground text-[15px] mt-8 max-w-lg leading-relaxed">{h.productsSub}</p>
         </div>
       </section>
 

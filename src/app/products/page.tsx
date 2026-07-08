@@ -47,7 +47,7 @@ function SpecSection({
 
         {/* Cut table — the dominant column */}
         <div>
-          <p className="font-sans text-muted-foreground leading-relaxed text-sm mb-8 max-w-2xl">{desc}</p>
+          <p className="font-sans text-muted-foreground leading-relaxed text-[15px] mb-8 max-w-2xl">{desc}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 bg-background">
             {cuts.map((cut) => (

@@ -115,8 +115,8 @@ export default function CompanyPage() {
               <div>
                 <h3 className="font-display font-medium tracking-[-0.015em] text-foreground text-xl mb-4">{c.title}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-w-4xl">
-                  <p className="font-sans text-muted-foreground leading-relaxed text-sm">{c.p1}</p>
-                  <p className="font-sans text-muted-foreground leading-relaxed text-sm">{c.p2}</p>
+                  <p className="font-sans text-muted-foreground leading-relaxed text-[15px]">{c.p1}</p>
+                  <p className="font-sans text-muted-foreground leading-relaxed text-[15px]">{c.p2}</p>
                 </div>
               </div>
             </div>
@@ -135,12 +135,12 @@ export default function CompanyPage() {
           {reference.map((r) => (
             <div key={r.title}>
               <h3 className="font-display font-medium tracking-[-0.02em] text-foreground text-2xl mb-3">{r.title}</h3>
-              <p className="font-sans text-muted-foreground leading-relaxed text-sm mb-6 max-w-md">{r.sub}</p>
+              <p className="font-sans text-muted-foreground leading-relaxed text-[15px] mb-6 max-w-md">{r.sub}</p>
               <div>
                 {r.points.map((pt, i) => (
                   <div key={pt} className="flex items-baseline gap-4 py-2.5 border-b border-border/60">
                     <span className="doc-index text-[10px] shrink-0 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="font-sans text-sm text-muted-foreground">{pt}</span>
+                    <span className="font-sans text-[15px] leading-relaxed text-muted-foreground">{pt}</span>
                   </div>
                 ))}
               </div>
