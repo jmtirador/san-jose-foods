@@ -26,7 +26,7 @@ export const translations = {
       heroSub: 'A trusted commercial link between packing facilities in the United States, Canada, and Brazil, and the Mexican market, with customized volume, quality, and packaging.',
       heroCta: 'Request a Quote',
       heroSubCta: 'Learn About Our Operations',
-      heroFig: 'Fig. 01 · Sourced product',
+      heroFig: 'Ref · Sourced product',
       heroWaMessage: 'Hi, I would like information about your meat supply and a quote.',
       ticker: [
         'USDA · CFIA · SIF Inspected',
@@ -189,7 +189,7 @@ export const translations = {
       s4: 'Reference',
       s1Meta: 'Hidalgo, TX · United States',
       positioning: 'Positioning',
-      figOps: 'Fig. 01 · Operations',
+      figOps: 'Ref · Operations',
       opsTitle: 'Operations',
       ops: [
         { k: 'Origins', v: 'US · Canada · Brazil' },
@@ -260,7 +260,7 @@ export const translations = {
       heroSub: 'Enlace comercial confiable entre empacadoras de Estados Unidos, Canadá y Brasil, y el mercado mexicano, con volumen, calidad y empaque personalizados.',
       heroCta: 'Solicitar Cotización',
       heroSubCta: 'Conozca Nuestras Operaciones',
-      heroFig: 'Fig. 01 · Producto de origen',
+      heroFig: 'Ref · Producto de origen',
       heroWaMessage: 'Hola, quiero información sobre su suministro de carne y una cotización.',
       ticker: [
         'Inspección USDA · CFIA · SIF',
@@ -423,7 +423,7 @@ export const translations = {
       s4: 'Referencia',
       s1Meta: 'Hidalgo, TX · Estados Unidos',
       positioning: 'Posicionamiento',
-      figOps: 'Fig. 01 · Operaciones',
+      figOps: 'Ref · Operaciones',
       opsTitle: 'Operaciones',
       ops: [
         { k: 'Orígenes', v: 'EE.UU. · Canadá · Brasil' },

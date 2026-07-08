@@ -137,3 +137,4 @@ The site reads like a **trade document / spec sheet**, not a marketing site: mon
 - **Every `.btn-*` carries the full state set** (hover, active-pressed, focus-visible ring, disabled). Press is a color shift, not a lift.
 - **Error red is hue-shifted** (`--destructive` at hue ~33) so form errors read as their own signal, distinct from brand red (hue 23.5), the site's all-purpose emphasis color.
 - **Secondary product cards (pork/chicken) use a compact footer** (title + Spanish flourish + CTA, no description paragraph) so the caption fits the 280px grid row; the beef hero keeps the full caption. The Spanish flourish stays visible on every card.
+- **Stock/reference imagery gets a `Ref ·` caption, never a `Fig. NN` documentary index.** `Fig. NN` numbering reads as a catalogued photo of SJF's own facility, so representative stock (the company ops photo, the hero sourced-product shot) carries a `Ref ·` marker until real SJF photography replaces it.
