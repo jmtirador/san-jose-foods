@@ -33,7 +33,7 @@ export default function CompanyPage() {
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
+          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
         >
           <div className="flex items-start justify-between gap-4 mb-8">
             <div>
