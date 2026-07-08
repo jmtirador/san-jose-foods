@@ -123,7 +123,7 @@ The site reads like a **trade document / spec sheet**, not a marketing site: mon
 ## What's been deliberately decided (don't undo without asking)
 
 - **Serif italic (`.flourish`) is for the Spanish heritage flourishes ONLY** (e.g. `Res de exportación`), never a decorative accent on an English headline. The hero is all Geist with one upright red accent *word* (`Mexico`). A serif-italic accent word inside a sans headline is the 2026 template tell; reserving the italic for the Spanish register keeps it meaningful.
-- **The §01 stats are a 3-column whitespace triptych** (giant red numeral, mono unit, Spanish flourish; `USDA · CFIA · SIF` folded under the `3`). No dotted leaders, no per-row rules, no `doc-grid` behind the numbers, no count-up. A few hero numbers get separated by whitespace, not lines. Supersedes every earlier stats treatment (centered band, then leader ledger). Dotted leaders live only on the multi-row spec tables that earn them (Products cuts, Company ops, footer ledger).
+- **The §01 stats are a left-aligned ledger** (`No. 0X` marker, label block with Spanish flourish + one-line desc, dotted leader, right-aligned red numeral with a count-up, unit column). But NO `doc-grid` behind the numbers and NO per-row solid separator: the dotted leader is the only line per row. Rule for the whole site: dotted leaders live only on multi-row value tables that earn them (this ledger, Products cut tables, Company ops table, footer/contact ledgers), each row gets ONE line not two (leader OR separator, not both), and the graph grid never sits behind a leader table (it fights the dotted lines).
 - **Neutrals are warm paper tones** (hue ~52), not the stock stone preset.
 - **Default theme:** dark.
 - **No ghost decorative text behind CTAs.** "Carnicería" and "Pricing" ghosts were removed. Don't reintroduce.
@@ -131,7 +131,7 @@ The site reads like a **trade document / spec sheet**, not a marketing site: mon
 - **CTA h2 is upright, not italic.** Geist italic doesn't carry the heritage feel.
 - **The hero "Across Borders" line is `font-medium`** like the rest of the headline — it had a leftover `font-bold` override that was bolder than the other lines. Stays at medium.
 - **Product cards use asymmetric grid** (beef hero spans 2 cols × 2 rows, pork + chicken stack on right). Don't flatten back to 3 equal columns.
-- **Company §02 is a single large mandate statement**, not a Mission/Vision two-column grid (a template AI-tell that left a dead band). Capability items (§03) are separated by whitespace, not rules, with big baseline-aligned numbers.
+- **Company §02 is the two-column `01 / Mission` · `02 / Vision` mandate.** §03 capability numbers are vertically centered against their heading+text (`lg:items-center`) and the capability body runs in two columns so it fills the width instead of hugging the left edge.
 - **Real logo mark is integrated** via `SjfMark` (`src/components/SjfMark.tsx`): the two-tone red "A" peak, extracted from the `branding-san-jose` vector. It sits left of the wordmark in the nav, in the footer masthead, and as the favicon (white mark on the brand-red chip). Supersedes the text-only wordmark.
 - **Section dividers use the `--rule` token** (border mixed ~78% toward foreground), not plain `border-border`, so they out-read the faint `doc-grid` graph paper in both themes. The grid stays a whisper; structure lines stay legible.
 - **Every `.btn-*` carries the full state set** (hover, active-pressed, focus-visible ring, disabled). Press is a color shift, not a lift.
