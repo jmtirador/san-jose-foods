@@ -218,7 +218,7 @@
   }
   .spec-row .lead-dots {
     @apply flex-1 self-end mb-[3px] border-b border-dotted;
-    border-color: color-mix(in oklab, var(--border) 85%, var(--foreground));
+    border-color: color-mix(in oklab, var(--border) 60%, var(--foreground));
   }
   .spec-row .val {
     font-variant-numeric: tabular-nums;
