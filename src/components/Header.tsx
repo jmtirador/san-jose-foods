@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { SjfMark } from '@/components/SjfMark'
 
 // Hysteresis dead-zone so micro-scrolls near the boundary don't flicker the morph.
 const ENTER = 90
@@ -69,7 +70,7 @@ export default function Header() {
   // never teleport at animation end. Structure stays identical in both states.
   const morphTransition = reduce
     ? undefined
-    : 'max-width 0.5s cubic-bezier(0.4,0,0.2,1), margin-top 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1), border-radius 0.5s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
+    : 'max-width 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1), border-radius 0.5s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
 
   return (
     <header className="sticky top-0 z-50 h-[76px]">
@@ -81,21 +82,24 @@ export default function Header() {
         style={{ opacity: condensed ? 0 : 1, borderColor: 'var(--border)' }}
       />
 
-      <div className="absolute inset-x-0 top-0 flex justify-center">
+      <div className="absolute inset-0 flex items-center justify-center">
         <div
           className={`flex h-[68px] w-full items-center justify-between gap-6 border ${
-            condensed ? 'max-w-6xl mt-2 rounded-xl border-border bg-card px-6 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)]' : 'max-w-7xl mt-0 rounded-none border-transparent bg-transparent px-6 sm:px-10'
+            condensed ? 'max-w-6xl rounded-xl border-border bg-card px-6 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)]' : 'max-w-7xl rounded-none border-transparent bg-transparent px-6 sm:px-10'
           }`}
           style={{ transition: morphTransition }}
         >
           {/* Wordmark + descriptor — constant structure (no collapse) so nothing
               reflows the logo mid-morph. */}
-          <Link href="/" className="flex flex-col justify-center flex-shrink-0 group">
-            <span className="text-foreground font-medium leading-none tracking-tight font-display text-[1.15rem]">
-              San&nbsp;Jose&nbsp;Foods
-            </span>
-            <span className="mt-1 font-mono text-[9px] font-medium tracking-[0.26em] uppercase text-muted-foreground whitespace-nowrap">
-              <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
+          <Link href="/" className="flex items-center gap-4 flex-shrink-0 group">
+            <SjfMark className="h-8 w-auto" />
+            <span className="flex flex-col justify-center">
+              <span className="text-foreground font-medium leading-none tracking-tight font-display text-[1.15rem]">
+                San&nbsp;Jose&nbsp;Foods
+              </span>
+              <span className="mt-2 font-mono text-[9px] font-medium tracking-[0.26em] uppercase text-muted-foreground whitespace-nowrap">
+                <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
+              </span>
             </span>
           </Link>
 

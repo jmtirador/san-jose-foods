@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
+import { SjfMark } from '@/components/SjfMark'
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -39,11 +40,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 py-14">
 
           <div>
-            <div className="text-foreground font-medium leading-tight font-display tracking-tight" style={{ fontSize: '1.4rem' }}>
-              San Jose Foods
-            </div>
-            <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="text-primary">SJF</span> · International Meat Trade · Hidalgo, TX
+            <div className="flex items-center gap-3">
+              <SjfMark className="h-10 w-auto shrink-0" />
+              <div>
+                <div className="text-foreground font-medium leading-tight font-display tracking-tight" style={{ fontSize: '1.4rem' }}>
+                  San Jose Foods
+                </div>
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <span className="text-primary">SJF</span> · International Meat Trade · Hidalgo, TX
+                </div>
+              </div>
             </div>
             <p className="mt-6 font-sans text-sm leading-relaxed text-muted-foreground max-w-md">{t.footer.tagline}</p>
             <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -65,7 +71,7 @@ export default function Footer() {
                     href={l.href}
                     target={l.href.startsWith('http') ? '_blank' : undefined}
                     rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors"
+                    className="val font-mono text-[12px] text-foreground underline decoration-1 decoration-muted-foreground/40 underline-offset-[3px] hover:text-brand-600 hover:decoration-brand-600 transition-colors"
                   >
                     {l.value}
                   </a>
