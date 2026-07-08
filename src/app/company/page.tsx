@@ -71,7 +71,7 @@ export default function CompanyPage() {
               <Image src="https://images.unsplash.com/photo-1560166444-441876015a70?w=900&q=80" alt="Meat processing operations" fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
             </div>
             <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">{co.figOps}</p>
-            <div className="mt-8">
+            <div className="mt-8 bg-background">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{co.opsTitle}</div>
               {co.ops.map((row) => (
                 <div key={row.k} className="spec-row">

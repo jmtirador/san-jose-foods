@@ -119,7 +119,7 @@ export default function ContactPage() {
 
             {/* Ledger rail — ruled sections, no rounded cards */}
             <div className="lg:col-span-2 space-y-10">
-              <div>
+              <div className="bg-background">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{c.infoTitle}</div>
                 {dlines.map((l) => (
                   <div key={l.label} className="spec-row">
