@@ -112,7 +112,7 @@ export default function ContactPage() {
                 </div>
                 <button type="submit" className="btn-primary w-full justify-center font-sans">
                   {c.submit}
-                  <WhatsAppGlyph className="w-4 h-4" />
+                  <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
                 </button>
               </form>
             </div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground shrink-0">{l.label}</span>
                     <span className="lead-dots" />
                     {l.href ? (
-                      <a href={l.href} className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors">{l.value}</a>
+                      <a href={l.href} className="val font-mono text-[12px] text-foreground underline decoration-1 decoration-muted-foreground/40 underline-offset-[3px] hover:text-brand-600 hover:decoration-brand-600 transition-colors">{l.value}</a>
                     ) : (
                       <span className="val font-mono text-[12px] text-right">{l.value}</span>
                     )}
@@ -139,7 +139,7 @@ export default function ContactPage() {
                 target="_blank" rel="noopener noreferrer"
                 className="btn-outline-brand font-sans text-sm w-full justify-center"
               >
-                <WhatsAppGlyph className="w-4 h-4" />
+                <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
                 {c.waBtn}
               </a>
 
