@@ -53,7 +53,7 @@ function SpecSection({
             {cuts.map((cut) => (
               <a
                 key={cut}
-                href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
+                href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/cut spec-row spec-row-link"

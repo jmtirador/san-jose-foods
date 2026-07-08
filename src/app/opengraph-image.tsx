@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 // Branded link-unfurl card. The funnel is links pasted into WhatsApp, so every
 // shared page needs a legit, on-brand preview instead of a broken-looking blank.
-export const alt = 'San Jose Foods — International Meat Trade'
+export const alt = 'San Jose Foods · International Meat Trade'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
