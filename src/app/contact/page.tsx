@@ -122,10 +122,15 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="interest" className={labelClass}>{c.interest}</label>
-                  <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={inputClass}>
-                    <option value="">{c.interestPh}</option>
-                    {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
-                  </select>
+                  <div className="relative">
+                    <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={`${inputClass} appearance-none pr-10`}>
+                      <option value="">{c.interestPh}</option>
+                      {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                    </select>
+                    <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                      <path d="M2.5 4.5 6 8l3.5-3.5" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="message" className={labelClass}>{c.message}<span className="text-primary"> *</span></label>
