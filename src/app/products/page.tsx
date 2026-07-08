@@ -56,12 +56,13 @@ function SpecSection({
                 href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/cut spec-row"
+                className="group/cut spec-row spec-row-link"
               >
-                <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground transition-colors">{cut}</span>
+                <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground group-active/cut:text-foreground transition-colors">{cut}</span>
                 <span className="lead-dots" />
-                <span className="val font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground group-hover/cut:text-brand-600 transition-colors whitespace-nowrap">
-                  {quote} →
+                <span className="val inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground group-hover/cut:text-brand-600 group-active/cut:text-brand-600 transition-colors whitespace-nowrap">
+                  <WhatsAppGlyph className="w-3 h-3" />
+                  {quote}
                 </span>
               </a>
             ))}
