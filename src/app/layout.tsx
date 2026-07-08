@@ -30,7 +30,7 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   metadataBase: new URL('https://san-jose-foods.vercel.app'),
   title: {
-    default: 'San Jose Foods — International Meat Trade | Comercio Internacional de Carnes',
+    default: 'San Jose Foods · International Meat Trade | Comercio Internacional de Carnes',
     template: '%s · San Jose Foods',
   },
   description:
@@ -44,13 +44,13 @@ export const metadata: Metadata = {
     siteName: 'San Jose Foods',
     locale: 'es_MX',
     alternateLocale: 'en_US',
-    title: 'San Jose Foods — Comercio Internacional de Carnes',
+    title: 'San Jose Foods · Comercio Internacional de Carnes',
     description:
       'Res, cerdo y pollo de mayoreo desde plantas USDA, CFIA y SIF en EE.UU., Canadá y Brasil para el mercado mexicano. Hidalgo, TX · 24/7.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'San Jose Foods — Comercio Internacional de Carnes',
+    title: 'San Jose Foods · Comercio Internacional de Carnes',
     description:
       'Res, cerdo y pollo de mayoreo · EE.UU. · Canadá · Brasil → México · USDA · CFIA · SIF · Hidalgo, TX.',
   },

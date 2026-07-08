@@ -225,6 +225,13 @@
     @apply text-foreground text-right;
   }
 
+  /* Interactive spec row: the whole row is a link (the Products cut list). A row-plate
+     tint on hover/press plus a >=44px tap target, per Affordances + Feedback. The tint
+     is a color shift, never a lift. Non-link spec rows (ledgers, ops) stay inert. */
+  .spec-row-link {
+    @apply px-2 -mx-2 py-3 rounded-sm transition-colors hover:bg-accent active:bg-accent;
+  }
+
   /* Mono document stamp — a restrained revision / page marker (one per page). */
   .doc-stamp {
     font-family: var(--font-mono);

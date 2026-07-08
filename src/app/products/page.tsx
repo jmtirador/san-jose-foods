@@ -47,21 +47,22 @@ function SpecSection({
 
         {/* Cut table — the dominant column */}
         <div>
-          <p className="font-sans text-muted-foreground leading-relaxed text-sm mb-8 max-w-2xl">{desc}</p>
+          <p className="font-sans text-muted-foreground leading-relaxed text-[15px] mb-8 max-w-2xl">{desc}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 bg-background">
             {cuts.map((cut) => (
               <a
                 key={cut}
-                href={waLink(`${waPrefix} ${title} — ${cut}. ${waVolume}`)}
+                href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/cut spec-row"
+                className="group/cut spec-row spec-row-link"
               >
-                <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground transition-colors">{cut}</span>
+                <span className="font-sans text-sm text-foreground/90 group-hover/cut:text-foreground group-active/cut:text-foreground transition-colors">{cut}</span>
                 <span className="lead-dots" />
-                <span className="val font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground group-hover/cut:text-brand-600 transition-colors whitespace-nowrap">
-                  {quote} →
+                <span className="val inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground group-hover/cut:text-brand-600 group-active/cut:text-brand-600 transition-colors whitespace-nowrap">
+                  <WhatsAppGlyph className="w-3 h-3" />
+                  {quote}
                 </span>
               </a>
             ))}
@@ -95,14 +96,14 @@ export default function ProductsPage() {
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
+          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
         >
           <div className="flex items-start justify-between gap-4 mb-8">
             <div>
               <div className="w-10 h-px bg-brand-600 mb-4" />
               <span className="eyebrow text-muted-foreground">{p.eyebrow}</span>
             </div>
-            <span className="doc-stamp hidden sm:block mt-1">SJF-CAT · REV 2026.07 · MX</span>
+            <span className="doc-stamp hidden sm:block mt-1">SJF-CAT · REV 2026.07</span>
           </div>
           <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {p.pageTitle}

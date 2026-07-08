@@ -8,7 +8,7 @@ import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
 import { CropMarks } from '@/components/CropMarks'
 
 const inputClass =
-  'w-full bg-background border border-border rounded-sm px-4 py-3 text-sm font-sans text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors [&:user-invalid]:border-destructive [&:user-invalid]:ring-1 [&:user-invalid]:ring-destructive'
+  'w-full bg-background border border-border rounded-sm px-4 py-3 text-sm font-sans text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive'
 
 const labelClass = 'block font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-[0.15em] mb-2'
 
@@ -17,13 +17,32 @@ export default function ContactPage() {
   const c = t.contact
 
   const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', interest: '', message: '' })
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors((prev) => { const next = { ...prev }; delete next[name]; return next })
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Validate in JS so the messages honor the site's EN/ES toggle. Native
+    // validation bubbles follow the browser's locale, not the language switch.
+    const next: Record<string, string> = {}
+    if (!form.name.trim()) next.name = c.errRequired
+    if (!form.email.trim()) next.email = c.errRequired
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = c.errEmail
+    if (!form.message.trim()) next.message = c.errRequired
+    if (Object.keys(next).length) {
+      setErrors(next)
+      const first = (['name', 'email', 'message'] as const).find((f) => next[f])
+      if (first) document.getElementById(first)?.focus()
+      return
+    }
+    setErrors({})
+
     const lines = [
       c.waIntro, '',
       `${c.name}: ${form.name}`,
@@ -49,7 +68,7 @@ export default function ContactPage() {
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-20 pb-12"
+          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
         >
           <div className="flex items-start justify-between gap-4 mb-8">
             <div>
@@ -76,13 +95,14 @@ export default function ContactPage() {
                 <span className="doc-index">RFQ</span>
                 <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>
               </div>
-              <p className="font-sans text-muted-foreground text-sm mb-7">{c.formNote}</p>
+              <p className="font-sans text-muted-foreground text-[15px] leading-relaxed mb-7">{c.formNote}</p>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className={labelClass}>{c.name}<span className="text-primary"> *</span></label>
-                    <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} />
+                    <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+                    {errors.name && <p id="name-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="company" className={labelClass}>{c.company}</label>
@@ -92,7 +112,8 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="email" className={labelClass}>{c.email}<span className="text-primary"> *</span></label>
-                    <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} />
+                    <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
+                    {errors.email && <p id="email-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.email}</p>}
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>{c.phone}</label>
@@ -101,14 +122,20 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="interest" className={labelClass}>{c.interest}</label>
-                  <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={inputClass}>
-                    <option value="">{c.interestPh}</option>
-                    {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
-                  </select>
+                  <div className="relative">
+                    <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={`${inputClass} appearance-none pr-10`}>
+                      <option value="">{c.interestPh}</option>
+                      {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                    </select>
+                    <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                      <path d="M2.5 4.5 6 8l3.5-3.5" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="message" className={labelClass}>{c.message}<span className="text-primary"> *</span></label>
-                  <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} />
+                  <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} />
+                  {errors.message && <p id="message-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.message}</p>}
                 </div>
                 <button type="submit" className="btn-primary w-full justify-center font-sans">
                   {c.submit}
@@ -145,13 +172,13 @@ export default function ContactPage() {
 
               <div className="border-t border-border pt-5">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600 mb-2">{c.serviceTitle}</div>
-                <p className="font-sans text-muted-foreground text-sm leading-relaxed">{c.serviceDesc}</p>
+                <p className="font-sans text-muted-foreground text-[15px] leading-relaxed">{c.serviceDesc}</p>
               </div>
 
               <div className="border-t border-border pt-5">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">{c.hoursTitle}</div>
                 {c.hours.split('\n').map((line) => (
-                  <p key={line} className="font-sans text-muted-foreground text-sm">{line}</p>
+                  <p key={line} className="font-sans text-muted-foreground text-[15px] leading-relaxed">{line}</p>
                 ))}
               </div>
             </div>

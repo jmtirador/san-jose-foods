@@ -42,8 +42,8 @@ function ProductCard({
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
         {/* Flat stamped index — no glass/backdrop-blur */}
         <div className="absolute top-0 right-0 z-10 flex items-center gap-2 bg-background px-3 py-1.5 border-l border-b border-border">
-          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-foreground font-semibold">{category}</span>
-          <span className="font-mono text-[9px] tracking-[0.2em] text-brand-600 font-bold tabular-nums">0{index}</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground font-semibold">{category}</span>
+          <span className="font-mono text-[10px] tracking-[0.2em] text-brand-600 font-bold tabular-nums">0{index}</span>
         </div>
       </div>
       <div className="p-6 border-t border-border">
@@ -146,7 +146,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="section-bar relative">
             <CropMarks />
-            <span className="label">§01 — {h.statsEyebrow}</span>
+            <span className="label flex items-baseline gap-3"><span className="doc-index">§01</span> {h.statsEyebrow}</span>
             <span className="meta">SJF · REV 2026.07</span>
           </div>
           <motion.div
@@ -182,16 +182,15 @@ export default function HomePage() {
       {/* ── PRODUCTS — preview, de-decorated ─────────────────── */}
       <section className="doc-grid py-24 bg-background border-t border-rule">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
+          <div className="section-bar relative mb-12">
+            <CropMarks />
+            <span className="label flex items-baseline gap-3"><span className="doc-index">§02</span> {h.productsEyebrow}</span>
+            <span className="meta">SJF · REV 2026.07</span>
+          </div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-            <div>
-              <div className="mb-5">
-                <div className="w-10 h-px bg-brand-600 mb-4" />
-                <span className="eyebrow text-muted-foreground">§02 — {h.productsEyebrow}</span>
-              </div>
-              <h2 className="font-display font-medium tracking-[-0.04em] text-foreground" style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
-                {h.productsTitle}
-              </h2>
-            </div>
+            <h2 className="font-display font-medium tracking-[-0.04em] text-foreground" style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
+              {h.productsTitle}
+            </h2>
             <Link href="/products" className="btn-outline-brand font-sans text-xs shrink-0">{h.viewProducts}</Link>
           </div>
 
@@ -211,7 +210,7 @@ export default function HomePage() {
             ))}
           </motion.div>
 
-          <p className="font-sans text-muted-foreground text-sm mt-8 max-w-lg leading-relaxed">{h.productsSub}</p>
+          <p className="font-sans text-muted-foreground text-[15px] mt-8 max-w-lg leading-relaxed">{h.productsSub}</p>
         </div>
       </section>
 

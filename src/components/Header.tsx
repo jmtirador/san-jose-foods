@@ -107,7 +107,7 @@ export default function Header() {
               <span className="text-foreground font-medium leading-none tracking-tight font-display text-[1.15rem]">
                 San&nbsp;Jose&nbsp;Foods
               </span>
-              <span className="mt-2 font-mono text-[9px] font-medium tracking-[0.26em] uppercase text-muted-foreground whitespace-nowrap">
+              <span className="mt-2 font-mono text-[10px] font-medium tracking-[0.26em] uppercase text-muted-foreground whitespace-nowrap">
                 <span className="text-primary">SJF</span>&nbsp;· International Meat Trade
               </span>
             </span>
