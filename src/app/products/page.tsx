@@ -28,7 +28,7 @@ function SpecSection({
   cuts: readonly string[]; imageSrc: string; hs: string; fig: string
   colCut: string; colQuote: string; hint: string
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
-  selected: Selected; onToggle: (key: string, cut: string) => void
+  selected: Selected; onToggle: (key: string) => void
 }) {
   return (
     <section id={id} className="scroll-mt-[76px]">
@@ -65,7 +65,10 @@ function SpecSection({
 
             <div className="sm:grid sm:grid-cols-2 sm:gap-x-10">
               {cuts.map((cut, i) => {
-                const key = `${id}:${cut}`
+                // Keyed by protein + index, not by cut name: the name is localized
+                // and swaps text on an EN/ES toggle, which would otherwise strand
+                // a ticked row's state under the old-language key.
+                const key = `${id}:${i}`
                 return (
                   <div key={cut} className="grid grid-cols-[36px_1fr] items-stretch gap-x-2 border-b border-border">
                     {/* Padded label so the 16px box carries a ~44px hit area. Checked
@@ -75,7 +78,7 @@ function SpecSection({
                       <input
                         type="checkbox"
                         checked={!!selected[key]}
-                        onChange={() => onToggle(key, cut)}
+                        onChange={() => onToggle(key)}
                         aria-label={`${colQuote}: ${cut}`}
                         className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
                       />
@@ -121,21 +124,21 @@ export default function ProductsPage() {
   // Manifest: tick cuts across sections, send ONE WhatsApp message shaped like a
   // line-item order. The single-tap row path stays untouched; this is additive.
   const [selected, setSelected] = useState<Selected>({})
-  const [cutNames, setCutNames] = useState<Record<string, string>>({})
 
-  const onToggle = (key: string, cut: string) => {
+  const onToggle = (key: string) => {
     setSelected((prev) => ({ ...prev, [key]: !prev[key] }))
-    setCutNames((prev) => ({ ...prev, [key]: cut }))
   }
 
   const proteinTitles: Record<string, string> = { beef: p.beef.title, pork: p.pork.title, chicken: p.chicken.title }
+  const proteinCuts: Record<string, readonly string[]> = { beef: p.beef.cuts, pork: p.pork.cuts, chicken: p.chicken.cuts }
   const picked = Object.keys(selected).filter((k) => selected[k])
   const count = picked.length
 
   const manifestMessage = () => {
     const lines = picked.map((k, i) => {
-      const [proteinId] = k.split(':')
-      return `${String(i + 1).padStart(2, '0')} ${proteinTitles[proteinId]} · ${cutNames[k]} · ${p.manifestVolume}`
+      const [proteinId, idxStr] = k.split(':')
+      const cutName = proteinCuts[proteinId][Number(idxStr)]
+      return `${String(i + 1).padStart(2, '0')} ${proteinTitles[proteinId]} · ${cutName} · ${p.manifestVolume}`
     })
     return [p.manifestIntro, ...lines, p.manifestDelivery].join('\n')
   }
