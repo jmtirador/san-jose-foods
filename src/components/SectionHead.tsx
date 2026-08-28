@@ -15,7 +15,7 @@ export function SectionHead({
           {index && <span className="doc-index shrink-0">{index}</span>}
           {title}
         </h2>
-        {meta && <span className="meta shrink-0">{meta}</span>}
+        {meta && <span className="meta shrink-0 hidden sm:block">{meta}</span>}
       </div>
       <div className="border-b border-border mt-4" />
     </div>

@@ -46,14 +46,14 @@ export default function CompanyPage() {
       </section>
 
       {/* §01 — Who We Are + Operations ledger */}
-      <section className="border-t border-rule">
+      <section>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
           <SectionHead index="§01" title={a.storyTitle} meta={co.s1Meta} />
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-12 lg:gap-16">
-            <div className="space-y-5 font-serif text-muted-foreground leading-relaxed text-[16px] max-w-xl">
-              <p>{a.storyP1}</p>
-              <p>{a.storyP2}</p>
-              <p className="text-foreground text-lg leading-relaxed pt-2">
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] lg:items-center gap-12 lg:gap-16">
+            <div className="space-y-5 text-muted-foreground leading-relaxed text-[16px] max-w-xl">
+              <p className="font-serif">{a.storyP1}</p>
+              <p className="font-serif">{a.storyP2}</p>
+              <p className="font-serif text-foreground text-lg leading-relaxed pt-2">
                 <span className="doc-index block mb-2">{co.positioning}</span>
                 {a.storyP3}
               </p>
@@ -80,7 +80,7 @@ export default function CompanyPage() {
       </section>
 
       {/* §02 — Mandate */}
-      <section className="border-t border-rule">
+      <section>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
           <SectionHead index="§02" title={co.s2} />
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
@@ -95,7 +95,7 @@ export default function CompanyPage() {
       </section>
 
       {/* §03 — Capabilities */}
-      <section className="border-t border-rule">
+      <section>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14">
           <SectionHead index="§03" title={co.s3} />
         </div>
@@ -116,7 +116,7 @@ export default function CompanyPage() {
       </section>
 
       {/* §04 — Reference */}
-      <section className="border-t border-rule">
+      <section>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
           <SectionHead index="§04" title={co.s4} />
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">

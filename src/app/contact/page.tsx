@@ -106,7 +106,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-muted-foreground"> *</span></label>
+                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-destructive"> *</span></label>
                     <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
                     {errors.name && <p id="name-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.name}</p>}
                   </div>
@@ -117,7 +117,7 @@ export default function ContactPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-muted-foreground"> *</span></label>
+                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-destructive"> *</span></label>
                     <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
                     {errors.email && <p id="email-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.email}</p>}
                   </div>
@@ -139,7 +139,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-muted-foreground"> *</span></label>
+                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-destructive"> *</span></label>
                   <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} />
                   {errors.message && <p id="message-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.message}</p>}
                 </div>
@@ -171,10 +171,13 @@ export default function ContactPage() {
                 ))}
               </div>
 
+              {/* Desktop only: the masthead already gives mobile a quick-chat
+                  shortcut above the form, so this rail copy would be a second,
+                  redundant WhatsApp button in the same mobile scroll. */}
               <a
                 href={waLink(c.waIntro)}
                 target="_blank" rel="noopener noreferrer"
-                className="btn-outline-brand font-sans text-sm w-full justify-center"
+                className="hidden lg:flex btn-outline-brand font-sans text-sm w-full justify-center"
               >
                 <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
                 {c.waBtn}

@@ -19,8 +19,8 @@ function ProductCard({
 }) {
   return (
     <Link href={`/products#${anchor}`} className={`group relative overflow-hidden border border-border bg-card flex flex-col h-full ${className}`}>
-      <div className="relative flex-1 overflow-hidden min-h-[16rem] md:min-h-0">
-        <Image src={imageSrc} alt={title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative bg-muted flex-1 overflow-hidden min-h-[16rem] md:min-h-0">
+        <Image src={imageSrc} alt={title} fill priority={index === 1} sizes="(max-width: 768px) 100vw, 40vw" className="object-cover opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
       </div>
       <div className="p-6 border-t border-border">
         <div className="flex items-baseline gap-3">
@@ -69,7 +69,7 @@ export default function HomePage() {
               initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold text-foreground text-balance leading-[1.02] tracking-[-0.02em]"
+              className="reveal-on-scroll font-display font-semibold text-foreground text-balance leading-[1.02] tracking-[-0.02em]"
               style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4rem)', fontStretch: '87.5%' }}
             >
               {h.heroLine1}<br />
@@ -81,7 +81,7 @@ export default function HomePage() {
               initial={reduce ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="flourish text-muted-foreground text-[16px] mt-5"
+              className="reveal-on-scroll flourish text-muted-foreground text-[16px] mt-5"
             >
               {h.heroCounterpart}
             </motion.p>
@@ -89,13 +89,15 @@ export default function HomePage() {
             {/* The declaration — six ruled rows, pre-printed label left, typed
                 value right. The facts that used to live in a ticker and a stat
                 band, presented the way the trade actually writes them. Rules use
-                the --rule token: this device collapses if the lines go faint. */}
+                the --rule token: this device collapses if the lines go faint.
+                reveal-on-scroll: layout.tsx's noscript override forces opacity:1
+                for it, so a no-JS visitor or crawler still sees the content. */}
             <div className="mt-8 border-t-2 border-foreground">
               {h.declaration.map((row, i) => (
                 <motion.div
                   key={row.k}
                   {...printRow(i)}
-                  className="flex items-baseline justify-between gap-4 py-3 border-b border-rule min-h-[46px]"
+                  className="reveal-on-scroll flex items-baseline justify-between gap-4 py-3 border-b border-rule min-h-[46px]"
                 >
                   <span className="form-label shrink-0">{row.k}</span>
                   <span className="font-mono text-[14px] sm:text-[15px] text-foreground text-right tnum leading-snug">{row.v}</span>
@@ -103,11 +105,12 @@ export default function HomePage() {
               ))}
             </div>
 
+            {/* The conversion CTAs — reveal-on-scroll matters most right here. */}
             <motion.div
               initial={reduce ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 1.0 }}
-              className="mt-8 flex flex-wrap items-center gap-4"
+              className="reveal-on-scroll mt-8 flex flex-wrap items-center gap-4"
             >
               <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
                 {h.heroCta}
@@ -120,7 +123,7 @@ export default function HomePage() {
               initial={reduce ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 1.1 }}
-              className="doc-stamp mt-8"
+              className="reveal-on-scroll doc-stamp mt-8"
             >
               {h.heroDocLine}
             </motion.p>
@@ -161,7 +164,7 @@ export default function HomePage() {
       </section>
 
       {/* ── §02 COMMON QUESTIONS — objection handling before the order desk ── */}
-      <section className="py-20 bg-background border-t border-rule">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="mb-12">
             <SectionHead index="§02" title={h.faqEyebrow} />

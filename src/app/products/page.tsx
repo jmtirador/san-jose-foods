@@ -38,8 +38,11 @@ function SpecSection({
         <div className="mt-10 grid grid-cols-1 lg:grid-cols-[0.8fr_1.35fr] gap-10 lg:gap-14">
           {/* Image plate — hard-edged, consistent side */}
           <div>
-            <div className="relative border border-border overflow-hidden aspect-[4/3] lg:aspect-[4/5]">
-              <Image src={imageSrc} alt={title} fill sizes="(max-width: 1024px) 100vw, 32vw" className="object-cover" />
+            {/* bg-muted behind the fill image: a plate, not a void, while the
+                photo loads (this section's index decides whether it's likely
+                the first paint the visitor sees, so only Beef gets priority). */}
+            <div className="relative bg-muted border border-border overflow-hidden aspect-[4/3] lg:aspect-[4/5]">
+              <Image src={imageSrc} alt={title} fill priority={index === 1} sizes="(max-width: 1024px) 100vw, 32vw" className="object-cover" />
             </div>
             {/* Representative stock carries the Ref marker (site rule) until real
                 SJF photography replaces it. */}
@@ -63,42 +66,51 @@ function SpecSection({
               </div>
             </div>
 
+            {/* Two independent columns, not a shared 2-col grid: a CSS grid auto-flow
+                pairs consecutive cuts into the same row, so a 2-line-wrapped name
+                on one side inflates its unrelated neighbor on the other. Splitting
+                the list in half up front keeps each column's row heights its own. */}
             <div className="sm:grid sm:grid-cols-2 sm:gap-x-10">
-              {cuts.map((cut, i) => {
-                // Keyed by protein + index, not by cut name: the name is localized
-                // and swaps text on an EN/ES toggle, which would otherwise strand
-                // a ticked row's state under the old-language key.
-                const key = `${id}:${i}`
-                return (
-                  <div key={cut} className="grid grid-cols-[36px_1fr] items-stretch gap-x-2 border-b border-border">
-                    {/* Padded label so the 16px box carries a ~44px hit area. Checked
-                        fill is ink, not red: red stays reserved for the two real
-                        conversion actions on this page. */}
-                    <label className="flex items-center justify-start cursor-pointer py-3.5">
-                      <input
-                        type="checkbox"
-                        checked={!!selected[key]}
-                        onChange={() => onToggle(key)}
-                        aria-label={`${colQuote}: ${cut}`}
-                        className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
-                      />
-                    </label>
-                    <a
-                      href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`group/cut flex items-baseline gap-3 py-3.5 px-2 -mx-2 rounded-sm transition-colors hover:bg-accent active:bg-accent ${selected[key] ? 'bg-accent' : ''}`}
-                    >
-                      <span className="font-mono text-[12px] text-muted-foreground tnum">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="font-mono text-[14px] text-foreground flex-1 leading-snug">{cut}</span>
-                      <span className="inline-flex items-center gap-1.5 font-sans text-[12px] font-medium text-muted-foreground group-hover/cut:text-brand-600 group-active/cut:text-brand-600 transition-colors whitespace-nowrap">
-                        <WhatsAppGlyph className="w-3 h-3" />
-                        {quote}
-                      </span>
-                    </a>
-                  </div>
-                )
-              })}
+              {[cuts.slice(0, Math.ceil(cuts.length / 2)), cuts.slice(Math.ceil(cuts.length / 2))].map((column, colIdx) => (
+                <div key={colIdx}>
+                  {column.map((cut, localI) => {
+                    const i = colIdx === 0 ? localI : Math.ceil(cuts.length / 2) + localI
+                    // Keyed by protein + index, not by cut name: the name is localized
+                    // and swaps text on an EN/ES toggle, which would otherwise strand
+                    // a ticked row's state under the old-language key.
+                    const key = `${id}:${i}`
+                    return (
+                      <div key={cut} className="grid grid-cols-[36px_1fr] items-stretch gap-x-2 border-b border-border">
+                        {/* Padded label so the 16px box carries a ~44px hit area. Checked
+                            fill is ink, not red: red stays reserved for the two real
+                            conversion actions on this page. */}
+                        <label className="flex items-center justify-start cursor-pointer py-3.5">
+                          <input
+                            type="checkbox"
+                            checked={!!selected[key]}
+                            onChange={() => onToggle(key)}
+                            aria-label={`${colQuote}: ${cut}`}
+                            className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
+                          />
+                        </label>
+                        <a
+                          href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`group/cut flex items-baseline gap-3 py-3.5 px-2 -mx-2 rounded-sm transition-colors hover:bg-accent active:bg-accent ${selected[key] ? 'bg-accent' : ''}`}
+                        >
+                          <span className="font-mono text-[12px] text-muted-foreground tnum">{String(i + 1).padStart(2, '0')}</span>
+                          <span className="font-mono text-[14px] text-foreground flex-1 leading-snug">{cut}</span>
+                          <span className="inline-flex items-center gap-1.5 font-sans text-[12px] font-medium text-muted-foreground group-hover/cut:text-brand-600 group-active/cut:text-brand-600 transition-colors whitespace-nowrap">
+                            <WhatsAppGlyph className="w-3 h-3" />
+                            {quote}
+                          </span>
+                        </a>
+                      </div>
+                    )
+                  })}
+                </div>
+              ))}
             </div>
 
             <a
@@ -134,12 +146,31 @@ export default function ProductsPage() {
   const picked = Object.keys(selected).filter((k) => selected[k])
   const count = picked.length
 
+  // Cap the outgoing message so a buyer ticking most of the catalog can't build
+  // a wa.me link long enough to get silently truncated by a mobile OS or WhatsApp.
+  const MAX_MANIFEST_LINES = 24
+
   const manifestMessage = () => {
-    const lines = picked.map((k, i) => {
-      const [proteinId, idxStr] = k.split(':')
-      const cutName = proteinCuts[proteinId][Number(idxStr)]
-      return `${String(i + 1).padStart(2, '0')} ${proteinTitles[proteinId]} · ${cutName} · ${p.manifestVolume}`
+    const sorted = [...picked].sort((a, b) => {
+      const [proteinA, idxA] = a.split(':')
+      const [proteinB, idxB] = b.split(':')
+      return proteinA !== proteinB ? proteinA.localeCompare(proteinB) : Number(idxA) - Number(idxB)
     })
+    const capped = sorted.slice(0, MAX_MANIFEST_LINES)
+    const overflow = sorted.length - capped.length
+
+    // Each line uses the cut's OWN catalog number (matching the badge shown next
+    // to it on the page), not a sequential tick-order count — a tick order would
+    // give "Brisket" a different number in the message than the "09" next to it
+    // on screen, and the desk and buyer would end up with two references for one SKU.
+    const lines = capped.map((k) => {
+      const [proteinId, idxStr] = k.split(':')
+      const idx = Number(idxStr)
+      const cutName = proteinCuts[proteinId][idx]
+      const catalogNo = String(idx + 1).padStart(2, '0')
+      return `${proteinTitles[proteinId]} ${catalogNo} · ${cutName} · ${p.manifestVolume}`
+    })
+    if (overflow > 0) lines.push(p.manifestMore.replace('{n}', String(overflow)))
     return [p.manifestIntro, ...lines, p.manifestDelivery].join('\n')
   }
 
@@ -156,7 +187,7 @@ export default function ProductsPage() {
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-4"
+          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
         >
           <div className="flex items-start justify-between gap-4 mb-6">
             <h1 className="font-display font-semibold tracking-[-0.02em] text-foreground" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
@@ -184,11 +215,13 @@ export default function ProductsPage() {
             initial={{ y: 72 }} animate={{ y: 0 }} exit={{ y: 72 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             role="region" aria-live="polite"
-            className="fixed bottom-0 inset-x-0 z-40 bg-foreground text-background border-t border-background/20"
+            className="fixed bottom-0 inset-x-0 z-40 bg-ink text-warm-50 border-t border-warm-50/20"
             style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
           >
-            {/* Ink dock, not red: it can sit over the red CTA band without merging
-                into it, and red stays reserved for the page's standing actions. */}
+            {/* Ink dock, not red (it can sit over the red CTA band without merging
+                into it) and not theme-relative: the foreground/background tokens
+                flip between themes, which would flip this bar's character along
+                with them. The literal ink/warm-50 pair stays one dark bar always. */}
             <div className="max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center justify-between gap-4">
               <span className="font-mono text-[13px] tnum whitespace-nowrap">
                 {count} {count === 1 ? p.manifestLine : p.manifestLines}
@@ -197,14 +230,14 @@ export default function ProductsPage() {
                 <button
                   type="button"
                   onClick={() => setSelected({})}
-                  className="font-sans text-[13px] text-background/70 hover:text-background active:text-background transition-colors underline underline-offset-4 decoration-background/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background rounded-sm"
+                  className="font-sans text-[13px] text-warm-50/70 hover:text-warm-50 active:text-warm-50 transition-colors underline underline-offset-4 decoration-warm-50/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm-50 rounded-sm"
                 >
                   {p.manifestClear}
                 </button>
                 <a
                   href={waLink(manifestMessage())}
                   target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-background text-foreground font-sans font-medium text-[13px] px-4 py-2 rounded-sm hover:bg-accent active:bg-accent transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-foreground"
+                  className="inline-flex items-center gap-2 bg-warm-50 text-ink font-sans font-medium text-[13px] px-4 py-2 rounded-sm hover:bg-warm-100 active:bg-warm-200 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm-50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
                   {p.manifestSend}
