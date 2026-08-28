@@ -21,12 +21,12 @@ type Selected = Record<string, boolean>
 
 function SpecSection({
   id, index, title, counterpart, desc, cuts, imageSrc, hs, fig,
-  colCut, colQuote, getPricing, quote, metaFormats, waPrefix, waVolume,
+  colCut, colQuote, hint, getPricing, quote, metaFormats, waPrefix, waVolume,
   selected, onToggle,
 }: {
   id: string; index: number; title: string; counterpart: string; desc: string
   cuts: readonly string[]; imageSrc: string; hs: string; fig: string
-  colCut: string; colQuote: string
+  colCut: string; colQuote: string; hint: string
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
   selected: Selected; onToggle: (key: string, cut: string) => void
 }) {
@@ -50,7 +50,9 @@ function SpecSection({
           {/* Cut table — the money surface. Ruled market-report rows: number,
               cut name in the DATA voice (it IS the SKU), quote action right. */}
           <div>
-            <p className="font-serif text-muted-foreground leading-relaxed text-[16px] mb-8 max-w-2xl">{desc}</p>
+            <p className="font-serif text-muted-foreground leading-relaxed text-[16px] mb-6 max-w-2xl">{desc}</p>
+            {/* The checkboxes need a reason to exist before the first tick. */}
+            <p className="font-serif text-[13px] text-muted-foreground mb-3">{hint}</p>
 
             <div className="grid grid-cols-[28px_1fr] items-baseline gap-x-3 pb-2 border-b-2 border-foreground">
               <span aria-hidden />
@@ -133,7 +135,7 @@ export default function ProductsPage() {
   }
 
   const shared = {
-    colCut: p.colCut, colQuote: p.colQuote, getPricing: p.getPricing, quote: p.quote,
+    colCut: p.colCut, colQuote: p.colQuote, hint: p.manifestHint, getPricing: p.getPricing, quote: p.quote,
     metaFormats: p.metaFormats, waPrefix: p.waCutPrefix, waVolume: p.waVolume, fig: p.fig,
     selected, onToggle,
   }
