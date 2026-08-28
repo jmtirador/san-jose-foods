@@ -70,7 +70,7 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="reveal-on-scroll font-display font-semibold text-foreground text-balance leading-[1.02] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4rem)', fontStretch: '87.5%' }}
+              style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4rem)' }}
             >
               {h.heroLine1}<br />
               {h.heroLine2}<br />

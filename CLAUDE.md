@@ -19,16 +19,16 @@ Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 - **lucide-react** for icons
 - **`.npmrc` has `legacy-peer-deps=true`** — required for Vercel build (React 19 + ESLint peer-dep conflicts).
 
-## Typography system (Press Series, 2026-08-27 rethink)
+## Typography system (2026-08-27 rethink)
 
-- **Font:** the Press Series (Omnibus-Type, a Google Fonts newspaper type system) — **Saira** (display/UI, variable `wdth` axis) + **Faustina** (reading text + the counterpart-language italic) + **Chivo Mono** (typed values and codes only). Loaded via `next/font/google` in `src/app/layout.tsx`.
-- **Never use** Geist, Geist Mono, Source Serif 4, Inter, DM Sans, or Playfair Display. Migrated away from Geist deliberately — a full site rethink (2026-08-27) replaced the whole type system and the label grammar below; this supersedes any earlier Geist-era typography notes.
+- **Font:** **Bricolage Grotesque** (display/UI — the most-installed new Google sans-serif of the last two years, variable `opsz` axis for optical sizing, real ink-trap character instead of a neo-grotesque default) + **Faustina** (reading text + the counterpart-language italic) + **Chivo Mono** (typed values and codes only). Loaded via `next/font/google` in `src/app/layout.tsx`. Bricolage replaced Saira on 2026-08-27 (Saira read "fine but boring" once shipped — swap decided from a real side-by-side render, not from description).
+- **Never use** Geist, Geist Mono, Source Serif 4, Saira, Inter, DM Sans, or Playfair Display. Migrated away from Geist deliberately — a full site rethink (2026-08-27) replaced the whole type system and the label grammar below; this supersedes any earlier Geist-era typography notes. Saira shipped for one day in the same rethink and was replaced (see below) — don't reintroduce it either.
 - **Roles are voice contracts, not just fonts** — see "Voice grammar" below for exactly which elements get which face.
 
 ### Weight discipline
 
 - **Body (Faustina):** `font-normal` (400) light mode, `font-weight: 450` dark mode (`.dark p.font-serif, .dark span.font-serif` in `globals.css` — thin serif hairlines bloom against a dark ground; put `font-serif` directly on the leaf `<p>`/`<span>`, never a wrapping `<div>`, or the selector won't match).
-- **Headlines (h1, h2, h3) and section titles:** `font-semibold` (Saira, wdth axis carries the "stamped" character; semibold reads right at this face's default width, unlike Geist which looked heavy at the same number).
+- **Headlines (h1, h2, h3) and section titles:** `font-semibold` (Bricolage Grotesque — the weight axis runs 200-800; semibold/700 is where the ink-trap character reads clearly without going heavy).
 - **Buttons:** `font-medium` (500), sentence case.
 - **Stat/declaration numerals:** DATA voice (Chivo Mono), ink not red — see the red budget below.
 - **Never** use `font-bold` or `font-extrabold` on display text.
@@ -38,8 +38,8 @@ Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 Mono is not "the spec-sheet font used everywhere labels go." Each voice has a one-sentence contract; test any new label against it before reaching for `font-mono` or `uppercase tracking-*`.
 
 - **DATA (Chivo Mono):** a string a customs broker could copy onto a bill of lading unchanged — a typed value, a numeral, a code (cut names, HS codes, phone/email/address values, declaration values, doc-stamps). Case as written, tracking 0–0.02em, never uppercase-tracked.
-- **FORM-LABEL (`.form-label` class, Saira 11px uppercase tracking-[0.06em]):** the pre-printed half of a document. Legal ONLY attached to a ruled structure (a table header row, a form field, a declaration row label). A caps label floating in whitespace with nothing ruling it is the AI-eyebrow tell — the old `.eyebrow` class was exactly that and is deleted.
-- **EDITORIAL (Saira for display / Faustina for body):** sentence case, no added tracking. Headlines, prose, questions, buttons, all instructions, form errors.
+- **FORM-LABEL (`.form-label` class, Bricolage Grotesque 11px uppercase tracking-[0.06em]):** the pre-printed half of a document. Legal ONLY attached to a ruled structure (a table header row, a form field, a declaration row label). A caps label floating in whitespace with nothing ruling it is the AI-eyebrow tell — the old `.eyebrow` class was exactly that and is deleted.
+- **EDITORIAL (Bricolage Grotesque for display / Faustina for body):** sentence case, no added tracking. Headlines, prose, questions, buttons, all instructions, form errors.
 - **COUNTERPART (`.flourish` class, Faustina italic, muted, ~14-16px):** one line restating a heading in the OTHER language — Spanish on the EN page, English on the ES page (e.g. `beefCounterpart` in `translations/index.ts` holds "Res de exportación" on the `en` table and "Export-grade beef" on the `es` table). Never data, never decoration, max one per section. This replaced the old "Spanish heritage flourish" framing — the device now carries meaning in both directions instead of only ever showing Spanish.
 
 ### Red budget
@@ -99,7 +99,7 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 ## Project structure pointers
 
 - Pages (4): `src/app/{page,products,company,contact}/page.tsx`. About + Why merged into `/company`; `/about` and `/why-san-jose-foods` are permanent redirects in `next.config.js`. Per-route `<title>`/description live in each segment's `layout.tsx`.
-- Shared components: `CtaBand` (one WhatsApp-first sign-off), `WhatsAppGlyph`, `Header` (flush bar → bordered document tab morph), `Footer` (trade-letterhead ledger), `SectionHead` (newspaper section head — 2px ink rule + big Saira title + mono meta, replaces the old `.section-bar` strip).
+- Shared components: `CtaBand` (one WhatsApp-first sign-off), `WhatsAppGlyph`, `Header` (flush bar → bordered document tab morph), `Footer` (trade-letterhead ledger), `SectionHead` (newspaper section head — 2px ink rule + big Bricolage Grotesque title + mono meta, replaces the old `.section-bar` strip).
 - Layout + ThemeProvider wrap: `src/app/layout.tsx`
 - Translations: `src/translations/index.ts` (single source of truth for all bilingual content)
 - Theme + nav components: `src/components/{Header,Footer,ThemeProvider,ThemeToggle}.tsx`
@@ -118,7 +118,7 @@ The site reads like a **trade document / spec sheet**, not a marketing site. Pha
 
 **What changed from Phase 3:**
 - **Home hero is now a declaration form** ("La Declaración"): no stock photo, no ticker, no count-up ledger. Six ruled rows (Origin/Inspection/HS/Condition/Crossing/Desk) print in place on mount, styled after real customs-document field names (FSIS 9060-5, the Mexican pedimento). The old §01 stats ledger (`Counter.tsx`, count-up numerals) is deleted — "5 core services" was a table of contents pretending to be a proof, not a real stat.
-- **Section headers are newspaper section heads** (`SectionHead.tsx`: 2px ink rule, big Saira title with a hanging mono `§0X` index, a mono meta line of real codes), not the old gray `.section-bar` strip. `CropMarks` and `.doc-grid` (the graph-paper texture) are deleted sitewide — texture come from density and hairlines, not decoration.
+- **Section headers are newspaper section heads** (`SectionHead.tsx`: 2px ink rule, big Bricolage Grotesque title with a hanging mono `§0X` index, a mono meta line of real codes), not the old gray `.section-bar` strip. `CropMarks` and `.doc-grid` (the graph-paper texture) are deleted sitewide — texture come from density and hairlines, not decoration.
 - **Products cut table is a market-report ledger** ("The Yellow Sheet," after Urner Barry's real daily meat-market report): ruled rows, cut names promoted to the DATA voice (Chivo Mono — a cut name IS the SKU), a `CUT / QUOTE` header row. Dotted leaders are reserved for true multi-row *value* ledgers (footer, contact, company ops) — the products table uses solid hairlines instead, matching how the ledger's own voice-grammar rule treats it as a table, not an invoice.
 - **Manifest multi-select** (new, `products/page.tsx`): a checkbox gutter lets a buyer tick cuts across all three protein sections and send ONE WhatsApp message shaped like a line-item order, instead of one WhatsApp thread per cut. Selection keys are `${protein}:${index}` (language-invariant — cut names are translated strings and would strand ticked state on an EN/ES toggle if used as the key). Each line in the outgoing message carries the cut's own catalog number (matching its on-page badge), not a tick-order renumbering. Capped at 24 lines (`+N more`) so a buyer ticking most of the catalog can't build a `wa.me` link long enough to silently truncate. The dock is deliberately ink, not red (see red budget above).
 - **`.eyebrow` is deleted.** Every masthead used to carry a small uppercase tracked label above the h1 — the single most-documented AI landing-page tell. The h1 (plus a `doc-stamp` revision mark) now carries the job alone.
@@ -130,7 +130,7 @@ Primitives live in `globals.css` `@layer components`: `.flourish` (now the count
 
 ## What's been deliberately decided (don't undo without asking)
 
-- **`.flourish` (Faustina italic) is the counterpart-language line** — Spanish under an English heading, English under a Spanish one — never a decorative accent on a headline in its own page's language. The hero headline is all Saira with one upright red accent *word* (`Mexico`/`México`). A serif-italic accent word inside a sans headline is the 2026 template tell; reserving the italic for the other-language register keeps it meaningful. (Supersedes the earlier "Spanish heritage flourishes ONLY" framing — see Typography above.)
+- **`.flourish` (Faustina italic) is the counterpart-language line** — Spanish under an English heading, English under a Spanish one — never a decorative accent on a headline in its own page's language. The hero headline is all Bricolage Grotesque with one upright red accent *word* (`Mexico`/`México`). A serif-italic accent word inside a sans headline is the 2026 template tell; reserving the italic for the other-language register keeps it meaningful. (Supersedes the earlier "Spanish heritage flourishes ONLY" framing — see Typography above.)
 - **The home hero is the declaration form, not a stats ledger.** The old §01 count-up ledger (`Counter.tsx`) is deleted; don't reintroduce a centered/count-up stat band anywhere on the site — it's a named AI-slop pattern and was itself a Magic UI primitive. Rule for the whole site: dotted leaders live only on true multi-row *value* tables that earn them (footer/contact ledgers, Company ops table) — the products cut table and the hero declaration use solid hairlines instead (they're closer to a filled-in form/ledger than an invoice).
 - **Neutrals are warm paper tones** (hue ~52), not the stock stone preset.
 - **Default theme:** dark.

@@ -54,10 +54,10 @@
   --radius-lg: 2px;
   --radius-xl: 4px;
 
-  /* Press Series roles: DISPLAY (Saira) for headlines/UI, TEXT (Faustina) for
+  /* DISPLAY (Bricolage Grotesque) for headlines/UI, TEXT (Faustina) for
      reading copy + counterpart italic, DATA (Chivo Mono) for typed values/codes. */
-  --font-sans: var(--font-saira), system-ui, sans-serif;
-  --font-display: var(--font-saira), system-ui, sans-serif;
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-serif: var(--font-faustina), Georgia, "Times New Roman", serif;
   --font-mono: var(--font-chivo-mono), ui-monospace, "SF Mono", monospace;
 }

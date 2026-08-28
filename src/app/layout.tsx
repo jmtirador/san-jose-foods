@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Saira, Faustina, Chivo_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Faustina, Chivo_Mono } from 'next/font/google'
 import { cookies, headers } from 'next/headers'
 import './globals.css'
 import type { Language } from '@/translations'
@@ -8,15 +8,15 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-// The Press Series (Omnibus-Type): a newspaper type system, not the default stack.
-// Saira carries display + UI (its wdth axis absorbs the longer Spanish strings),
-// Faustina carries reading text and the counterpart-language italic, Chivo Mono
-// is confined to typed values and codes (the filled-in half of the document).
-const saira = Saira({
+// Bricolage Grotesque carries display + UI: the most-installed new Google
+// sans-serif of the last two years, with real ink-trap character instead of
+// a neo-grotesque default. Faustina carries reading text and the
+// counterpart-language italic; Chivo Mono is confined to typed values/codes.
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-saira',
+  variable: '--font-bricolage',
   display: 'swap',
-  axes: ['wdth'],
+  axes: ['opsz'],
 })
 
 const faustina = Faustina({
@@ -80,7 +80,7 @@ export default async function RootLayout({
 }) {
   const initialLanguage = await resolveLanguage()
   return (
-    <html lang={initialLanguage} suppressHydrationWarning className={`${saira.variable} ${faustina.variable} ${chivoMono.variable}`}>
+    <html lang={initialLanguage} suppressHydrationWarning className={`${bricolage.variable} ${faustina.variable} ${chivoMono.variable}`}>
       <body>
         {/* Without JS, scroll-reveal sections would stay hidden — force them visible. */}
         <noscript>
