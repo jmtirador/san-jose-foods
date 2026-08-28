@@ -17,14 +17,14 @@ const SPEC = {
 }
 
 function SpecSection({
-  index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, metaFormats, waPrefix, waVolume,
+  id, index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, metaFormats, waPrefix, waVolume,
 }: {
-  index: number; title: string; esFlourish: string; desc: string
+  id: string; index: number; title: string; esFlourish: string; desc: string
   cuts: readonly string[]; imageSrc: string; hs: string
   getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
 }) {
   return (
-    <section className="doc-grid border-t border-border">
+    <section id={id} className="doc-grid border-t border-border scroll-mt-[76px]">
       {/* Document section header */}
       <div className="section-bar relative">
         <CropMarks />
@@ -115,9 +115,9 @@ export default function ProductsPage() {
         </motion.div>
       </section>
 
-      <SpecSection index={1} title={p.beef.title} esFlourish="Res de exportación" desc={p.beef.desc} cuts={p.beef.cuts} imageSrc={SPEC.beef.img} hs={SPEC.beef.hs} {...shared} />
-      <SpecSection index={2} title={p.pork.title} esFlourish="Cerdo premium" desc={p.pork.desc} cuts={p.pork.cuts} imageSrc={SPEC.pork.img} hs={SPEC.pork.hs} {...shared} />
-      <SpecSection index={3} title={p.chicken.title} esFlourish="Pollo selecto" desc={p.chicken.desc} cuts={p.chicken.cuts} imageSrc={SPEC.chicken.img} hs={SPEC.chicken.hs} {...shared} />
+      <SpecSection id="beef" index={1} title={p.beef.title} esFlourish="Res de exportación" desc={p.beef.desc} cuts={p.beef.cuts} imageSrc={SPEC.beef.img} hs={SPEC.beef.hs} {...shared} />
+      <SpecSection id="pork" index={2} title={p.pork.title} esFlourish="Cerdo premium" desc={p.pork.desc} cuts={p.pork.cuts} imageSrc={SPEC.pork.img} hs={SPEC.pork.hs} {...shared} />
+      <SpecSection id="chicken" index={3} title={p.chicken.title} esFlourish="Pollo selecto" desc={p.chicken.desc} cuts={p.chicken.cuts} imageSrc={SPEC.chicken.img} hs={SPEC.chicken.hs} {...shared} />
 
       <div className="border-t border-border" />
       <CtaBand />
