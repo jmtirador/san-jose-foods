@@ -232,6 +232,29 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── COMMON QUESTIONS — objection handling before the order desk.
+             Confirmed operating facts only, per the no-fabrication rule. ── */}
+      <section className="doc-grid py-24 bg-background border-t border-rule">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10">
+          <div className="section-bar relative mb-12">
+            <CropMarks />
+            <span className="label flex items-baseline gap-3"><span className="doc-index">§03</span> {h.faqEyebrow}</span>
+            <span className="meta">SJF · REV 2026.07</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-12">
+            {h.faq.map((f, i) => (
+              <div key={f.q} className="flex gap-5">
+                <span className="doc-index shrink-0 w-12">Q.0{i + 1}</span>
+                <div className="min-w-0">
+                  <h3 className="font-sans font-medium text-foreground text-[15px] mb-2">{f.q}</h3>
+                  <p className="font-sans text-muted-foreground text-sm leading-relaxed max-w-md">{f.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <CtaBand />
     </>
   )
