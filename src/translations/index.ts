@@ -57,6 +57,33 @@ export const translations = {
       beef: 'Beef',
       beefDesc: 'Premium beef cuts from US, Canadian, and Brazilian packing facilities.',
       viewProducts: 'View Sourcing Catalog',
+      faqEyebrow: 'Common Questions',
+      faq: [
+        {
+          q: 'How do I get a quote?',
+          a: 'Send volume, cut, and delivery point by WhatsApp or the contact form. The desk quotes within the day and confirms on WhatsApp.',
+        },
+        {
+          q: 'Fresh or frozen?',
+          a: 'Both. Product ships fresh or frozen, packed to your volume and packaging spec.',
+        },
+        {
+          q: 'Where does the product come from?',
+          a: 'Packing facilities in the United States, Canada, and Brazil, under USDA, CFIA, and SIF inspection.',
+        },
+        {
+          q: 'How does it cross into Mexico?',
+          a: 'Border-side operations route shipments through Reynosa, Nuevo Laredo, and Matamoros.',
+        },
+        {
+          q: 'Is the cargo insured?',
+          a: 'Every operation carries cargo insurance, backed by LLC credit lines with financial institutions in the United States.',
+        },
+        {
+          q: 'Need a cut that is not listed?',
+          a: 'The catalog covers the standard beef, pork, and chicken cut lists. For anything else, message the desk on WhatsApp.',
+        },
+      ],
       ctaEyebrow: 'Order desk',
       ctaTitle: 'Send volume, cut, and delivery point.',
       ctaSub: 'We quote within the day and confirm on WhatsApp. Commercial response 24/7.',
@@ -89,6 +116,7 @@ export const translations = {
       getPricing: 'Get Pricing on WhatsApp',
       quote: 'Quote',
       metaFormats: 'Fresh / Frozen',
+      fig: 'Ref · Sourced product',
       waCutPrefix: "Hi, I'd like a quote for",
       waVolume: 'Volume: ___',
       chicken: {
@@ -293,6 +321,33 @@ export const translations = {
       beef: 'Res',
       beefDesc: 'Cortes premium de res desde empacadoras de EE.UU., Canadá y Brasil.',
       viewProducts: 'Ver Catálogo',
+      faqEyebrow: 'Preguntas Frecuentes',
+      faq: [
+        {
+          q: '¿Cómo solicito una cotización?',
+          a: 'Envíe volumen, corte y punto de entrega por WhatsApp o por el formulario. La mesa cotiza el mismo día y confirma por WhatsApp.',
+        },
+        {
+          q: '¿Fresco o congelado?',
+          a: 'Ambos. El producto viaja fresco o congelado, empacado a su volumen y especificación de empaque.',
+        },
+        {
+          q: '¿De dónde viene el producto?',
+          a: 'De empacadoras en Estados Unidos, Canadá y Brasil, bajo inspección USDA, CFIA y SIF.',
+        },
+        {
+          q: '¿Cómo cruza a México?',
+          a: 'Operación en frontera: los embarques cruzan por Reynosa, Nuevo Laredo y Matamoros.',
+        },
+        {
+          q: '¿La carga va asegurada?',
+          a: 'Cada operación viaja con seguro de carga, respaldada por líneas de crédito LLC con instituciones financieras de EE.UU.',
+        },
+        {
+          q: '¿Necesita un corte que no aparece?',
+          a: 'El catálogo cubre los cortes estándar de res, cerdo y pollo. Para cualquier otro, escríbanos por WhatsApp.',
+        },
+      ],
       ctaEyebrow: 'Mesa de pedidos',
       ctaTitle: 'Envíe volumen, corte y punto de entrega.',
       ctaSub: 'Cotizamos el mismo día y confirmamos por WhatsApp. Respuesta comercial 24/7.',
@@ -325,6 +380,7 @@ export const translations = {
       getPricing: 'Cotizar por WhatsApp',
       quote: 'Cotizar',
       metaFormats: 'Fresco / Congelado',
+      fig: 'Ref · Producto de origen',
       waCutPrefix: 'Hola, quiero cotizar',
       waVolume: 'Volumen: ___',
       chicken: {

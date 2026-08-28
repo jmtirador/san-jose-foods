@@ -166,6 +166,10 @@
   .btn-white {
     @apply inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-warm-50 active:bg-warm-100 font-medium px-8 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
   }
+  /* Outline sibling of .btn-white for secondary actions on the red CTA band. */
+  .btn-outline-white {
+    @apply inline-flex items-center gap-2 border border-white/60 text-white hover:border-white active:bg-white/15 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
+  }
 
   /* ── Eyebrow label — mono for that "spec sheet" feel ── */
   .eyebrow {

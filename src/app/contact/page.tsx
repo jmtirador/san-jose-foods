@@ -75,12 +75,22 @@ export default function ContactPage() {
               <div className="w-10 h-px bg-brand-600 mb-4" />
               <span className="eyebrow text-muted-foreground">{c.eyebrow}</span>
             </div>
-            <span className="doc-stamp hidden sm:block mt-1">SJF-RFQ · REV 2026.07</span>
+            <span className="doc-stamp hidden sm:block mt-1">SJF-RFQ · REV 2026.08</span>
           </div>
           <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {c.pageTitle}
           </h1>
           <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed">{c.pageSub}</p>
+          {/* On mobile the rail (and its quick chat button) renders below the whole
+              form — give the WhatsApp-first buyer the fast path before the form. */}
+          <a
+            href={waLink(c.waIntro)}
+            target="_blank" rel="noopener noreferrer"
+            className="btn-outline-brand font-sans text-sm mt-7 lg:hidden"
+          >
+            <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
+            {c.waBtn}
+          </a>
         </motion.div>
       </section>
 
@@ -144,8 +154,9 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Ledger rail — ruled sections, no rounded cards */}
-            <div className="lg:col-span-2 space-y-10">
+            {/* Ledger rail — ruled sections, no rounded cards. Sticky so the short
+                rail tracks the taller form instead of trailing into dead space. */}
+            <div className="lg:col-span-2 space-y-10 lg:sticky lg:top-24 lg:self-start">
               <div className="bg-background">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{c.infoTitle}</div>
                 {dlines.map((l) => (
@@ -153,7 +164,10 @@ export default function ContactPage() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground shrink-0">{l.label}</span>
                     <span className="lead-dots" />
                     {l.href ? (
-                      <a href={l.href} className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors">{l.value}</a>
+                      <a href={l.href} className="group/link val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors inline-flex items-baseline gap-1.5">
+                        {l.value}
+                        <span aria-hidden className="text-muted-foreground group-hover/link:text-brand-600 transition-colors">↗</span>
+                      </a>
                     ) : (
                       <span className="val font-mono text-[12px] text-right">{l.value}</span>
                     )}

@@ -32,15 +32,12 @@ export function CtaBand() {
               href={waLink(h.heroWaMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 bg-white text-brand-700 font-medium px-7 py-3.5 rounded-sm hover:bg-[#FFF8F5] transition-colors"
+              className="btn-white font-sans text-sm"
             >
-              <WhatsAppGlyph className="w-4 h-4" />
+              <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
               {h.ctaWhatsApp}
             </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 border border-white/60 text-white hover:border-white font-medium px-7 py-3.5 rounded-sm transition-colors"
-            >
+            <Link href="/contact" className="btn-outline-white font-sans text-sm">
               {h.ctaBtn}
             </Link>
           </div>
