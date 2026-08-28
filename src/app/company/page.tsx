@@ -40,7 +40,7 @@ export default function CompanyPage() {
               <div className="w-10 h-px bg-brand-600 mb-4" />
               <span className="eyebrow text-muted-foreground">{co.eyebrow}</span>
             </div>
-            <span className="doc-stamp hidden sm:block mt-1">SJF-CO · REV 2026.07</span>
+            <span className="doc-stamp hidden sm:block mt-1">SJF-CO · REV 2026.08</span>
           </div>
           <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
             {a.pageTitle}

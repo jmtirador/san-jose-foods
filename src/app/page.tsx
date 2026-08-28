@@ -165,7 +165,7 @@ export default function HomePage() {
           <div className="section-bar relative">
             <CropMarks />
             <span className="label flex items-baseline gap-3"><span className="doc-index">§01</span> {h.statsEyebrow}</span>
-            <span className="meta">SJF · REV 2026.07</span>
+            <span className="meta">SJF · REV 2026.08</span>
           </div>
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}
@@ -203,7 +203,7 @@ export default function HomePage() {
           <div className="section-bar relative mb-12">
             <CropMarks />
             <span className="label flex items-baseline gap-3"><span className="doc-index">§02</span> {h.productsEyebrow}</span>
-            <span className="meta">SJF · REV 2026.07</span>
+            <span className="meta">SJF · REV 2026.08</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
             <h2 className="font-display font-medium tracking-[-0.04em] text-foreground" style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}>
@@ -239,7 +239,7 @@ export default function HomePage() {
           <div className="section-bar relative mb-12">
             <CropMarks />
             <span className="label flex items-baseline gap-3"><span className="doc-index">§03</span> {h.faqEyebrow}</span>
-            <span className="meta">SJF · REV 2026.07</span>
+            <span className="meta">SJF · REV 2026.08</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-12">
             {h.faq.map((f, i) => (
