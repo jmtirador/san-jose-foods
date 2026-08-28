@@ -134,6 +134,24 @@ export default function HomePage() {
               </a>
               <Link href="/products" className="btn-ghost font-sans text-sm">{h.heroSubCta}</Link>
             </motion.div>
+
+            {/* Below lg the split-hero photo has no room, but the product image is
+                the page's strongest trust signal on the phones most buyers use —
+                keep a cropped plate under the CTAs instead of dropping it. */}
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}
+              className="relative mt-14 lg:hidden border border-border overflow-hidden aspect-[3/2]"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1400&q=85"
+                alt="Sourced beef, pork, and chicken"
+                fill sizes="(max-width: 1024px) 100vw, 0px"
+                className="object-cover"
+              />
+              <div className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70 bg-black/40 px-2.5 py-1">
+                {h.heroFig}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
