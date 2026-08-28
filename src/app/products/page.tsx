@@ -76,7 +76,7 @@ function SpecSection({
                         type="checkbox"
                         checked={!!selected[key]}
                         onChange={() => onToggle(key, cut)}
-                        aria-label={`${cut} — ${colQuote}`}
+                        aria-label={`${colQuote}: ${cut}`}
                         className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
                       />
                     </label>
