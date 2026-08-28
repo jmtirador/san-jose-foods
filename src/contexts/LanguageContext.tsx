@@ -13,21 +13,36 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Server + first client render use 'en' so hydration matches; the effect below
-  // then restores a saved choice or detects the browser language.
-  const [language, setLanguageState] = useState<Language>('en')
+export function LanguageProvider({
+  children,
+  initialLanguage,
+}: {
+  children: React.ReactNode
+  initialLanguage: Language
+}) {
+  // The server resolves the language per request (cookie, then Accept-Language)
+  // in layout.tsx, so the first paint is already in the right language — no
+  // English flash for the Spanish-speaking primary buyer.
+  const [language, setLanguageState] = useState<Language>(initialLanguage)
+
+  const persist = (lang: Language) => {
+    document.cookie = `${STORAGE_KEY}=${lang}; path=/; max-age=31536000; samesite=lax`
+    try {
+      window.localStorage.setItem(STORAGE_KEY, lang)
+    } catch {
+      // localStorage can be unavailable (private mode); the cookie still holds.
+    }
+  }
 
   useEffect(() => {
+    // Migration: visitors who picked a language before the cookie existed have
+    // it only in localStorage. Honor it once and promote it to the cookie.
     const saved = window.localStorage.getItem(STORAGE_KEY)
-    if (saved === 'en' || saved === 'es') {
+    if ((saved === 'en' || saved === 'es') && saved !== initialLanguage && !document.cookie.includes(`${STORAGE_KEY}=`)) {
       setLanguageState(saved)
-      return
+      persist(saved)
     }
-    // First visit: a Spanish-speaking browser (the primary buyer) gets Spanish.
-    if (navigator.language?.toLowerCase().startsWith('es')) {
-      setLanguageState('es')
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Keep <html lang> honest for search engines and screen readers.
@@ -37,11 +52,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang)
-    try {
-      window.localStorage.setItem(STORAGE_KEY, lang)
-    } catch {
-      // localStorage can be unavailable (private mode); language still works in-session.
-    }
+    persist(lang)
   }
 
   const t = translations[language]

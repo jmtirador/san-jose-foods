@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google'
+import { cookies, headers } from 'next/headers'
 import './globals.css'
+import type { Language } from '@/translations'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
@@ -56,20 +58,32 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+// Resolve the language on the server so the first paint is already in the
+// visitor's language: saved cookie first, then the browser's Accept-Language
+// (the primary buyer browses in Spanish). Client-side detection alone flashed
+// English at every first-time Spanish visitor before swapping.
+async function resolveLanguage(): Promise<Language> {
+  const saved = (await cookies()).get('sjf-lang')?.value
+  if (saved === 'en' || saved === 'es') return saved
+  const accept = (await headers()).get('accept-language') ?? ''
+  return accept.trim().toLowerCase().startsWith('es') ? 'es' : 'en'
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const initialLanguage = await resolveLanguage()
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable}`}>
+    <html lang={initialLanguage} suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable}`}>
       <body>
         {/* Without JS, scroll-reveal sections would stay hidden — force them visible. */}
         <noscript>
           <style>{`.reveal-on-scroll{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <LanguageProvider>
+          <LanguageProvider initialLanguage={initialLanguage}>
             <Header />
             <main>{children}</main>
             <Footer />
