@@ -153,7 +153,10 @@ export default function ContactPage() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground shrink-0">{l.label}</span>
                     <span className="lead-dots" />
                     {l.href ? (
-                      <a href={l.href} className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors">{l.value}</a>
+                      <a href={l.href} className="group/link val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors inline-flex items-baseline gap-1.5">
+                        {l.value}
+                        <span aria-hidden className="text-muted-foreground group-hover/link:text-brand-600 transition-colors">↗</span>
+                      </a>
                     ) : (
                       <span className="val font-mono text-[12px] text-right">{l.value}</span>
                     )}

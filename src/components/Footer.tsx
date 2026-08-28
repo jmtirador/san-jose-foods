@@ -71,9 +71,13 @@ export default function Footer() {
                     href={l.href}
                     target={l.href.startsWith('http') ? '_blank' : undefined}
                     rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors"
+                    className="group/link val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors inline-flex items-baseline gap-1.5"
                   >
                     {l.value}
+                    {/* Static signifier: tappable rows must differ from the inert HQ
+                        line at rest — hover never fires on the touch devices most
+                        buyers use. */}
+                    <span aria-hidden className="text-muted-foreground group-hover/link:text-brand-600 transition-colors">↗</span>
                   </a>
                 ) : (
                   <span className="val font-mono text-[12px]">{l.value}</span>
