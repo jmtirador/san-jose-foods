@@ -81,6 +81,16 @@ export default function ContactPage() {
             {c.pageTitle}
           </h1>
           <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed">{c.pageSub}</p>
+          {/* On mobile the rail (and its quick chat button) renders below the whole
+              form — give the WhatsApp-first buyer the fast path before the form. */}
+          <a
+            href={waLink(c.waIntro)}
+            target="_blank" rel="noopener noreferrer"
+            className="btn-outline-brand font-sans text-sm mt-7 lg:hidden"
+          >
+            <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
+            {c.waBtn}
+          </a>
         </motion.div>
       </section>
 
@@ -144,8 +154,9 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Ledger rail — ruled sections, no rounded cards */}
-            <div className="lg:col-span-2 space-y-10">
+            {/* Ledger rail — ruled sections, no rounded cards. Sticky so the short
+                rail tracks the taller form instead of trailing into dead space. */}
+            <div className="lg:col-span-2 space-y-10 lg:sticky lg:top-24 lg:self-start">
               <div className="bg-background">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{c.infoTitle}</div>
                 {dlines.map((l) => (
