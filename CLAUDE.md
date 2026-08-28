@@ -19,38 +19,36 @@ Marketing site for **San Jose Foods LLC**, Pepe's dad's company.
 - **lucide-react** for icons
 - **`.npmrc` has `legacy-peer-deps=true`** — required for Vercel build (React 19 + ESLint peer-dep conflicts).
 
-## Typography system
+## Typography system (Press Series, 2026-08-27 rethink)
 
-- **Font:** Geist Sans (body + headlines) + Geist Mono (all labels, spec details, data) + **Source Serif 4 italic** for accents only. Loaded via `next/font/google` in `src/app/layout.tsx`.
-- **Serif accent (`.flourish`):** Source Serif 4 italic carries the Spanish heritage flourishes (`Res de exportación`) and exactly ONE red accent word per major headline (e.g. the hero's `delivered by the load`). Accent only, never body copy.
-- **Never use** Playfair Display, DM Sans, or Inter. We migrated away from them deliberately.
-- **All eyebrows / field labels / spec labels are Geist Mono** (uppercase, tracked). No uppercase tracked labels in Geist Sans.
+- **Font:** the Press Series (Omnibus-Type, a Google Fonts newspaper type system) — **Saira** (display/UI, variable `wdth` axis) + **Faustina** (reading text + the counterpart-language italic) + **Chivo Mono** (typed values and codes only). Loaded via `next/font/google` in `src/app/layout.tsx`.
+- **Never use** Geist, Geist Mono, Source Serif 4, Inter, DM Sans, or Playfair Display. Migrated away from Geist deliberately — a full site rethink (2026-08-27) replaced the whole type system and the label grammar below; this supersedes any earlier Geist-era typography notes.
+- **Roles are voice contracts, not just fonts** — see "Voice grammar" below for exactly which elements get which face.
 
-### Weight discipline (Geist runs heavier than Inter at the same numbers)
+### Weight discipline
 
-- **Body:** `font-normal` (400)
-- **Headlines (h1, h2, h3):** `font-medium` (500)
-- **Buttons:** `font-medium` (500)
-- **Stat numerals (giant red numbers):** `font-normal` (400). Size + tracking carry the impact, not weight.
-- **Never** use `font-bold` or `font-extrabold` on display text in Geist. It looks heavy.
+- **Body (Faustina):** `font-normal` (400) light mode, `font-weight: 450` dark mode (`.dark p.font-serif, .dark span.font-serif` in `globals.css` — thin serif hairlines bloom against a dark ground; put `font-serif` directly on the leaf `<p>`/`<span>`, never a wrapping `<div>`, or the selector won't match).
+- **Headlines (h1, h2, h3) and section titles:** `font-semibold` (Saira, wdth axis carries the "stamped" character; semibold reads right at this face's default width, unlike Geist which looked heavy at the same number).
+- **Buttons:** `font-medium` (500), sentence case.
+- **Stat/declaration numerals:** DATA voice (Chivo Mono), ink not red — see the red budget below.
+- **Never** use `font-bold` or `font-extrabold` on display text.
 
-### Tracking discipline (negative tracking scales with size)
+### Voice grammar — the four contracts
 
-- **Big big headers** (h1, large h2 ≥ text-3xl, hero numerals): `tracking-[-0.04em]`
-- **Medium headers** (text-2xl): `tracking-[-0.02em]`
-- **Smaller headers** (text-xl, text-lg): `tracking-[-0.015em]`
-- **Body text + descriptions + Spanish flourishes:** no negative tracking
-- **Eyebrows + spec labels (in mono):** wider tracking — `tracking-[0.2em]` or `tracking-wider`
+Mono is not "the spec-sheet font used everywhere labels go." Each voice has a one-sentence contract; test any new label against it before reaching for `font-mono` or `uppercase tracking-*`.
 
-### Where mono lives (the "spec-sheet" character)
+- **DATA (Chivo Mono):** a string a customs broker could copy onto a bill of lading unchanged — a typed value, a numeral, a code (cut names, HS codes, phone/email/address values, declaration values, doc-stamps). Case as written, tracking 0–0.02em, never uppercase-tracked.
+- **FORM-LABEL (`.form-label` class, Saira 11px uppercase tracking-[0.06em]):** the pre-printed half of a document. Legal ONLY attached to a ruled structure (a table header row, a form field, a declaration row label). A caps label floating in whitespace with nothing ruling it is the AI-eyebrow tell — the old `.eyebrow` class was exactly that and is deleted.
+- **EDITORIAL (Saira for display / Faustina for body):** sentence case, no added tracking. Headlines, prose, questions, buttons, all instructions, form errors.
+- **COUNTERPART (`.flourish` class, Faustina italic, muted, ~14-16px):** one line restating a heading in the OTHER language — Spanish on the EN page, English on the ES page (e.g. `beefCounterpart` in `translations/index.ts` holds "Res de exportación" on the `en` table and "Export-grade beef" on the `es` table). Never data, never decoration, max one per section. This replaced the old "Spanish heritage flourish" framing — the device now carries meaning in both directions instead of only ever showing Spanish.
 
-- All section eyebrows ("BY THE NUMBERS", "WHAT WE SUPPLY", etc.) — via `.eyebrow` class
-- Marquee "EST · 2017"-style pin and ticker items
-- Stat entry marks ("— No. 01", etc.) and unit labels ("+ YEARS", "/ 7 RESPONSE")
-- Product card corner labels ("BEEF / 01")
-- CTA trust line ("From Texas to Mexico · 20 years")
+### Red budget
 
-Italic on Geist looks digital (oblique slant). Avoid Geist italic entirely — Spanish heritage flourishes and headline accent words now use the real **Source Serif 4 italic** via `.flourish`, which carries the translation/heritage register Geist's oblique can't.
+Per viewport: red = one action (a filled button, a hovered/checked row, or the CTA band) + at most one identity/state instance outside chrome (the hero accent word, the active nav tick). Chrome red is fixed at the logo mark + active nav tick. Demoted to ink/muted: `.doc-index`, stat/capability numerals, required-field asterisks, header/footer "SJF" sublines, the products pricing-note glyph. The manifest dock and checked-checkbox fill are deliberately **ink, not red** (`bg-ink`/`text-warm-50`, literal tokens not `foreground`/`background`, so the dock doesn't flip character between themes) — this keeps red scarce enough that it still means something when it appears.
+
+### Where mono lives now (much more restricted than the old system)
+
+Cut names in the products table, HS codes, the declaration's six values, footer/contact/company ledger values, doc-stamps, the marquee-replacement's absence (the marquee was deleted, see below), corner reference stamps ("Ref · Sourced product"). Every one of these is a number, a code, or a copyable value — the rule should be inferable from any single screen.
 
 ## Color system
 
@@ -101,7 +99,7 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 ## Project structure pointers
 
 - Pages (4): `src/app/{page,products,company,contact}/page.tsx`. About + Why merged into `/company`; `/about` and `/why-san-jose-foods` are permanent redirects in `next.config.js`. Per-route `<title>`/description live in each segment's `layout.tsx`.
-- Shared components: `CtaBand` (one WhatsApp-first sign-off), `WhatsAppGlyph`, `Header` (flush bar → bordered document tab morph), `Footer` (trade-letterhead ledger).
+- Shared components: `CtaBand` (one WhatsApp-first sign-off), `WhatsAppGlyph`, `Header` (flush bar → bordered document tab morph), `Footer` (trade-letterhead ledger), `SectionHead` (newspaper section head — 2px ink rule + big Saira title + mono meta, replaces the old `.section-bar` strip).
 - Layout + ThemeProvider wrap: `src/app/layout.tsx`
 - Translations: `src/translations/index.ts` (single source of truth for all bilingual content)
 - Theme + nav components: `src/components/{Header,Footer,ThemeProvider,ThemeToggle}.tsx`
@@ -114,28 +112,40 @@ Animations are **earned**, not decorative. Five moments deserve motion:
 - **Pre-flight before pushing:** `npm run build` locally. If it passes locally, Vercel ~95% passes too.
 - **Vercel install gotcha:** `.npmrc` with `legacy-peer-deps=true` is committed for a reason. Don't remove it.
 
-## Design direction: Trade Desk (Phase 3, locked)
+## Design direction: Trade Desk (Phase 4 — "The Yellow Sheet," 2026-08-27)
 
-The site reads like a **trade document / spec sheet**, not a marketing site: mono labels, 1px ruled hairlines, dotted-leader spec tables, numbered document sections (`§01`, `No. 0X`, `SS0X`), tabular numerals, `doc-stamp` revision marks. Grew out of a whole-site AI-tell audit — the shadcn defaults (rounded cards, soft shadows, icon-in-tinted-square rows, centered count-up stats, glassy nav) were the loudest tells and were all removed. Primitives live in `globals.css` `@layer components`: `.flourish`, `.section-bar`, `.spec-row` (+`.lead-dots`, `.val`), `.doc-index`, `.doc-stamp`, `.rule`, `.tnum`. Real public trade facts (WCO HS codes 0201/0202/0203/0207, USDA·CFIA·SIF, border crossings) are used as content for credibility — never fabricated company data.
+The site reads like a **trade document / spec sheet**, not a marketing site. Phase 3 (Geist/mono-everything/dotted-leader-everywhere) had itself become a template tell by mid-2026 — the red ticker and count-up stat ledger were, near-verbatim, Magic UI's two flagship landing-page primitives (`Marquee` and `NumberTicker`) dressed in mono. Phase 4 is a full rethink: new type system (see Typography above), a stricter voice grammar, a scarcer red budget, and the concept expressed through real trade-document devices instead of generic "spec sheet" decoration.
 
-**Ban site-wide:** icon-in-tinted-rounded-square cards, equal-column feature/value grids, Mission/Vision sections, decorative icons, soft shadows/glass, centered count-up stat bands, check-in-circle bullet lists, and AI filler vocab (strategic/comprehensive/leading/seamless/optimize/premium).
+**What changed from Phase 3:**
+- **Home hero is now a declaration form** ("La Declaración"): no stock photo, no ticker, no count-up ledger. Six ruled rows (Origin/Inspection/HS/Condition/Crossing/Desk) print in place on mount, styled after real customs-document field names (FSIS 9060-5, the Mexican pedimento). The old §01 stats ledger (`Counter.tsx`, count-up numerals) is deleted — "5 core services" was a table of contents pretending to be a proof, not a real stat.
+- **Section headers are newspaper section heads** (`SectionHead.tsx`: 2px ink rule, big Saira title with a hanging mono `§0X` index, a mono meta line of real codes), not the old gray `.section-bar` strip. `CropMarks` and `.doc-grid` (the graph-paper texture) are deleted sitewide — texture come from density and hairlines, not decoration.
+- **Products cut table is a market-report ledger** ("The Yellow Sheet," after Urner Barry's real daily meat-market report): ruled rows, cut names promoted to the DATA voice (Chivo Mono — a cut name IS the SKU), a `CUT / QUOTE` header row. Dotted leaders are reserved for true multi-row *value* ledgers (footer, contact, company ops) — the products table uses solid hairlines instead, matching how the ledger's own voice-grammar rule treats it as a table, not an invoice.
+- **Manifest multi-select** (new, `products/page.tsx`): a checkbox gutter lets a buyer tick cuts across all three protein sections and send ONE WhatsApp message shaped like a line-item order, instead of one WhatsApp thread per cut. Selection keys are `${protein}:${index}` (language-invariant — cut names are translated strings and would strand ticked state on an EN/ES toggle if used as the key). Each line in the outgoing message carries the cut's own catalog number (matching its on-page badge), not a tick-order renumbering. Capped at 24 lines (`+N more`) so a buyer ticking most of the catalog can't build a `wa.me` link long enough to silently truncate. The dock is deliberately ink, not red (see red budget above).
+- **`.eyebrow` is deleted.** Every masthead used to carry a small uppercase tracked label above the h1 — the single most-documented AI landing-page tell. The h1 (plus a `doc-stamp` revision mark) now carries the job alone.
+- Real public trade facts (WCO HS codes 0201/0202/0203/0207, USDA·CFIA·SIF, border crossings, NOM references) are used as content for credibility — never fabricated company data. This rule is unchanged from Phase 3.
+
+Primitives live in `globals.css` `@layer components`: `.flourish` (now the counterpart-language voice, not just "Spanish heritage"), `.section-head` + `SectionHead.tsx`, `.form-label`, `.spec-row` (+`.lead-dots`, `.val` — true ledgers only), `.doc-index`, `.doc-stamp`, `.rule`, `.tnum`.
+
+**Ban site-wide:** icon-in-tinted-rounded-square cards, equal-column feature/value grids, generic Mission/Vision sections (Company's `01/Mission · 02/Vision` mandate ledger is a *deliberate* numbered-document reframing of this, not the banned pattern — see "deliberately decided" below), decorative icons, soft shadows/glass, centered count-up stat bands, check-in-circle bullet lists, off-the-shelf landing-page primitives (Magic UI-style marquees/tickers/number-counters), and AI filler vocab (strategic/comprehensive/leading/seamless/optimize/premium/"wide range"/"full range"/"facilitate"/"resulting in").
 
 ## What's been deliberately decided (don't undo without asking)
 
-- **Serif italic (`.flourish`) is for the Spanish heritage flourishes ONLY** (e.g. `Res de exportación`), never a decorative accent on an English headline. The hero is all Geist with one upright red accent *word* (`Mexico`). A serif-italic accent word inside a sans headline is the 2026 template tell; reserving the italic for the Spanish register keeps it meaningful.
-- **The §01 stats are a left-aligned ledger** (`No. 0X` marker, label block with Spanish flourish + one-line desc, dotted leader, right-aligned red numeral with a count-up, unit column). But NO `doc-grid` behind the numbers and NO per-row solid separator: the dotted leader is the only line per row. Rule for the whole site: dotted leaders live only on multi-row value tables that earn them (this ledger, Products cut tables, Company ops table, footer/contact ledgers), each row gets ONE line not two (leader OR separator, not both), and the graph grid never sits behind a leader table (it fights the dotted lines).
+- **`.flourish` (Faustina italic) is the counterpart-language line** — Spanish under an English heading, English under a Spanish one — never a decorative accent on a headline in its own page's language. The hero headline is all Saira with one upright red accent *word* (`Mexico`/`México`). A serif-italic accent word inside a sans headline is the 2026 template tell; reserving the italic for the other-language register keeps it meaningful. (Supersedes the earlier "Spanish heritage flourishes ONLY" framing — see Typography above.)
+- **The home hero is the declaration form, not a stats ledger.** The old §01 count-up ledger (`Counter.tsx`) is deleted; don't reintroduce a centered/count-up stat band anywhere on the site — it's a named AI-slop pattern and was itself a Magic UI primitive. Rule for the whole site: dotted leaders live only on true multi-row *value* tables that earn them (footer/contact ledgers, Company ops table) — the products cut table and the hero declaration use solid hairlines instead (they're closer to a filled-in form/ledger than an invoice).
 - **Neutrals are warm paper tones** (hue ~52), not the stock stone preset.
 - **Default theme:** dark.
 - **No ghost decorative text behind CTAs.** "Carnicería" and "Pricing" ghosts were removed. Don't reintroduce.
-- **No "Est · 2017" claim.** No founding year confirmed. The marquee pin was removed; the marquee is scroll-only (no pinned label).
-- **CTA h2 is upright, not italic.** Geist italic doesn't carry the heritage feel.
-- **The hero "Across Borders" line is `font-medium`** like the rest of the headline — it had a leftover `font-bold` override that was bolder than the other lines. Stays at medium.
-- **Product cards use asymmetric grid** (beef hero spans 2 cols × 2 rows, pork + chicken stack on right). Don't flatten back to 3 equal columns.
-- **Company §02 is the two-column `01 / Mission` · `02 / Vision` mandate.** §03 capability numbers are vertically centered against their heading+text (`lg:items-center`) and the capability body runs in two columns so it fills the width instead of hugging the left edge.
-- **Real logo mark is integrated** via `SjfMark` (`src/components/SjfMark.tsx`): the two-tone red "A" peak, extracted from the `branding-san-jose` vector. It sits left of the wordmark in the nav, in the footer masthead, and as the favicon (white mark on the brand-red chip). Supersedes the text-only wordmark.
-- **Section dividers use the `--rule` token** (border mixed ~78% toward foreground), not plain `border-border`, so they out-read the faint `doc-grid` graph paper in both themes. The grid stays a whisper; structure lines stay legible.
-- **Every `.btn-*` carries the full state set** (hover, active-pressed, focus-visible ring, disabled). Press is a color shift, not a lift.
-- **Error red is hue-shifted** (`--destructive` at hue ~33) so form errors read as their own signal, distinct from brand red (hue 23.5), the site's all-purpose emphasis color.
-- **Secondary product cards (pork/chicken) use a compact footer** (title + Spanish flourish + CTA, no description paragraph) so the caption fits the 280px grid row; the beef hero keeps the full caption. The Spanish flourish stays visible on every card.
-- **Stock/reference imagery gets a `Ref ·` caption, never a `Fig. NN` documentary index.** `Fig. NN` numbering reads as a catalogued photo of SJF's own facility, so representative stock (the company ops photo, the hero sourced-product shot) carries a `Ref ·` marker until real SJF photography replaces it.
-- **Interior page mastheads use `pt-12 pb-12` under the sticky header.** The header is `sticky` and holds its own 76px of flow, so extra top padding only prints an empty band; `pt-12` keeps the masthead rhythm symmetric. Don't re-inflate to `pt-20`.
+- **No "Est · 2017" claim, and no marquee/ticker at all.** No founding year confirmed. The old red marquee ticker is deleted (Phase 4) — it was a Magic UI `Marquee` primitive dressed in mono; the facts it carried (inspection, sourcing, credit, 24/7, insurance, cold chain) now live in the hero declaration instead.
+- **CTA h2 is upright, not italic.**
+- **Product cards use asymmetric grid** (beef hero spans 2 cols × 2 rows, pork + chicken stack on right). Don't flatten back to 3 equal columns. Corner overlay chips (category + index stamped on the photo) are deleted — the index now lives in the caption block below the image.
+- **Company §02 is the two-column `01 / Mission` · `02 / Vision` mandate.** This is a deliberate numbered-document reframing, not the generic banned Mission/Vision pattern — don't "fix" it by removing the framing. §01's "Who We Are" text column and the image+ops-ledger column are `lg:items-center` (the text column is much shorter; centering it against the taller column reads intentional instead of orphaned). §03 capability numbers are vertically centered against their heading+text (`lg:items-center`) and the capability body runs in two columns so it fills the width instead of hugging the left edge.
+- **Real logo mark is integrated** via `SjfMark` (`src/components/SjfMark.tsx`): the two-tone red "A" peak, extracted from the `branding-san-jose` vector. It sits left of the wordmark in the nav, in the footer masthead, as the home hero's quiet ~5% opacity watermark, and as the favicon (white mark on the brand-red chip). Supersedes the text-only wordmark.
+- **Section seams come from `SectionHead`'s own `border-t-2 border-foreground` rule, not an additional outer wrapper border.** Wrapping a `<section>` that opens with `SectionHead` in `border-t border-rule` produces two stacked "new section" signals with dead air between them — don't add one back. The `--rule` token (border mixed ~78% toward foreground) is still used for: the hero's bottom border, declaration-row hairlines, and Contact's form/rail section border — anywhere a divider needs to out-read the surrounding background without a `SectionHead` already providing the seam.
+- **Every `.btn-*` carries the full state set** (hover, active-pressed, focus-visible ring, disabled), including `.btn-outline-white` (added Phase 4, for the CtaBand's secondary action on the red band). Press is a color shift, not a lift.
+- **Error red is hue-shifted** (`--destructive` at hue ~33) so form errors read as their own signal, distinct from brand red (hue 23.5), the site's all-purpose emphasis color. Required-field asterisks use `text-destructive`, not `text-muted-foreground` (they need to read distinctly from the label they're attached to) and not brand red (that's reserved for the red budget's action/state slots).
+- **Secondary product cards (pork/chicken) use a compact footer** (title + counterpart line + CTA, no description paragraph) so the caption fits the 280px grid row; the beef hero keeps the full caption. The counterpart line stays visible on every card.
+- **Stock/reference imagery gets a `Ref ·` caption, never a `Fig. NN` documentary index**, sitewide including the Products page cut-table plates (added Phase 4 — they'd been skipping it). `Fig. NN` numbering reads as a catalogued photo of SJF's own facility, so representative stock carries a `Ref ·` marker until real SJF photography replaces it.
+- **Interior page mastheads use `pt-12 pb-12` under the sticky header**, uniformly across Company/Contact/Products. The header is `sticky` and holds its own 76px of flow, so extra top padding only prints an empty band. Don't re-inflate to `pt-20`, and don't let one page's masthead drift to a different bottom padding than the others (Products briefly drifted to `pb-4`; fixed).
+- **The manifest's multi-select checkbox is keyed by `${protein}:${index}`, never by the cut's display name.** Cut names are translated strings — keying by name strands a buyer's ticked selections the moment they toggle EN/ES.
+- **Cut tables render as two independent column arrays** (`cuts.slice(0, mid)` / `cuts.slice(mid)`), not a single CSS `grid-cols-2` over a flat list. A shared grid auto-flows consecutive cuts into the same row, so a 2-line-wrapped name inflates its unrelated row-partner's height — splitting the list in half up front keeps each column's row heights independent.
+- **The manifest dock uses literal `bg-ink`/`text-warm-50` tokens, never the theme-relative `foreground`/`background` pair.** Those tokens invert between dark and light mode, which would flip the dock's character along with the theme; the dock is meant to read as one consistent dark bar always.

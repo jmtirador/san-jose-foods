@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google'
+import { Saira, Faustina, Chivo_Mono } from 'next/font/google'
 import { cookies, headers } from 'next/headers'
 import './globals.css'
 import type { Language } from '@/translations'
@@ -8,23 +8,27 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-const geistSans = Geist({
+// The Press Series (Omnibus-Type): a newspaper type system, not the default stack.
+// Saira carries display + UI (its wdth axis absorbs the longer Spanish strings),
+// Faustina carries reading text and the counterpart-language italic, Chivo Mono
+// is confined to typed values and codes (the filled-in half of the document).
+const saira = Saira({
   subsets: ['latin'],
-  variable: '--font-geist-sans',
+  variable: '--font-saira',
+  display: 'swap',
+  axes: ['wdth'],
+})
+
+const faustina = Faustina({
+  subsets: ['latin'],
+  variable: '--font-faustina',
+  style: ['normal', 'italic'],
   display: 'swap',
 })
 
-const geistMono = Geist_Mono({
+const chivoMono = Chivo_Mono({
   subsets: ['latin'],
-  variable: '--font-geist-mono',
-  display: 'swap',
-})
-
-// Serif italic accent only — the "heritage / translation" register for Spanish
-// flourishes and one accent word per major headline. Never body copy.
-const sourceSerif = Source_Serif_4({
-  subsets: ['latin'],
-  variable: '--font-source-serif',
+  variable: '--font-chivo-mono',
   style: ['normal', 'italic'],
   display: 'swap',
 })
@@ -76,7 +80,7 @@ export default async function RootLayout({
 }) {
   const initialLanguage = await resolveLanguage()
   return (
-    <html lang={initialLanguage} suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable}`}>
+    <html lang={initialLanguage} suppressHydrationWarning className={`${saira.variable} ${faustina.variable} ${chivoMono.variable}`}>
       <body>
         {/* Without JS, scroll-reveal sections would stay hidden — force them visible. */}
         <noscript>

@@ -28,7 +28,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
 
         {/* Ruled inline nav row — no "Quick Links" heading, no column */}
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 py-5 border-b border-border font-mono text-[11px] uppercase tracking-[0.15em]">
+        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 py-5 border-b border-border font-sans text-[13px] font-medium">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
               {link.label}
@@ -46,25 +46,25 @@ export default function Footer() {
                 <div className="text-foreground font-medium leading-tight font-display tracking-tight" style={{ fontSize: '1.4rem' }}>
                   San Jose Foods
                 </div>
-                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                  <span className="text-primary">SJF</span> · International Meat Trade · Hidalgo, TX
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                  SJF · International Meat Trade · Hidalgo, TX
                 </div>
               </div>
             </div>
-            <p className="mt-6 font-sans text-sm leading-relaxed text-muted-foreground max-w-md">{t.footer.tagline}</p>
-            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="mt-6 font-serif text-[15px] leading-relaxed text-muted-foreground max-w-md">{t.footer.tagline}</p>
+            <div className="mt-6 font-mono text-[11px] tracking-[0.02em] text-muted-foreground">
               USDA <span className="text-border">/</span> CFIA <span className="text-border">/</span> SIF
             </div>
           </div>
 
           {/* Contact ledger — mono dotted-leader spec table */}
           <div className="lg:pt-1">
-            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">
+            <div className="form-label pb-3 border-b border-border">
               {t.contact.infoTitle}
             </div>
             {lines.map((l) => (
               <div key={l.label} className="spec-row">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground shrink-0">{l.label}</span>
+                <span className="form-label shrink-0">{l.label}</span>
                 <span className="lead-dots" />
                 {l.href ? (
                   <a
@@ -88,7 +88,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom letterhead line */}
-        <div className="border-t border-border py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="border-t border-border py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 font-mono text-[10px] tracking-[0.02em] text-muted-foreground">
           <span className="tnum">© {year}</span>
           <span>{t.footer.rights}</span>
         </div>
