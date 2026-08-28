@@ -15,17 +15,18 @@ export function CtaBand() {
     <section className="bg-brand-600 text-white">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-24">
         <div className="max-w-3xl">
-          <div className="flex items-center gap-3 mb-7 font-mono text-[11px] uppercase tracking-[0.2em] text-white/80">
+          <div className="flex items-center gap-3 mb-7 font-sans text-[11px] font-medium uppercase tracking-[0.06em] text-white/80">
             <span className="w-8 h-px bg-white/50" />
             {h.ctaEyebrow}
           </div>
           <h2
-            className="font-display font-medium text-white leading-[1.08] tracking-[-0.03em] mb-6"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}
+            className="font-display font-semibold text-white leading-[1.05] tracking-[-0.02em] mb-4"
+            style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.4rem)' }}
           >
             {h.ctaTitle}
           </h2>
-          <p className="font-sans text-white/95 text-lg max-w-xl mb-10 leading-relaxed">{h.ctaSub}</p>
+          <p className="flourish text-white/85 text-[15px] mb-5">{h.ctaCounterpart}</p>
+          <p className="font-serif text-white/95 text-lg max-w-xl mb-10 leading-relaxed">{h.ctaSub}</p>
 
           <div className="flex flex-wrap items-center gap-4">
             <a
@@ -42,7 +43,7 @@ export function CtaBand() {
             </Link>
           </div>
 
-          <div className="mt-12 pt-6 border-t border-white/25 font-mono text-[10px] uppercase tracking-[0.2em] text-white/75">
+          <div className="mt-12 pt-6 border-t border-white/25 font-mono text-[11px] tracking-[0.02em] text-white/75">
             San Jose Foods LLC · US / CA / BR → MX · {h.ctaTrust}
           </div>
         </div>

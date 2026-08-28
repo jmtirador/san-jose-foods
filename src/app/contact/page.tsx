@@ -5,12 +5,13 @@ import { motion } from 'motion/react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
-import { CropMarks } from '@/components/CropMarks'
 
+// What the user types is the filled-in half of the form: it renders in the DATA
+// voice (mono), while the printed labels stay in the form-label voice.
 const inputClass =
-  'w-full bg-background border border-border rounded-sm px-4 py-3 text-sm font-sans text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive'
+  'w-full bg-background border border-border rounded-sm px-4 py-3 font-mono text-[14px] text-foreground placeholder:text-muted-foreground/60 placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive'
 
-const labelClass = 'block font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-[0.15em] mb-2'
+const labelClass = 'form-label block mb-2'
 
 export default function ContactPage() {
   const { t } = useLanguage()
@@ -64,23 +65,19 @@ export default function ContactPage() {
   return (
     <>
       {/* Header */}
-      <section className="doc-grid bg-background">
+      <section className="bg-background">
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
         >
-          <div className="flex items-start justify-between gap-4 mb-8">
-            <div>
-              <div className="w-10 h-px bg-brand-600 mb-4" />
-              <span className="eyebrow text-muted-foreground">{c.eyebrow}</span>
-            </div>
-            <span className="doc-stamp hidden sm:block mt-1">SJF-RFQ · REV 2026.08</span>
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <h1 className="font-display font-semibold tracking-[-0.02em] text-foreground" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
+              {c.pageTitle}
+            </h1>
+            <span className="doc-stamp hidden sm:block mt-3 shrink-0">SJF-RFQ · REV 2026.08</span>
           </div>
-          <h1 className="font-display font-medium tracking-[-0.04em] text-foreground mb-5" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
-            {c.pageTitle}
-          </h1>
-          <p className="font-sans text-muted-foreground text-lg max-w-2xl leading-relaxed">{c.pageSub}</p>
+          <p className="font-serif text-muted-foreground text-lg max-w-2xl leading-relaxed">{c.pageSub}</p>
           {/* On mobile the rail (and its quick chat button) renders below the whole
               form — give the WhatsApp-first buyer the fast path before the form. */}
           <a
@@ -94,25 +91,24 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      <section className="doc-grid border-t border-border bg-background">
+      <section className="border-t border-rule bg-background">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
             {/* Form — earns its container */}
             <div className="lg:col-span-3 relative border border-border bg-card p-8">
-              <CropMarks />
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="doc-index">RFQ</span>
                 <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>
               </div>
-              <p className="font-sans text-muted-foreground text-[15px] leading-relaxed mb-7">{c.formNote}</p>
+              <p className="font-serif text-muted-foreground text-[15px] leading-relaxed mb-7">{c.formNote}</p>
 
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-primary"> *</span></label>
+                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-muted-foreground"> *</span></label>
                     <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
-                    {errors.name && <p id="name-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.name}</p>}
+                    {errors.name && <p id="name-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="company" className={labelClass}>{c.company}</label>
@@ -121,9 +117,9 @@ export default function ContactPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-primary"> *</span></label>
+                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-muted-foreground"> *</span></label>
                     <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
-                    {errors.email && <p id="email-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.email}</p>}
+                    {errors.email && <p id="email-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.email}</p>}
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>{c.phone}</label>
@@ -143,9 +139,9 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-primary"> *</span></label>
+                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-muted-foreground"> *</span></label>
                   <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} />
-                  {errors.message && <p id="message-error" role="alert" className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-destructive">{errors.message}</p>}
+                  {errors.message && <p id="message-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.message}</p>}
                 </div>
                 <button type="submit" className="btn-primary w-full justify-center font-sans">
                   {c.submit}
@@ -158,10 +154,10 @@ export default function ContactPage() {
                 rail tracks the taller form instead of trailing into dead space. */}
             <div className="lg:col-span-2 space-y-10 lg:sticky lg:top-24 lg:self-start">
               <div className="bg-background">
-                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground pb-3 border-b border-border">{c.infoTitle}</div>
+                <div className="form-label pb-3 border-b border-border">{c.infoTitle}</div>
                 {dlines.map((l) => (
                   <div key={l.label} className="spec-row">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground shrink-0">{l.label}</span>
+                    <span className="form-label shrink-0">{l.label}</span>
                     <span className="lead-dots" />
                     {l.href ? (
                       <a href={l.href} className="group/link val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors inline-flex items-baseline gap-1.5">
@@ -185,14 +181,14 @@ export default function ContactPage() {
               </a>
 
               <div className="border-t border-border pt-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600 mb-2">{c.serviceTitle}</div>
-                <p className="font-sans text-muted-foreground text-[15px] leading-relaxed">{c.serviceDesc}</p>
+                <div className="form-label mb-2">{c.serviceTitle}</div>
+                <p className="font-serif text-muted-foreground text-[15px] leading-relaxed">{c.serviceDesc}</p>
               </div>
 
               <div className="border-t border-border pt-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">{c.hoursTitle}</div>
+                <div className="form-label mb-2">{c.hoursTitle}</div>
                 {c.hours.split('\n').map((line) => (
-                  <p key={line} className="font-sans text-muted-foreground text-[15px] leading-relaxed">{line}</p>
+                  <p key={line} className="font-serif text-muted-foreground text-[15px] leading-relaxed">{line}</p>
                 ))}
               </div>
             </div>

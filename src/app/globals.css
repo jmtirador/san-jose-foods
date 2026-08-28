@@ -54,16 +54,12 @@
   --radius-lg: 2px;
   --radius-xl: 4px;
 
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-display: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
-  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
-
-  --animate-marquee: marquee 45s linear infinite;
-  @keyframes marquee {
-    0%   { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-  }
+  /* Press Series roles: DISPLAY (Saira) for headlines/UI, TEXT (Faustina) for
+     reading copy + counterpart italic, DATA (Chivo Mono) for typed values/codes. */
+  --font-sans: var(--font-saira), system-ui, sans-serif;
+  --font-display: var(--font-saira), system-ui, sans-serif;
+  --font-serif: var(--font-faustina), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-chivo-mono), ui-monospace, "SF Mono", monospace;
 }
 
 :root {
@@ -90,7 +86,6 @@
   --ring: oklch(0.557 0.225 23.5);
   --destructive: oklch(0.585 0.205 33);             /* error — hue-shifted off brand red so it reads as its own signal */
   --radius: 0.125rem;
-  --grid-line: rgba(20, 12, 8, 0.035);              /* faint technical graph paper */
   --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
   color-scheme: light;
 }
@@ -116,7 +111,6 @@
   --input: oklch(0.42 0.004 60);
   --ring: oklch(0.65 0.22 23.5);
   --destructive: oklch(0.7 0.19 33);                /* error — hue-shifted off brand red so it reads as its own signal */
-  --grid-line: rgba(255, 250, 245, 0.028);
   --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
   color-scheme: dark;
 }
@@ -171,10 +165,12 @@
     @apply inline-flex items-center gap-2 border border-white/60 text-white hover:border-white active:bg-white/15 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
   }
 
-  /* ── Eyebrow label — mono for that "spec sheet" feel ── */
-  .eyebrow {
-    font-family: var(--font-mono);
-    @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-wider;
+  /* ── Form label — the pre-printed half of the document. Legal ONLY when attached
+     to a ruled structure (a table header, a form field, a declaration row); a caps
+     label floating in whitespace is the AI-eyebrow tell and is banned. ── */
+  .form-label {
+    font-family: var(--font-sans);
+    @apply text-[11px] font-medium uppercase tracking-[0.06em] text-muted-foreground;
   }
 
   /* ── Trade Desk primitives — the site reads like a trade document ──────── */
@@ -184,35 +180,33 @@
     @apply border-t border-border;
   }
 
-  /* Mono numeric section marker — a real document reference, not decoration.
-     Uses `primary` (brighter red in dark) so the red text clears contrast. */
+  /* Mono numeric section marker. Ink, not red: red is reserved for actions and
+     state; an index merely informs, and it still scans by face and position. */
   .doc-index {
     font-family: var(--font-mono);
-    @apply text-[11px] font-semibold tracking-[0.15em] text-primary;
+    @apply text-[12px] font-medium tracking-[0.04em] text-muted-foreground;
     font-variant-numeric: tabular-nums;
   }
 
-  /* Spanish heritage flourish — a true serif italic carries the translation /
-     heritage register that Geist's oblique can't. Accents only, never body. */
+  /* Counterpart line — the document's other-language voice (Faustina italic).
+     One line, restating a heading in the counterpart language: Spanish on the
+     EN page, English on the ES page. Never data, never decoration. */
   .flourish {
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 400;
   }
 
-  /* Document section bar — a muted header band with a mono field label + optional
-     right-aligned meta, the way a spec sheet or market report groups a section. */
-  .section-bar {
-    @apply flex items-baseline justify-between gap-4 border-y border-rule bg-accent px-4 py-2.5;
+  /* Newspaper section head — a 2px ink rule, the section title set big in the
+     display face, a mono meta line of real codes. Replaces the old gray strip. */
+  .section-head {
+    @apply border-t-2 border-foreground pt-4;
   }
-  .section-bar .label {
+  .section-head .meta {
     font-family: var(--font-mono);
-    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground;
-  }
-  .section-bar .meta {
-    font-family: var(--font-mono);
-    @apply text-[10px] uppercase tracking-[0.16em] text-foreground/65;
+    @apply text-[11px] text-muted-foreground;
     font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
   }
 
   /* Dotted-leader spec row — label ............ value, invoice / menu style.
@@ -236,30 +230,15 @@
     @apply px-2 -mx-2 py-3 rounded-sm transition-colors hover:bg-accent active:bg-accent;
   }
 
-  /* Mono document stamp — a restrained revision / page marker (one per page). */
+  /* Mono document stamp — a restrained revision / page marker (one per page).
+     DATA voice: case as written, near-zero tracking. */
   .doc-stamp {
     font-family: var(--font-mono);
-    @apply text-[10px] uppercase tracking-[0.18em] text-muted-foreground;
+    @apply text-[10px] text-muted-foreground;
     font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
   }
 
-  /* Faint technical graph paper — a spec / engineering document texture. The dense
-     dotted-leader tables carry their own bg-background plate so the grid never runs
-     directly behind their leaders (where it used to blend with the dotted lines). */
-  .doc-grid {
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  /* Registration / crop marks — the print-proof signature device. Each is an
-     L drawn with two borders; place a .crop-* in each corner of a framed zone. */
-  .crop-mark { position: absolute; width: 9px; height: 9px; pointer-events: none; }
-  .crop-tl { top: -1px; left: -1px; border-top: 1px solid var(--primary); border-left: 1px solid var(--primary); }
-  .crop-tr { top: -1px; right: -1px; border-top: 1px solid var(--primary); border-right: 1px solid var(--primary); }
-  .crop-bl { bottom: -1px; left: -1px; border-bottom: 1px solid var(--primary); border-left: 1px solid var(--primary); }
-  .crop-br { bottom: -1px; right: -1px; border-bottom: 1px solid var(--primary); border-right: 1px solid var(--primary); }
 }
 
 /* Tabular figures wherever data lives */
