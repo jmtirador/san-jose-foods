@@ -17,11 +17,11 @@ const SPEC = {
 }
 
 function SpecSection({
-  id, index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, metaFormats, waPrefix, waVolume,
+  id, index, title, esFlourish, desc, cuts, imageSrc, hs, getPricing, quote, metaFormats, waPrefix, waVolume, fig,
 }: {
   id: string; index: number; title: string; esFlourish: string; desc: string
   cuts: readonly string[]; imageSrc: string; hs: string
-  getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
+  getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string; fig: string
 }) {
   return (
     <section id={id} className="doc-grid border-t border-border scroll-mt-[76px]">
@@ -41,7 +41,10 @@ function SpecSection({
           <div className="relative border border-border overflow-hidden aspect-[4/3] lg:aspect-[4/5]">
             <Image src={imageSrc} alt={title} fill sizes="(max-width: 1024px) 100vw, 32vw" className="object-cover" />
           </div>
-          <p className="flourish text-muted-foreground text-sm mt-4">{esFlourish}</p>
+          {/* Representative stock carries the Ref marker (site rule) until real
+              SJF photography replaces it — same treatment as home and company. */}
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-4">{fig}</p>
+          <p className="flourish text-muted-foreground text-sm mt-1.5">{esFlourish}</p>
           <p className="sm:hidden font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-2">US · CA · BR · {hs}</p>
         </div>
 
@@ -87,7 +90,7 @@ export default function ProductsPage() {
   const { t } = useLanguage()
   const p = t.products
 
-  const shared = { getPricing: p.getPricing, quote: p.quote, metaFormats: p.metaFormats, waPrefix: p.waCutPrefix, waVolume: p.waVolume }
+  const shared = { getPricing: p.getPricing, quote: p.quote, metaFormats: p.metaFormats, waPrefix: p.waCutPrefix, waVolume: p.waVolume, fig: p.fig }
 
   return (
     <>

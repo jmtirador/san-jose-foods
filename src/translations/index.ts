@@ -89,6 +89,7 @@ export const translations = {
       getPricing: 'Get Pricing on WhatsApp',
       quote: 'Quote',
       metaFormats: 'Fresh / Frozen',
+      fig: 'Ref · Sourced product',
       waCutPrefix: "Hi, I'd like a quote for",
       waVolume: 'Volume: ___',
       chicken: {
@@ -325,6 +326,7 @@ export const translations = {
       getPricing: 'Cotizar por WhatsApp',
       quote: 'Cotizar',
       metaFormats: 'Fresco / Congelado',
+      fig: 'Ref · Producto de origen',
       waCutPrefix: 'Hola, quiero cotizar',
       waVolume: 'Volumen: ___',
       chicken: {
