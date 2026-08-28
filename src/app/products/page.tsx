@@ -74,7 +74,7 @@ function SpecSection({
             rel="noopener noreferrer"
             className="btn-primary font-sans text-sm mt-8"
           >
-            <WhatsAppGlyph className="w-4 h-4" />
+            <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
             {getPricing}
           </a>
         </div>
