@@ -54,26 +54,32 @@ function SpecSection({
             {/* The checkboxes need a reason to exist before the first tick. */}
             <p className="font-serif text-[13px] text-muted-foreground mb-3">{hint}</p>
 
-            <div className="grid grid-cols-[28px_1fr] items-baseline gap-x-3 pb-2 border-b-2 border-foreground">
-              <span aria-hidden />
+            <div className="grid grid-cols-[36px_1fr] items-baseline gap-x-2 pb-2 border-b-2 border-foreground">
+              {/* Column legend: the header teaches the checkbox pattern passively. */}
+              <span aria-hidden className="inline-block h-3 w-3 rounded-sm border border-muted-foreground/60 translate-y-px" />
               <div className="flex items-baseline justify-between">
                 <span className="form-label">{colCut}</span>
                 <span className="form-label">{colQuote}</span>
               </div>
             </div>
 
-            <div>
+            <div className="sm:grid sm:grid-cols-2 sm:gap-x-10">
               {cuts.map((cut, i) => {
                 const key = `${id}:${cut}`
                 return (
-                  <div key={cut} className="grid grid-cols-[28px_1fr] items-center border-b border-border">
-                    <input
-                      type="checkbox"
-                      checked={!!selected[key]}
-                      onChange={() => onToggle(key, cut)}
-                      aria-label={`${cut} — ${colQuote}`}
-                      className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-brand-600 checked:border-brand-600 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
-                    />
+                  <div key={cut} className="grid grid-cols-[36px_1fr] items-stretch gap-x-2 border-b border-border">
+                    {/* Padded label so the 16px box carries a ~44px hit area. Checked
+                        fill is ink, not red: red stays reserved for the two real
+                        conversion actions on this page. */}
+                    <label className="flex items-center justify-start cursor-pointer py-3.5">
+                      <input
+                        type="checkbox"
+                        checked={!!selected[key]}
+                        onChange={() => onToggle(key, cut)}
+                        aria-label={`${cut} — ${colQuote}`}
+                        className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
+                      />
+                    </label>
                     <a
                       href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
                       target="_blank"
@@ -175,9 +181,11 @@ export default function ProductsPage() {
             initial={{ y: 72 }} animate={{ y: 0 }} exit={{ y: 72 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             role="region" aria-live="polite"
-            className="fixed bottom-0 inset-x-0 z-40 bg-brand-600 text-white border-t border-brand-800"
+            className="fixed bottom-0 inset-x-0 z-40 bg-foreground text-background border-t border-background/20"
             style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
           >
+            {/* Ink dock, not red: it can sit over the red CTA band without merging
+                into it, and red stays reserved for the page's standing actions. */}
             <div className="max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center justify-between gap-4">
               <span className="font-mono text-[13px] tnum whitespace-nowrap">
                 {count} {count === 1 ? p.manifestLine : p.manifestLines}
@@ -186,14 +194,14 @@ export default function ProductsPage() {
                 <button
                   type="button"
                   onClick={() => setSelected({})}
-                  className="font-sans text-[13px] text-white/80 hover:text-white active:text-white transition-colors underline underline-offset-4 decoration-white/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
+                  className="font-sans text-[13px] text-background/70 hover:text-background active:text-background transition-colors underline underline-offset-4 decoration-background/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background rounded-sm"
                 >
                   {p.manifestClear}
                 </button>
                 <a
                   href={waLink(manifestMessage())}
                   target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-brand-700 font-sans font-medium text-[13px] px-4 py-2 rounded-sm hover:bg-warm-50 active:bg-warm-100 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600"
+                  className="inline-flex items-center gap-2 bg-background text-foreground font-sans font-medium text-[13px] px-4 py-2 rounded-sm hover:bg-accent active:bg-accent transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-foreground"
                 >
                   <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
                   {p.manifestSend}

@@ -289,7 +289,7 @@ export const translations = {
     // Home
     home: {
       heroEyebrow: 'USDA · CFIA · SIF · Hidalgo, TX',
-      heroLine1: 'Suministro Internacional de Carne,',
+      heroLine1: 'Suministro de carne,',
       heroLine2: 'cruzando fronteras,',
       heroLine3: 'hacia ',
       heroAccent: 'México',

@@ -50,7 +50,7 @@ export default function CompanyPage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
           <SectionHead index="§01" title={a.storyTitle} meta={co.s1Meta} />
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-12 lg:gap-16">
-            <div className="space-y-5 font-serif text-muted-foreground leading-relaxed text-[16px] max-w-2xl">
+            <div className="space-y-5 font-serif text-muted-foreground leading-relaxed text-[16px] max-w-xl">
               <p>{a.storyP1}</p>
               <p>{a.storyP2}</p>
               <p className="text-foreground text-lg leading-relaxed pt-2">

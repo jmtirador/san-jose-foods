@@ -135,6 +135,12 @@
   * {
     border-color: var(--border);
   }
+  /* Serif reading copy needs a touch more weight on dark OLED — thin serif
+     hairlines bloom against a dark ground. Headings set their own weight. */
+  .dark p.font-serif,
+  .dark span.font-serif {
+    font-weight: 450;
+  }
 }
 
 @layer components {

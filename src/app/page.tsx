@@ -88,13 +88,14 @@ export default function HomePage() {
 
             {/* The declaration — six ruled rows, pre-printed label left, typed
                 value right. The facts that used to live in a ticker and a stat
-                band, presented the way the trade actually writes them. */}
-            <div className="mt-10 border-t-2 border-foreground">
+                band, presented the way the trade actually writes them. Rules use
+                the --rule token: this device collapses if the lines go faint. */}
+            <div className="mt-8 border-t-2 border-foreground">
               {h.declaration.map((row, i) => (
                 <motion.div
                   key={row.k}
                   {...printRow(i)}
-                  className="flex items-baseline justify-between gap-4 py-3 border-b border-border"
+                  className="flex items-baseline justify-between gap-4 py-3 border-b border-rule min-h-[46px]"
                 >
                   <span className="form-label shrink-0">{row.k}</span>
                   <span className="font-mono text-[14px] sm:text-[15px] text-foreground text-right tnum leading-snug">{row.v}</span>
@@ -106,7 +107,7 @@ export default function HomePage() {
               initial={reduce ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 1.0 }}
-              className="mt-9 flex flex-wrap items-center gap-4"
+              className="mt-8 flex flex-wrap items-center gap-4"
             >
               <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
                 {h.heroCta}
@@ -119,7 +120,7 @@ export default function HomePage() {
               initial={reduce ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 1.1 }}
-              className="doc-stamp mt-10"
+              className="doc-stamp mt-8"
             >
               {h.heroDocLine}
             </motion.p>
