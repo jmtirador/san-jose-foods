@@ -1,20 +1,31 @@
 'use client'
 
+import { useRef } from 'react'
 import Image from 'next/image'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { rowReveal, useReducedMotionFlag, useStill } from '@/lib/motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { CtaBand } from '@/components/CtaBand'
-import { SectionHead } from '@/components/SectionHead'
+import { Masthead } from '@/components/Masthead'
+import { MorphText } from '@/components/MorphText'
+import { Reveal } from '@/components/Reveal'
 
 export default function CompanyPage() {
   const { t } = useLanguage()
   const a = t.about
   const w = t.why
   const co = t.company
+  const reduce = useReducedMotion()
+
+  // The band drifts slower than the page (claim: it sits behind the content).
+  const bandRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: bandRef, offset: ['start end', 'end start'] })
+  const still = useReducedMotionFlag()
+  const bandY = useStill(useTransform(scrollYProgress, [0, 1], ['-12%', '12%']), still, '0%')
 
   const mandate = [
-    { n: '01', title: a.value1Title, body: a.value1Desc },
-    { n: '02', title: a.value2Title, body: a.value2Desc },
+    { title: a.value1Title, body: a.value1Desc },
+    { title: a.value2Title, body: a.value2Desc },
   ]
   const capabilities = [
     { title: w.diff1Title, p1: w.diff1P1, p2: w.diff1P2 },
@@ -28,111 +39,107 @@ export default function CompanyPage() {
 
   return (
     <>
-      {/* Page masthead */}
-      <section className="bg-background">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
-        >
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <h1 className="font-display font-semibold tracking-[-0.02em] text-foreground" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
-              {a.pageTitle}
-            </h1>
-            <span className="doc-stamp hidden sm:block mt-3 shrink-0">SJF-CO · REV 2026.08</span>
-          </div>
-          <p className="font-serif text-muted-foreground text-lg max-w-2xl leading-relaxed">{a.pageSub}</p>
-        </motion.div>
-      </section>
+      <Masthead title={a.pageTitle} sub={a.pageSub} titleClassName="max-w-[16ch]" className="lg:pb-24" />
 
-      {/* §01 — Who We Are + Operations ledger */}
-      <section>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
-          <SectionHead index="§01" title={a.storyTitle} meta={co.s1Meta} />
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] lg:items-center gap-12 lg:gap-16">
-            <div className="space-y-5 text-muted-foreground leading-relaxed text-[16px] max-w-xl">
-              <p className="font-serif">{a.storyP1}</p>
-              <p className="font-serif">{a.storyP2}</p>
-              <p className="font-serif text-foreground text-lg leading-relaxed pt-2">
-                <span className="doc-index block mb-2">{co.positioning}</span>
-                {a.storyP3}
-              </p>
-            </div>
-
-            <div>
-              <div className="relative border border-border overflow-hidden aspect-[4/3]">
-                <Image src="https://images.unsplash.com/photo-1560166444-441876015a70?w=900&q=80" alt="Meat processing operations" fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
-              </div>
-              <p className="font-mono text-[10px] tracking-[0.02em] uppercase text-muted-foreground mt-2">{co.figOps}</p>
-              <div className="mt-8 bg-background">
-                <div className="form-label pb-3 border-b border-border">{co.opsTitle}</div>
-                {co.ops.map((row) => (
-                  <div key={row.k} className="spec-row">
-                    <span className="form-label shrink-0">{row.k}</span>
-                    <span className="lead-dots" />
-                    <span className="val font-mono text-[12px] text-foreground text-right">{row.v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* Who we are, offset against the at-a-glance list. */}
+      <section className="border-t border-border py-24 lg:py-32">
+        <div className="wrap grid grid-cols-1 gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
+          <Reveal className="lg:pt-12">
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{a.storyTitle}</MorphText>
+            </h2>
+            <p className="t-body mt-8 max-w-[60ch] text-muted-foreground">{a.storyP1}</p>
+            <p className="t-body mt-5 max-w-[60ch] text-muted-foreground">{a.storyP2}</p>
+            <p className="t-lead mt-10 max-w-[38ch] text-foreground">{a.storyP3}</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="t-small mb-3 text-muted-foreground">{co.opsTitle}</p>
+            <dl className="divide-y divide-border border-y border-border">
+              {co.ops.map((row, i) => (
+                <motion.div key={row.k} className="kv py-5" {...rowReveal(reduce, i)}>
+                  <dt>{row.k}</dt>
+                  <dd className="text-[1.125rem]">{row.v}</dd>
+                </motion.div>
+              ))}
+            </dl>
+          </Reveal>
         </div>
       </section>
 
-      {/* §02 — Mandate */}
-      <section>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
-          <SectionHead index="§02" title={co.s2} />
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
-            {mandate.map((m) => (
-              <div key={m.n}>
-                <div className="doc-index mb-3">{m.n} / {m.title}</div>
-                <p className="font-serif text-foreground/90 text-lg leading-relaxed max-w-md">{m.body}</p>
-              </div>
+      {/* Full-bleed product band. Product macro, not a facility: nothing here
+          implies a photo of SJF's own operation. */}
+      <div ref={bandRef} className="grade grade-band relative h-[48vh] min-h-[320px]">
+        <motion.div className="absolute inset-x-0 -top-[12%] -bottom-[12%]" style={{ y: bandY }}>
+          <Image src="/img/pork.jpg" alt={co.bandAlt} fill sizes="100vw" className="object-cover object-center" />
+        </motion.div>
+      </div>
+
+      {/* Mandate: two statements. */}
+      <section className="py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{co.s2}</MorphText>
+            </h2>
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-20">
+            {mandate.map((m, i) => (
+              <Reveal key={m.title} delay={i * 0.1}>
+                <p className="t-small text-muted-foreground">{m.title}</p>
+                <p className="t-lead mt-4 text-foreground">{m.body}</p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* §03 — Capabilities */}
-      <section>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14">
-          <SectionHead index="§03" title={co.s3} />
-        </div>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 pb-4">
-          {capabilities.map((c, i) => (
-            <div key={c.title} className="grid grid-cols-1 lg:grid-cols-[auto_1fr] lg:items-center gap-4 lg:gap-14 py-10 border-b border-border">
-              <div className="font-mono font-medium tabular-nums text-muted-foreground tracking-[-0.02em] leading-none" style={{ fontSize: '2.2rem' }}>0{i + 1}</div>
-              <div>
-                <h3 className="font-display font-semibold tracking-[-0.01em] text-foreground text-xl mb-4">{c.title}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-w-4xl">
-                  <p className="font-serif text-muted-foreground leading-relaxed text-[15px]">{c.p1}</p>
-                  <p className="font-serif text-muted-foreground leading-relaxed text-[15px]">{c.p2}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+      {/* Capabilities: numbered rows on a lifted surface. */}
+      <section className="border-y border-border bg-surface-1 py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{co.s3}</MorphText>
+            </h2>
+          </Reveal>
+          <ol className="mt-14 divide-y divide-border border-t border-border">
+            {capabilities.map((c, i) => (
+              <li key={c.title}>
+                <Reveal className="grid grid-cols-1 gap-6 py-10 lg:grid-cols-[6rem_1fr_1.2fr] lg:gap-12 lg:py-14" amount={0.3}>
+                  <span aria-hidden className="text-[3.5rem] font-semibold leading-none tracking-[-0.04em] text-foreground/20 tnum lg:text-[4rem]">0{i + 1}</span>
+                  <h3 className="t-h3 text-foreground">{c.title}</h3>
+                  <div>
+                    <p className="t-body text-muted-foreground">{c.p1}</p>
+                    <p className="t-body mt-4 text-muted-foreground">{c.p2}</p>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* §04 — Reference */}
-      <section>
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-14">
-          <SectionHead index="§04" title={co.s4} />
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {reference.map((r) => (
-              <div key={r.title}>
-                <h3 className="font-display font-semibold tracking-[-0.01em] text-foreground text-2xl mb-3">{r.title}</h3>
-                <p className="font-serif text-muted-foreground leading-relaxed text-[15px] mb-6 max-w-md">{r.sub}</p>
-                <div>
-                  {r.points.map((pt, i) => (
-                    <div key={pt} className="flex items-baseline gap-4 py-2.5 border-b border-border/60">
-                      <span className="doc-index text-[11px] shrink-0 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="font-serif text-[15px] leading-relaxed text-muted-foreground">{pt}</span>
-                    </div>
+      {/* Reference: two lists. */}
+      <section className="py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{co.s4}</MorphText>
+            </h2>
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
+            {reference.map((r, i) => (
+              <Reveal key={r.title} delay={i * 0.1}>
+                <h3 className="t-h3 text-foreground">{r.title}</h3>
+                <p className="t-body mt-3 max-w-[48ch] text-muted-foreground">{r.sub}</p>
+                <ol className="mt-8 divide-y divide-border border-y border-border">
+                  {r.points.map((pt, j) => (
+                    <motion.li key={pt} className="flex items-baseline gap-5 py-4" {...rowReveal(reduce, j)}>
+                      <span className="t-code w-6 shrink-0 text-muted-foreground">{String(j + 1).padStart(2, '0')}</span>
+                      <span className="t-body text-foreground">{pt}</span>
+                    </motion.li>
                   ))}
-                </div>
-              </div>
+                </ol>
+              </Reveal>
             ))}
           </div>
         </div>

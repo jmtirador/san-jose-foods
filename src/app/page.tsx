@@ -1,38 +1,54 @@
 'use client'
 
-import Link from 'next/link'
+import { useRef } from 'react'
 import Image from 'next/image'
-import { motion, useReducedMotion } from 'motion/react'
+import Link from 'next/link'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
+import { PROTEINS } from '@/data/cuts'
 import { CtaBand } from '@/components/CtaBand'
+import { Corridor } from '@/components/Corridor'
+import { MorphText } from '@/components/MorphText'
+import { Reveal } from '@/components/Reveal'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
-import { SectionHead } from '@/components/SectionHead'
-import { SjfMark } from '@/components/SjfMark'
+import { DUR, EASING, heroLine, rowReveal, useReducedMotionFlag, useStill } from '@/lib/motion'
 
-function ProductCard({
-  title, desc, imageSrc, counterpart, anchor, index, cta, className = '', compact = false,
+function ProductPlate({
+  href, image, alt, title, meta, cta, priority = false,
 }: {
-  title: string; desc: string; imageSrc: string; counterpart: string; anchor: string
-  index: number; cta: string; className?: string; compact?: boolean
+  href: string; image: string; alt: string; title: string; meta: string; cta: string; priority?: boolean
 }) {
+  const reduce = useReducedMotion()
   return (
-    <Link href={`/products#${anchor}`} className={`group relative overflow-hidden border border-border bg-card flex flex-col h-full ${className}`}>
-      <div className="relative bg-muted flex-1 overflow-hidden min-h-[16rem] md:min-h-0">
-        <Image src={imageSrc} alt={title} fill priority={index === 1} sizes="(max-width: 768px) 100vw, 40vw" className="object-cover opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
-      </div>
-      <div className="p-6 border-t border-border">
-        <div className="flex items-baseline gap-3">
-          <span className="doc-index">No. 0{index}</span>
-          <h3 className="font-display text-card-foreground font-semibold tracking-[-0.01em] text-[22px]">{title}</h3>
+    <Link href={href} className="group grade grade-plate relative block h-full min-h-[300px] overflow-hidden rounded-xl bg-surface-2">
+      {/* The photo settles into its frame as the plate arrives (claim: this plate arrived). */}
+      <motion.div
+        className="absolute inset-0"
+        initial={reduce ? false : { scale: 1.14 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: DUR.hero * 1.4, ease: EASING.enter }}
+      >
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 768px) 100vw, 60vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
+      </motion.div>
+      <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-6 lg:p-8">
+        <div>
+          <h3 className="text-[1.75rem] font-semibold leading-none tracking-[-0.03em] text-white lg:text-[2.25rem]">{title}</h3>
+          <p className="t-code mt-3 text-white/75">{meta}</p>
         </div>
-        <p className="flourish text-muted-foreground text-sm mb-3 mt-1">{counterpart}</p>
-        {!compact && <p className="text-muted-foreground text-[15px] font-serif leading-relaxed">{desc}</p>}
-        <div className="mt-4 inline-flex items-center gap-1.5 font-sans text-[13px] font-medium text-muted-foreground group-hover:text-brand-600 transition-colors">
-          <span>{cta}</span>
-          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </div>
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-transform duration-300 ease-out group-hover:translate-x-1" aria-hidden>
+          <ArrowRight className="h-4 w-4" />
+        </span>
+        <span className="sr-only">{cta}</span>
       </div>
     </Link>
   )
@@ -43,141 +59,151 @@ export default function HomePage() {
   const h = t.home
   const reduce = useReducedMotion()
 
-  // Declaration rows print in place, top to bottom — a dot-matrix pass, not a
-  // fade choreography. The one mount animation on the page.
-  const printRow = (i: number) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.5 + i * 0.07, duration: 0.02 },
-        }
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const still = useReducedMotionFlag()
+  const imageY = useStill(useTransform(scrollYProgress, [0, 1], ['0%', '16%']), still, '0%')
+
+  const line = (delay: number) => heroLine(reduce, delay)
+
+  const plates = PROTEINS.map((pr, i) => ({
+    id: pr.id,
+    image: pr.image,
+    title: h[pr.id],
+    alt: h[`${pr.id}Desc`],
+    meta: `${t.products[pr.id].cuts.length} ${t.common.cuts} · ${pr.hs}`,
+    cls: i === 0 ? 'md:col-span-2 md:row-span-2' : '',
+  }))
 
   return (
     <>
-      {/* ── HERO — La Declaración: the trade document, filled in ── */}
-      <section className="relative bg-background overflow-hidden border-b border-rule">
-        {/* Quiet right-edge watermark, desktop only */}
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-[-120px] hidden lg:flex items-center opacity-[0.05]">
-          <SjfMark className="h-[420px] w-auto" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-16 lg:pt-20 lg:pb-20">
-          <div className="lg:max-w-[720px]">
-            <motion.h1
-              initial={reduce ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="reveal-on-scroll font-display font-semibold text-foreground text-balance leading-[1.02] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4rem)' }}
-            >
-              {h.heroLine1}<br />
-              {h.heroLine2}<br />
-              {h.heroLine3}<span className="text-primary">{h.heroAccent}</span>.
-            </motion.h1>
-
-            <motion.p
-              initial={reduce ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              className="reveal-on-scroll flourish text-muted-foreground text-[16px] mt-5"
-            >
-              {h.heroCounterpart}
-            </motion.p>
-
-            {/* The declaration — six ruled rows, pre-printed label left, typed
-                value right. The facts that used to live in a ticker and a stat
-                band, presented the way the trade actually writes them. Rules use
-                the --rule token: this device collapses if the lines go faint.
-                reveal-on-scroll: layout.tsx's noscript override forces opacity:1
-                for it, so a no-JS visitor or crawler still sees the content. */}
-            <div className="mt-8 border-t-2 border-foreground">
-              {h.declaration.map((row, i) => (
-                <motion.div
-                  key={row.k}
-                  {...printRow(i)}
-                  className="reveal-on-scroll flex items-baseline justify-between gap-4 py-3 border-b border-rule min-h-[46px]"
-                >
-                  <span className="form-label shrink-0">{row.k}</span>
-                  <span className="font-mono text-[14px] sm:text-[15px] text-foreground text-right tnum leading-snug">{row.v}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* The conversion CTAs — reveal-on-scroll matters most right here. */}
-            <motion.div
-              initial={reduce ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 1.0 }}
-              className="reveal-on-scroll mt-8 flex flex-wrap items-center gap-4"
-            >
-              <a href={waLink(h.heroWaMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary font-sans text-sm">
-                {h.heroCta}
-                <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-              </a>
-              <Link href="/products" className="btn-ghost font-sans text-sm">{h.heroSubCta}</Link>
-            </motion.div>
-
-            <motion.p
-              initial={reduce ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 1.1 }}
-              className="reveal-on-scroll doc-stamp mt-8"
-            >
-              {h.heroDocLine}
-            </motion.p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── §01 CATALOG PREVIEW ── */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
-            <div className="flex-1">
-              <SectionHead index="§01" title={h.productsTitle} meta="HS 0201 · 0202 · 0203 · 0207" />
-            </div>
-          </div>
-
+      {/* HERO: giant statement, bottom-left over a full-bleed graded image. */}
+      <section ref={heroRef} className="relative flex min-h-[92svh] items-end overflow-hidden bg-ink lg:min-h-[100svh]">
+        <motion.div style={{ y: imageY }} className="grade grade-hero absolute inset-x-0 top-0 h-[118%]">
           <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }}
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
-            className="reveal-on-scroll grid grid-cols-1 md:grid-cols-3 md:auto-rows-[280px] gap-3"
+            initial={reduce ? false : { scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: DUR.hero * 2, ease: EASING.enter }}
+            className="absolute inset-0"
           >
-            {[
-              { title: h.beef, desc: h.beefDesc, src: 'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=1200&q=85', anchor: 'beef', counterpart: h.beefCounterpart, index: 1, cls: 'md:col-span-2 md:row-span-2' },
-              { title: h.pork, desc: h.porkDesc, src: 'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=800&q=80', anchor: 'pork', counterpart: h.porkCounterpart, index: 2, cls: '' },
-              { title: h.chicken, desc: h.chickenDesc, src: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80', anchor: 'chicken', counterpart: h.chickenCounterpart, index: 3, cls: '' },
-            ].map((p) => (
-              <motion.div key={p.anchor} variants={{ hidden: { y: 20 }, visible: { y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }} className={p.cls}>
-                <ProductCard title={p.title} desc={p.desc} imageSrc={p.src} counterpart={p.counterpart} anchor={p.anchor} index={p.index} cta={h.viewCuts} compact={!p.cls} />
-              </motion.div>
-            ))}
+            <Image src="/img/beef-hero.jpg" alt={h.heroImageAlt} fill priority quality={72} sizes="100vw" className="object-cover object-center" />
           </motion.div>
+        </motion.div>
 
-          <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-            <p className="font-serif text-muted-foreground text-[16px] max-w-lg leading-relaxed">{h.productsSub}</p>
-            <Link href="/products" className="btn-outline-brand font-sans text-xs shrink-0">{h.viewProducts}</Link>
+        <div className="wrap relative z-10 pb-16 pt-44 lg:pb-24">
+          <h1 className="reveal t-display max-w-[20ch] text-white">
+            <MorphText as="span" className="block" stagger delay={0.1}>{h.heroTitleA}</MorphText>
+            <MorphText as="span" className="block" stagger delay={0.34}>{h.heroTitleB}</MorphText>
+          </h1>
+          <motion.p className="reveal t-lead mt-8 max-w-[40ch] text-white/85" {...line(0.62)}>
+            {h.heroSub}
+          </motion.p>
+          <motion.div className="reveal mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" {...line(0.76)}>
+            <a href={waLink(t.common.waMessage)} target="_blank" rel="noopener noreferrer" className="btn-primary">
+              {t.common.whatsapp}
+              <span className="btn-disc"><WhatsAppGlyph className="h-3.5 w-3.5" /></span>
+            </a>
+            <Link href="/products" className="link-arrow text-white hover:text-white/80">
+              {h.heroSubCta}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* THE CORRIDOR: the one drawn diagram on the site. */}
+      <section className="py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal className="max-w-2xl">
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{h.corridorTitle}</MorphText>
+            </h2>
+            <p className="t-body mt-6 max-w-[58ch] text-muted-foreground">{h.corridorBody}</p>
+          </Reveal>
+          <div className="mt-14 lg:mt-20">
+            <Corridor />
           </div>
         </div>
       </section>
 
-      {/* ── §02 COMMON QUESTIONS — objection handling before the order desk ── */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10">
-          <div className="mb-12">
-            <SectionHead index="§02" title={h.faqEyebrow} />
+      {/* WHAT WE SUPPLY: asymmetric plates, beef leads. */}
+      <section className="border-t border-border py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal className="max-w-2xl">
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{h.productsTitle}</MorphText>
+            </h2>
+            <p className="t-body mt-6 max-w-[58ch] text-muted-foreground">{h.productsSub}</p>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[300px]">
+            {plates.map((pl, i) => (
+              <Reveal key={pl.id} delay={i * 0.08} className={pl.cls} amount={0.15}>
+                <ProductPlate
+                  href={`/products#${pl.id}`}
+                  image={pl.image}
+                  alt={pl.alt}
+                  title={pl.title}
+                  meta={pl.meta}
+                  cta={h.viewCuts}
+                  priority={i === 0}
+                />
+              </Reveal>
+            ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-12">
+          <Reveal className="mt-10">
+            <Link href="/products" className="link-arrow">
+              {h.viewProducts}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* HOW THE DESK WORKS: three numerals on one rule, no cards. */}
+      <section className="border-y border-border bg-surface-1 py-24 lg:py-32">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="t-h2 text-foreground">
+              <MorphText>{h.stepsTitle}</MorphText>
+            </h2>
+          </Reveal>
+          <ol className="relative mt-14 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
+            {/* The rule draws left to right as the steps lay out (claim: three steps, in order). */}
+            <motion.span
+              aria-hidden
+              className="absolute inset-x-0 top-[5.25rem] hidden h-px origin-left bg-border md:block"
+              initial={reduce ? false : { scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: DUR.hero, ease: EASING.enter }}
+            />
+            {h.steps.map((s, i) => (
+              <motion.li key={s.title} className="relative" {...rowReveal(reduce, i * 3)}>
+                <span aria-hidden className="block bg-surface-1 pr-4 text-[4.5rem] font-semibold leading-none tracking-[-0.04em] text-foreground/20 tnum md:inline-block md:text-[5rem]">
+                  0{i + 1}
+                </span>
+                <h3 className="t-h3 mt-6 text-foreground">{s.title}</h3>
+                <p className="t-body mt-3 max-w-[34ch] text-muted-foreground">{s.body}</p>
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* COMMON QUESTIONS: sticky heading, ruled list. */}
+      <section className="py-24 lg:py-32">
+        <div className="wrap grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.7fr] lg:gap-24">
+          <Reveal>
+            <h2 className="t-h2 text-foreground lg:sticky lg:top-28">
+              <MorphText>{h.faqTitle}</MorphText>
+            </h2>
+          </Reveal>
+          <div className="divide-y divide-border border-t border-border">
             {h.faq.map((f, i) => (
-              <div key={f.q} className="flex gap-5">
-                <span className="doc-index shrink-0 w-12 pt-0.5">Q.0{i + 1}</span>
-                <div className="min-w-0">
-                  <h3 className="font-serif font-semibold text-foreground text-[17px] mb-2">{f.q}</h3>
-                  <p className="font-serif text-muted-foreground text-[15px] leading-relaxed max-w-md">{f.a}</p>
-                </div>
-              </div>
+              <motion.div key={f.q} className="reveal grid gap-3 py-8 md:grid-cols-[1fr_1.25fr] md:gap-10" {...rowReveal(reduce, i, 0.4)}>
+                <h3 className="t-h3 text-foreground">{f.q}</h3>
+                <p className="t-body text-muted-foreground">{f.a}</p>
+              </motion.div>
             ))}
           </div>
         </div>

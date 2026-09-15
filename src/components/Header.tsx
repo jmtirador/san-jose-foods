@@ -1,44 +1,50 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
-import { Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
+import { Menu, X } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { waLink } from '@/lib/whatsapp'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { SjfMark } from '@/components/SjfMark'
-
-// Hysteresis dead-zone so micro-scrolls near the boundary don't flicker the morph.
-const ENTER = 90
-const EXIT = 40
+import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { DUR, EASING, SPRING } from '@/lib/motion'
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [condensed, setCondensed] = useState(false)
   const pathname = usePathname()
   const reduce = useReducedMotion()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   const { scrollY } = useScroll()
-  useMotionValueEvent(scrollY, 'change', (y) => {
-    setCondensed((prev) => {
-      if (prev && y < EXIT) return false
-      if (!prev && y > ENTER) return true
-      return prev
-    })
-    if (y > ENTER) setMenuOpen((o) => (o ? false : o))
-  })
+  useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 24))
 
-  // The Header lives in the layout and persists across navigation, so its
-  // condensed state (and the browser's smooth scroll) can carry into the next
-  // page and leave the bar floating a few px down. On every route change, snap
-  // to the very top instantly and reset the bar to its expanded state.
+  useEffect(() => setMenuOpen(false), [pathname])
+
+  // While the mobile sheet is open: lock page scroll, make the page behind it
+  // inert so Tab can't wander into hidden content, and close on Escape with
+  // focus returned to the toggle.
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' })
-    setCondensed(false)
-    setMenuOpen(false)
-  }, [pathname])
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    const behind = [document.querySelector('main'), document.querySelector('footer')] as (HTMLElement | null)[]
+    behind.forEach((el) => { if (el) el.inert = menuOpen })
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && menuOpen) {
+        setMenuOpen(false)
+        toggleRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      behind.forEach((el) => { if (el) el.inert = false })
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen])
 
   const navLinks = [
     { href: '/', label: t.nav.home },
@@ -46,130 +52,136 @@ export default function Header() {
     { href: '/company', label: t.nav.company },
     { href: '/contact', label: t.nav.contact },
   ]
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+  // Over the home hero image the bar sits on a dark photo in both themes, so
+  // it borrows the on-image scheme (white ink) until the page scrolls.
+  const onImage = pathname === '/' && !scrolled && !menuOpen
 
-  // A two-option mono control (EN/ES, LIGHT/DARK): active = foreground + a red
-  // baseline tick; inactive = muted. Reads as a real setting, not plain text.
-  const seg = (active: boolean, label: string, onClick: () => void) => (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`relative px-0.5 pb-1 transition-colors ${active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+  // Compact in the desktop bar (mouse), full 44px targets in the phone sheet.
+  const languageControl = (size: 'compact' | 'touch') => (
+    <div
+      role="group"
+      aria-label={language === 'es' ? 'Idioma' : 'Language'}
+      className={`inline-flex items-center rounded-md border border-border p-1 ${size === 'touch' ? 'h-13' : 'h-11'}`}
     >
-      {label}
-      {active && <span className="absolute inset-x-0 -bottom-px h-[1.5px] bg-brand-600" aria-hidden />}
-    </button>
-  )
-
-  const controls = (
-    <div className="flex items-stretch font-mono text-[11px] tracking-[0.12em]">
-      <div className="flex items-center gap-3">
-        {seg(language === 'en', 'EN', () => setLanguage('en'))}
-        {seg(language === 'es', 'ES', () => setLanguage('es'))}
-      </div>
-      <div className="mx-5 w-px self-center h-3 bg-border" aria-hidden />
-      <ThemeToggle />
+      {(['en', 'es'] as const).map((lang) => {
+        const active = language === lang
+        return (
+          <button
+            key={lang}
+            type="button"
+            onClick={() => setLanguage(lang)}
+            aria-pressed={active}
+            className={`relative rounded-sm text-[13px] font-medium uppercase tracking-[0.04em] transition-colors ${size === 'touch' ? 'h-11 px-5' : 'h-9 px-3.5'} ${
+              active ? 'text-background' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {/* The pill slides to the chosen language (claim: the language changed). */}
+            {active && <motion.span layoutId={`lang-pill-${size}`} transition={SPRING.tick} className="absolute inset-0 rounded-sm bg-foreground" aria-hidden />}
+            <span className="relative">{lang}</span>
+          </button>
+        )
+      })}
     </div>
   )
 
-  // Morph is CSS-transition based (max-width, padding, radius, bg, border, margin),
-  // NOT Framer layout/FLIP — so the flex children reflow via justify-between and
-  // never teleport at animation end. Structure stays identical in both states.
-  const morphTransition = reduce
-    ? undefined
-    : 'max-width 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1), border-radius 0.5s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
-
   return (
-    <header className="sticky top-0 z-50 h-[76px]">
-      {/* Full-bleed flush bar background + bottom hairline — fades out on condense
-          so the bar reads as detaching into a floating panel. */}
+    <header className={`fixed inset-x-0 top-0 z-50 ${onImage ? 'on-image' : ''}`}>
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 border-b bg-background transition-[opacity,border-color] duration-400"
-        style={{ opacity: condensed ? 0 : 1, borderColor: 'var(--border)' }}
-      />
-
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div
-          className={`flex h-[68px] w-full items-center justify-between gap-6 border ${
-            condensed ? 'max-w-6xl rounded-xl border-border bg-card px-6 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)]' : 'max-w-7xl rounded-none border-transparent bg-transparent px-6 sm:px-10'
-          }`}
-          style={{ transition: morphTransition }}
-        >
-          {/* Wordmark + descriptor — constant structure (no collapse) so nothing
-              reflows the logo mid-morph. */}
-          <Link href="/" className="flex items-center gap-4 flex-shrink-0 group">
-            <SjfMark className="h-8 w-auto" />
-            <span className="flex flex-col justify-center">
-              <span className="text-foreground font-medium leading-none tracking-tight font-display text-[1.15rem]">
-                San&nbsp;Jose&nbsp;Foods
-              </span>
-              <span className="mt-1.5 font-mono text-[10px] font-medium tracking-[0.12em] uppercase text-muted-foreground whitespace-nowrap">
-                SJF&nbsp;· International Meat Trade
-              </span>
-            </span>
+        className={`transition-[background-color,border-color,backdrop-filter] duration-300 border-b ${
+          scrolled || menuOpen ? 'bg-background/80 backdrop-blur-xl border-border' : 'bg-transparent border-transparent'
+        }`}
+      >
+        <div className="wrap flex h-16 items-center justify-between gap-6">
+          <Link href="/" className="flex items-center gap-3 shrink-0" aria-label="San Jose Foods, home">
+            <SjfMark className="h-7 w-auto" />
+            <span className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">San Jose Foods</span>
           </Link>
 
-          {/* Nav — plain flex, no layout FLIP; stays justify-between so it can't teleport */}
-          <nav className="hidden lg:flex items-center gap-1.5">
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-sans px-3.5 py-2 text-[13px] font-medium tracking-wide transition-colors duration-200 ${
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`relative rounded-md px-3.5 py-3 text-sm font-medium transition-colors ${
                   isActive(link.href) ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
-                {isActive(link.href) && (
-                  <span className="absolute left-3.5 right-3.5 -bottom-1 block h-[2px] bg-brand-600" aria-hidden />
-                )}
+                {/* The tick slides to the current page (claim: this is the current place). */}
+                {isActive(link.href) && <motion.span layoutId="nav-tick" transition={SPRING.tick} aria-hidden className="absolute inset-x-3.5 bottom-1 h-[2px] rounded-full bg-primary" />}
               </Link>
             ))}
           </nav>
 
-          {/* Control cluster */}
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:block">{controls}</div>
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2">
+              {languageControl('compact')}
+              <ThemeToggle />
+            </div>
+            <a
+              href={waLink(t.common.waMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:inline-flex btn-primary h-11 px-5 text-sm"
+            >
+              <WhatsAppGlyph className="h-4 w-4" />
+              {t.common.whatsapp}
+            </a>
             <button
-              className="lg:hidden text-muted-foreground hover:text-foreground p-1.5 transition-colors"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
+              ref={toggleRef}
+              type="button"
+              className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:bg-foreground/5"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label={menuOpen ? t.nav.close : t.nav.menu}
               aria-expanded={menuOpen}
             >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.nav.menu}
+            initial={reduce ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-            className="lg:hidden absolute left-0 right-0 top-full border-y border-border bg-background"
+            exit={reduce ? { opacity: 1 } : { opacity: 0, y: -8 }}
+            transition={reduce ? { duration: 0 } : { duration: DUR.base, ease: EASING.enter }}
+            className="lg:hidden fixed inset-x-0 top-16 bottom-0 bg-background overflow-y-auto"
           >
-            <nav className="px-6 py-4 flex flex-col divide-y divide-border">
+            <nav className="wrap flex flex-col py-8" aria-label="Primary, mobile">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`font-sans py-3 text-sm font-medium transition-colors ${
-                    isActive(link.href) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`py-4 text-[2rem] font-semibold tracking-[-0.03em] border-b border-border transition-colors ${
+                    isActive(link.href) ? 'text-foreground' : 'text-muted-foreground'
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-4">{controls}</div>
+              <a
+                href={waLink(t.common.waMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary mt-8 w-full"
+              >
+                <WhatsAppGlyph className="h-4 w-4" />
+                {t.common.whatsapp}
+              </a>
+              <div className="mt-6 flex items-center gap-3 sm:hidden">
+                {languageControl('touch')}
+                <ThemeToggle className="h-13 w-13" />
+              </div>
             </nav>
           </motion.div>
         )}

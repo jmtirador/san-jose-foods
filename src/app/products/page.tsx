@@ -1,154 +1,45 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
+import { SPRING } from '@/lib/motion'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { waLink } from '@/lib/whatsapp'
-import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { PROTEINS, cutsFor } from '@/data/cuts'
+import { AtlasSection, type AtlasLabels, type Selected } from '@/components/AtlasSection'
+import { ManifestDock } from '@/components/ManifestDock'
 import { CtaBand } from '@/components/CtaBand'
-import { SectionHead } from '@/components/SectionHead'
+import { Masthead } from '@/components/Masthead'
 
-// Real, public reference facts only (WCO HS chapter 02): operator credibility
-// without fabricating anything company-specific.
-const SPEC = {
-  chicken: { hs: 'HS 0207', img: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=900&q=80' },
-  pork: { hs: 'HS 0203', img: 'https://images.unsplash.com/photo-1592877186734-6e558cf0dfaf?w=900&q=80' },
-  beef: { hs: 'HS 0201 / 0202', img: 'https://images.unsplash.com/photo-1632154023554-c2975e9be348?w=900&q=80' },
-}
-
-type Selected = Record<string, boolean>
-
-function SpecSection({
-  id, index, title, counterpart, desc, cuts, imageSrc, hs, fig,
-  colCut, colQuote, hint, getPricing, quote, metaFormats, waPrefix, waVolume,
-  selected, onToggle,
-}: {
-  id: string; index: number; title: string; counterpart: string; desc: string
-  cuts: readonly string[]; imageSrc: string; hs: string; fig: string
-  colCut: string; colQuote: string; hint: string
-  getPricing: string; quote: string; metaFormats: string; waPrefix: string; waVolume: string
-  selected: Selected; onToggle: (key: string) => void
-}) {
-  return (
-    <section id={id} className="scroll-mt-[76px]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-12">
-        <SectionHead index={`§0${index}`} title={title} meta={`${hs} · US · CA · BR · ${metaFormats}`} size="lg" />
-
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-[0.8fr_1.35fr] gap-10 lg:gap-14">
-          {/* Image plate — hard-edged, consistent side */}
-          <div>
-            {/* bg-muted behind the fill image: a plate, not a void, while the
-                photo loads (this section's index decides whether it's likely
-                the first paint the visitor sees, so only Beef gets priority). */}
-            <div className="relative bg-muted border border-border overflow-hidden aspect-[4/3] lg:aspect-[4/5]">
-              <Image src={imageSrc} alt={title} fill priority={index === 1} sizes="(max-width: 1024px) 100vw, 32vw" className="object-cover" />
-            </div>
-            {/* Representative stock carries the Ref marker (site rule) until real
-                SJF photography replaces it. */}
-            <p className="font-mono text-[10px] tracking-[0.02em] uppercase text-muted-foreground mt-4">{fig}</p>
-            <p className="flourish text-muted-foreground text-sm mt-1.5">{counterpart}</p>
-          </div>
-
-          {/* Cut table — the money surface. Ruled market-report rows: number,
-              cut name in the DATA voice (it IS the SKU), quote action right. */}
-          <div>
-            <p className="font-serif text-muted-foreground leading-relaxed text-[16px] mb-6 max-w-2xl">{desc}</p>
-            {/* The checkboxes need a reason to exist before the first tick. */}
-            <p className="font-serif text-[13px] text-muted-foreground mb-3">{hint}</p>
-
-            <div className="grid grid-cols-[36px_1fr] items-baseline gap-x-2 pb-2 border-b-2 border-foreground">
-              {/* Column legend: the header teaches the checkbox pattern passively. */}
-              <span aria-hidden className="inline-block h-3 w-3 rounded-sm border border-muted-foreground/60 translate-y-px" />
-              <div className="flex items-baseline justify-between">
-                <span className="form-label">{colCut}</span>
-                <span className="form-label">{colQuote}</span>
-              </div>
-            </div>
-
-            {/* Two independent columns, not a shared 2-col grid: a CSS grid auto-flow
-                pairs consecutive cuts into the same row, so a 2-line-wrapped name
-                on one side inflates its unrelated neighbor on the other. Splitting
-                the list in half up front keeps each column's row heights its own. */}
-            <div className="sm:grid sm:grid-cols-2 sm:gap-x-10">
-              {[cuts.slice(0, Math.ceil(cuts.length / 2)), cuts.slice(Math.ceil(cuts.length / 2))].map((column, colIdx) => (
-                <div key={colIdx}>
-                  {column.map((cut, localI) => {
-                    const i = colIdx === 0 ? localI : Math.ceil(cuts.length / 2) + localI
-                    // Keyed by protein + index, not by cut name: the name is localized
-                    // and swaps text on an EN/ES toggle, which would otherwise strand
-                    // a ticked row's state under the old-language key.
-                    const key = `${id}:${i}`
-                    return (
-                      <div key={cut} className="grid grid-cols-[36px_1fr] items-stretch gap-x-2 border-b border-border">
-                        {/* Padded label so the 16px box carries a ~44px hit area. Checked
-                            fill is ink, not red: red stays reserved for the two real
-                            conversion actions on this page. */}
-                        <label className="flex items-center justify-start cursor-pointer py-3.5">
-                          <input
-                            type="checkbox"
-                            checked={!!selected[key]}
-                            onChange={() => onToggle(key)}
-                            aria-label={`${colQuote}: ${cut}`}
-                            className="h-4 w-4 appearance-none rounded-sm border border-border checked:bg-foreground checked:border-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors"
-                          />
-                        </label>
-                        <a
-                          href={waLink(`${waPrefix} ${title}: ${cut}. ${waVolume}`)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`group/cut flex items-baseline gap-3 py-3.5 px-2 -mx-2 rounded-sm transition-colors hover:bg-accent active:bg-accent ${selected[key] ? 'bg-accent' : ''}`}
-                        >
-                          <span className="font-mono text-[12px] text-muted-foreground tnum">{String(i + 1).padStart(2, '0')}</span>
-                          <span className="font-mono text-[14px] text-foreground flex-1 leading-snug">{cut}</span>
-                          <span className="inline-flex items-center gap-1.5 font-sans text-[12px] font-medium text-muted-foreground group-hover/cut:text-brand-600 group-active/cut:text-brand-600 transition-colors whitespace-nowrap">
-                            <WhatsAppGlyph className="w-3 h-3" />
-                            {quote}
-                          </span>
-                        </a>
-                      </div>
-                    )
-                  })}
-                </div>
-              ))}
-            </div>
-
-            <a
-              href={waLink(`${waPrefix} ${title}. ${waVolume}`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary font-sans text-sm mt-8"
-            >
-              <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-              {getPricing}
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+// Cap the outgoing message so a buyer ticking most of the catalog can't build
+// a wa.me link long enough to get silently truncated by a mobile OS or WhatsApp.
+const MAX_MANIFEST_LINES = 24
 
 export default function ProductsPage() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const p = t.products
 
-  // Manifest: tick cuts across sections, send ONE WhatsApp message shaped like a
-  // line-item order. The single-tap row path stays untouched; this is additive.
+  // Selection keys are `${protein}:${index}`, never the translated name, so a
+  // ticked row survives an EN/ES toggle.
   const [selected, setSelected] = useState<Selected>({})
+  const onToggle = (key: string) => setSelected((prev) => ({ ...prev, [key]: !prev[key] }))
 
-  const onToggle = (key: string) => {
-    setSelected((prev) => ({ ...prev, [key]: !prev[key] }))
-  }
+  // Which protein section is in view, for the jump bar's "you are here" tick.
+  const [activeSection, setActiveSection] = useState<string>('beef')
+  useEffect(() => {
+    const sections = PROTEINS.map((pr) => document.getElementById(pr.id)).filter(Boolean) as HTMLElement[]
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible) setActiveSection(visible.target.id)
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.1, 0.5] },
+    )
+    sections.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [])
 
-  const proteinTitles: Record<string, string> = { beef: p.beef.title, pork: p.pork.title, chicken: p.chicken.title }
-  const proteinCuts: Record<string, readonly string[]> = { beef: p.beef.cuts, pork: p.pork.cuts, chicken: p.chicken.cuts }
   const picked = Object.keys(selected).filter((k) => selected[k])
   const count = picked.length
-
-  // Cap the outgoing message so a buyer ticking most of the catalog can't build
-  // a wa.me link long enough to get silently truncated by a mobile OS or WhatsApp.
-  const MAX_MANIFEST_LINES = 24
 
   const manifestMessage = () => {
     const sorted = [...picked].sort((a, b) => {
@@ -159,94 +50,95 @@ export default function ProductsPage() {
     const capped = sorted.slice(0, MAX_MANIFEST_LINES)
     const overflow = sorted.length - capped.length
 
-    // Each line uses the cut's OWN catalog number (matching the badge shown next
-    // to it on the page), not a sequential tick-order count — a tick order would
-    // give "Brisket" a different number in the message than the "09" next to it
-    // on screen, and the desk and buyer would end up with two references for one SKU.
+    // Each line carries the cut name as printed on the page plus its IMPS
+    // number, so the desk and the buyer share one reference.
     const lines = capped.map((k) => {
       const [proteinId, idxStr] = k.split(':')
+      const protein = proteinId as 'beef' | 'pork' | 'chicken'
       const idx = Number(idxStr)
-      const cutName = proteinCuts[proteinId][idx]
-      const catalogNo = String(idx + 1).padStart(2, '0')
-      return `${proteinTitles[proteinId]} ${catalogNo} · ${cutName} · ${p.manifestVolume}`
+      const cutName = p[protein].cuts[idx]
+      const spec = cutsFor(protein).find((s) => s.index === idx)
+      const imps = spec?.imps ? ` (${p.imps} ${spec.imps})` : ''
+      return `${p[protein].title} · ${cutName}${imps} · ${p.manifestVolume}`
     })
     if (overflow > 0) lines.push(p.manifestMore.replace('{n}', String(overflow)))
     return [p.manifestIntro, ...lines, p.manifestDelivery].join('\n')
   }
 
-  const shared = {
-    colCut: p.colCut, colQuote: p.colQuote, hint: p.manifestHint, getPricing: p.getPricing, quote: p.quote,
-    metaFormats: p.metaFormats, waPrefix: p.waCutPrefix, waVolume: p.waVolume, fig: p.fig,
-    selected, onToggle,
+  const labels: AtlasLabels = {
+    formats: p.formats,
+    quote: p.quote,
+    add: p.add,
+    remove: p.remove,
+    imps: p.imps,
+    waPrefix: p.waCutPrefix,
+    waVolume: p.waVolume,
+    cutsWord: t.common.cuts,
+    hsWord: 'HS',
+    formatWord: language === 'es' ? 'Formato' : 'Format',
   }
 
   return (
     <>
-      {/* Page masthead */}
-      <section className="bg-background">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
-        >
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <h1 className="font-display font-semibold tracking-[-0.02em] text-foreground" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
-              {p.pageTitle}
-            </h1>
-            <span className="doc-stamp hidden sm:block mt-3 shrink-0">SJF-CAT · REV 2026.08</span>
-          </div>
-          <p className="font-serif text-muted-foreground text-lg max-w-2xl leading-relaxed mb-3">{p.pageSub}</p>
-          <p className="font-serif text-[15px] text-muted-foreground">{p.pricingNote}</p>
-        </motion.div>
-      </section>
+      <Masthead title={p.pageTitle} sub={p.pageSub}>
+        <p className="t-small mt-4 text-muted-foreground">{p.pricingNote}</p>
+      </Masthead>
 
-      <SpecSection id="beef" index={1} title={p.beef.title} counterpart={p.counterpart.beef} desc={p.beef.desc} cuts={p.beef.cuts} imageSrc={SPEC.beef.img} hs={SPEC.beef.hs} {...shared} />
-      <SpecSection id="pork" index={2} title={p.pork.title} counterpart={p.counterpart.pork} desc={p.pork.desc} cuts={p.pork.cuts} imageSrc={SPEC.pork.img} hs={SPEC.pork.hs} {...shared} />
-      <SpecSection id="chicken" index={3} title={p.chicken.title} counterpart={p.counterpart.chicken} desc={p.chicken.desc} cuts={p.chicken.cuts} imageSrc={SPEC.chicken.img} hs={SPEC.chicken.hs} {...shared} />
+      {/* Section jump bar. Sticks under the header. */}
+      <div className="sticky top-16 z-30 border-y border-border bg-background/80 backdrop-blur-xl">
+        <nav className="wrap flex h-14 items-center gap-2 overflow-x-auto" aria-label="Catalog sections">
+          {PROTEINS.map((pr) => {
+            const active = activeSection === pr.id
+            return (
+              <a
+                key={pr.id}
+                href={`#${pr.id}`}
+                aria-current={active ? 'location' : undefined}
+                className={`relative inline-flex h-11 shrink-0 items-center gap-2 rounded-md border px-3.5 text-sm font-medium transition-colors ${
+                  active ? 'border-foreground/30 bg-foreground/[0.06] text-foreground' : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
+                }`}
+              >
+                {p[pr.id].title}
+                <span className={`t-code ${active ? 'text-foreground/70' : 'text-muted-foreground/70'}`}>{p[pr.id].cuts.length}</span>
+                {active && <motion.span layoutId="jump-tick" transition={SPRING.tick} aria-hidden className="absolute inset-x-3 -bottom-px h-[2px] rounded-full bg-primary" />}
+              </a>
+            )
+          })}
+        </nav>
+      </div>
 
-      <div className="border-t border-border" />
-      <CtaBand />
+      {PROTEINS.map((pr, i) => (
+        <AtlasSection
+          key={pr.id}
+          proteinId={pr.id}
+          hs={pr.hs}
+          image={pr.image}
+          primals={pr.primals}
+          title={p[pr.id].title}
+          desc={p[pr.id].desc}
+          cuts={p[pr.id].cuts}
+          specs={cutsFor(pr.id)}
+          primalLabels={p.primals}
+          selected={selected}
+          onToggle={onToggle}
+          labels={labels}
+          language={language}
+          priority={i === 0}
+        />
+      ))}
 
-      {/* Manifest dock — appears when at least one cut is ticked. One message,
-          shaped like the purchase order it becomes. */}
-      <AnimatePresence>
-        {count > 0 && (
-          <motion.div
-            initial={{ y: 72 }} animate={{ y: 0 }} exit={{ y: 72 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            role="region" aria-live="polite"
-            className="fixed bottom-0 inset-x-0 z-40 bg-ink text-warm-50 border-t border-warm-50/20"
-            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-          >
-            {/* Ink dock, not red (it can sit over the red CTA band without merging
-                into it) and not theme-relative: the foreground/background tokens
-                flip between themes, which would flip this bar's character along
-                with them. The literal ink/warm-50 pair stays one dark bar always. */}
-            <div className="max-w-7xl mx-auto px-6 sm:px-10 h-14 flex items-center justify-between gap-4">
-              <span className="font-mono text-[13px] tnum whitespace-nowrap">
-                {count} {count === 1 ? p.manifestLine : p.manifestLines}
-              </span>
-              <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => setSelected({})}
-                  className="font-sans text-[13px] text-warm-50/70 hover:text-warm-50 active:text-warm-50 transition-colors underline underline-offset-4 decoration-warm-50/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm-50 rounded-sm"
-                >
-                  {p.manifestClear}
-                </button>
-                <a
-                  href={waLink(manifestMessage())}
-                  target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-warm-50 text-ink font-sans font-medium text-[13px] px-4 py-2 rounded-sm hover:bg-warm-100 active:bg-warm-200 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm-50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-                >
-                  <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-                  {p.manifestSend}
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Extra room under the band while the dock is up, so it never covers the band's buttons. */}
+      <div className={count > 0 ? 'pb-24' : ''}>
+        <CtaBand />
+      </div>
+
+      <ManifestDock
+        count={count}
+        message={manifestMessage()}
+        onClear={() => setSelected({})}
+        language={language}
+        labels={{ line: p.manifestLine, lines: p.manifestLines, send: p.manifestSend, clear: p.manifestClear }}
+      />
     </>
   )
 }

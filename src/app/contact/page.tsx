@@ -1,21 +1,24 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'motion/react'
+import { ChevronDown } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
+import { rowReveal } from '@/lib/motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { Masthead } from '@/components/Masthead'
+import { Reveal } from '@/components/Reveal'
 
-// What the user types is the filled-in half of the form: it renders in the DATA
-// voice (mono), while the printed labels stay in the form-label voice.
 const inputClass =
-  'w-full bg-background border border-border rounded-sm px-4 py-3 font-mono text-[14px] text-foreground placeholder:text-muted-foreground/60 placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-colors aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive'
-
-const labelClass = 'form-label block mb-2'
+  'w-full h-12 rounded-md border border-border bg-surface-1 px-4 text-[15px] text-foreground placeholder:text-muted-foreground transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-destructive/30'
+const labelClass = 'block t-small font-medium text-foreground mb-2'
+const errorClass = 'mt-2 t-small text-destructive'
 
 export default function ContactPage() {
   const { t } = useLanguage()
   const c = t.contact
+  const reduce = useReducedMotion()
 
   const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', interest: '', message: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -44,7 +47,7 @@ export default function ContactPage() {
     }
     setErrors({})
 
-    const lines = [
+    const msgLines = [
       c.waIntro, '',
       `${c.name}: ${form.name}`,
       form.company && `${c.company}: ${form.company}`,
@@ -53,149 +56,113 @@ export default function ContactPage() {
       form.interest && `${c.interest}: ${form.interest}`,
       `${c.message}: ${form.message}`,
     ].filter(Boolean)
-    window.open(waLink(lines.join('\n')), '_blank', 'noopener,noreferrer')
+    window.open(waLink(msgLines.join('\n')), '_blank', 'noopener,noreferrer')
   }
 
-  const dlines: { label: string; value: string; href?: string }[] = [
-    { label: c.usOffice, value: '+52 81 8016 3885', href: 'tel:+528180163885' },
-    { label: c.mxLine, value: 'ventas1@sanjosefoods.net', href: 'mailto:ventas1@sanjosefoods.net' },
-    { label: c.emailLabel, value: '1020 E. Produce Rd., Hidalgo, TX 78557' },
+  const lines: { label: string; value: string; href?: string }[] = [
+    { label: t.common.tel, value: '+52 81 8016 3885', href: 'tel:+528180163885' },
+    { label: t.common.email, value: 'ventas1@sanjosefoods.net', href: 'mailto:ventas1@sanjosefoods.net' },
+    { label: t.common.hq, value: '1020 E. Produce Rd., Hidalgo, TX 78557' },
   ]
 
   return (
     <>
-      {/* Header */}
-      <section className="bg-background">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-7xl mx-auto px-6 sm:px-10 pt-12 pb-12"
-        >
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <h1 className="font-display font-semibold tracking-[-0.02em] text-foreground" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4rem)' }}>
-              {c.pageTitle}
-            </h1>
-            <span className="doc-stamp hidden sm:block mt-3 shrink-0">SJF-RFQ · REV 2026.08</span>
-          </div>
-          <p className="font-serif text-muted-foreground text-lg max-w-2xl leading-relaxed">{c.pageSub}</p>
-          {/* On mobile the rail (and its quick chat button) renders below the whole
-              form — give the WhatsApp-first buyer the fast path before the form. */}
-          <a
-            href={waLink(c.waIntro)}
-            target="_blank" rel="noopener noreferrer"
-            className="btn-outline-brand font-sans text-sm mt-7 lg:hidden"
-          >
-            <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-            {c.waBtn}
-          </a>
-        </motion.div>
-      </section>
+      <Masthead title={c.pageTitle} sub={c.pageSub}>
+        {/* Phones: the fast path sits above the form, not below it. */}
+        <a href={waLink(c.waIntro)} target="_blank" rel="noopener noreferrer" className="btn-primary mt-8 lg:hidden">
+          <WhatsAppGlyph className="h-4 w-4" />
+          {t.common.whatsapp}
+        </a>
+      </Masthead>
 
-      <section className="border-t border-rule bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <section className="border-t border-border py-16 lg:py-24">
+        <div className="wrap grid grid-cols-1 gap-16 lg:grid-cols-[1.4fr_1fr] lg:gap-24">
+          <Reveal>
+            <h2 className="t-h3 text-foreground">{c.formTitle}</h2>
+            <p className="t-body mt-2 text-muted-foreground">{c.formNote}</p>
 
-            {/* Form — earns its container */}
-            <div className="lg:col-span-3 relative border border-border bg-card p-8">
-              <div className="flex items-baseline gap-3 mb-2">
-                <span className="doc-index">RFQ</span>
-                <h2 className="font-display font-medium tracking-[-0.015em] text-card-foreground text-xl">{c.formTitle}</h2>
-              </div>
-              <p className="font-serif text-muted-foreground text-[15px] leading-relaxed mb-7">{c.formNote}</p>
-
-              <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className={labelClass}>{c.name}<span className="text-destructive"> *</span></label>
-                    <input id="name" name="name" type="text" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
-                    {errors.name && <p id="name-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label htmlFor="company" className={labelClass}>{c.company}</label>
-                    <input id="company" name="company" type="text" placeholder={c.companyPh} value={form.company} onChange={handleChange} className={inputClass} />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="email" className={labelClass}>{c.email}<span className="text-destructive"> *</span></label>
-                    <input id="email" name="email" type="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
-                    {errors.email && <p id="email-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.email}</p>}
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className={labelClass}>{c.phone}</label>
-                    <input id="phone" name="phone" type="tel" placeholder={c.phonePh} value={form.phone} onChange={handleChange} className={inputClass} />
-                  </div>
+            <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-6">
+              <motion.div className="grid grid-cols-1 gap-6 sm:grid-cols-2" {...rowReveal(reduce, 0)}>
+                <div>
+                  <label htmlFor="name" className={labelClass}>{c.name}<span className="text-destructive"> *</span></label>
+                  <input id="name" name="name" type="text" autoComplete="name" required placeholder={c.namePh} value={form.name} onChange={handleChange} className={inputClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+                  {errors.name && <p id="name-error" role="alert" className={errorClass}>{errors.name}</p>}
                 </div>
                 <div>
-                  <label htmlFor="interest" className={labelClass}>{c.interest}</label>
-                  <div className="relative">
-                    <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={`${inputClass} appearance-none pr-10`}>
-                      <option value="">{c.interestPh}</option>
-                      {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
-                    </select>
-                    <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                      <path d="M2.5 4.5 6 8l3.5-3.5" />
-                    </svg>
-                  </div>
+                  <label htmlFor="company" className={labelClass}>{c.company}</label>
+                  <input id="company" name="company" type="text" autoComplete="organization" placeholder={c.companyPh} value={form.company} onChange={handleChange} className={inputClass} />
+                </div>
+              </motion.div>
+              <motion.div className="grid grid-cols-1 gap-6 sm:grid-cols-2" {...rowReveal(reduce, 2)}>
+                <div>
+                  <label htmlFor="email" className={labelClass}>{c.email}<span className="text-destructive"> *</span></label>
+                  <input id="email" name="email" type="email" autoComplete="email" required placeholder={c.emailPh} value={form.email} onChange={handleChange} className={inputClass} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
+                  {errors.email && <p id="email-error" role="alert" className={errorClass}>{errors.email}</p>}
                 </div>
                 <div>
-                  <label htmlFor="message" className={labelClass}>{c.message}<span className="text-destructive"> *</span></label>
-                  <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} resize-none`} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} />
-                  {errors.message && <p id="message-error" role="alert" className="mt-1.5 font-serif text-[13px] text-destructive">{errors.message}</p>}
+                  <label htmlFor="phone" className={labelClass}>{c.phone}</label>
+                  <input id="phone" name="phone" type="tel" autoComplete="tel" placeholder={c.phonePh} value={form.phone} onChange={handleChange} className={inputClass} />
                 </div>
-                <button type="submit" className="btn-primary w-full justify-center font-sans">
-                  {c.submit}
-                  <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-                </button>
-              </form>
-            </div>
+              </motion.div>
+              <motion.div {...rowReveal(reduce, 4)}>
+                <label htmlFor="interest" className={labelClass}>{c.interest}</label>
+                <div className="relative">
+                  <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={`${inputClass} appearance-none pr-10`}>
+                    <option value="">{c.interestPh}</option>
+                    {c.interestOpts.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                </div>
+              </motion.div>
+              <motion.div {...rowReveal(reduce, 6)}>
+                <label htmlFor="message" className={labelClass}>{c.message}<span className="text-destructive"> *</span></label>
+                <textarea id="message" name="message" rows={5} required placeholder={c.messagePh} value={form.message} onChange={handleChange} className={`${inputClass} h-auto min-h-[150px] resize-y py-3`} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} />
+                {errors.message && <p id="message-error" role="alert" className={errorClass}>{errors.message}</p>}
+              </motion.div>
+              <motion.button type="submit" className="btn-primary w-full" {...rowReveal(reduce, 8)}>
+                {c.submit}
+                <span className="btn-disc"><WhatsAppGlyph className="h-3.5 w-3.5" /></span>
+              </motion.button>
+            </form>
+          </Reveal>
 
-            {/* Ledger rail — ruled sections, no rounded cards. Sticky so the short
-                rail tracks the taller form instead of trailing into dead space. */}
-            <div className="lg:col-span-2 space-y-10 lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-background">
-                <div className="form-label pb-3 border-b border-border">{c.infoTitle}</div>
-                {dlines.map((l) => (
-                  <div key={l.label} className="spec-row">
-                    <span className="form-label shrink-0">{l.label}</span>
-                    <span className="lead-dots" />
-                    {l.href ? (
-                      <a href={l.href} className="group/link val font-mono text-[12px] text-foreground hover:text-brand-600 transition-colors inline-flex items-baseline gap-1.5">
-                        {l.value}
-                        <span aria-hidden className="text-muted-foreground group-hover/link:text-brand-600 transition-colors">↗</span>
-                      </a>
-                    ) : (
-                      <span className="val font-mono text-[12px] text-right">{l.value}</span>
-                    )}
+          <Reveal delay={0.1} className="space-y-10 lg:sticky lg:top-28 lg:self-start">
+            <div>
+              <h3 className="t-small mb-3 font-normal text-muted-foreground">{c.infoTitle}</h3>
+              <dl className="divide-y divide-border border-y border-border">
+                {lines.map((l) => (
+                  <div key={l.label} className="kv py-4">
+                    <dt>{l.label}</dt>
+                    <dd className="t-code text-left sm:text-right max-w-[72%]">
+                      {l.href ? (
+                        <a href={l.href} className="text-foreground transition-colors hover:text-accent-text">{l.value}</a>
+                      ) : (
+                        l.value
+                      )}
+                    </dd>
                   </div>
                 ))}
-              </div>
-
-              {/* Desktop only: the masthead already gives mobile a quick-chat
-                  shortcut above the form, so this rail copy would be a second,
-                  redundant WhatsApp button in the same mobile scroll. */}
-              <a
-                href={waLink(c.waIntro)}
-                target="_blank" rel="noopener noreferrer"
-                className="hidden lg:flex btn-outline-brand font-sans text-sm w-full justify-center"
-              >
-                <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-                {c.waBtn}
-              </a>
-
-              <div className="border-t border-border pt-5">
-                <div className="form-label mb-2">{c.serviceTitle}</div>
-                <p className="font-serif text-muted-foreground text-[15px] leading-relaxed">{c.serviceDesc}</p>
-              </div>
-
-              <div className="border-t border-border pt-5">
-                <div className="form-label mb-2">{c.hoursTitle}</div>
-                {c.hours.split('\n').map((line) => (
-                  <p key={line} className="font-serif text-muted-foreground text-[15px] leading-relaxed">{line}</p>
-                ))}
-              </div>
+              </dl>
             </div>
-          </div>
+
+            {/* Desktop only: phones get the same action above the form. */}
+            <a href={waLink(c.waIntro)} target="_blank" rel="noopener noreferrer" className="btn-primary hidden w-full lg:inline-flex">
+              <WhatsAppGlyph className="h-4 w-4" />
+              {t.common.whatsapp}
+            </a>
+
+            <div>
+              <h3 className="t-small mb-2 font-normal text-muted-foreground">{c.serviceTitle}</h3>
+              <p className="t-body text-foreground">{c.serviceDesc}</p>
+            </div>
+
+            <div>
+              <h3 className="t-small mb-2 font-normal text-muted-foreground">{c.hoursTitle}</h3>
+              {c.hours.split('\n').map((line) => (
+                <p key={line} className="t-body text-foreground">{line}</p>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
     </>
