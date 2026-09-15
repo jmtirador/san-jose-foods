@@ -1,10 +1,9 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* brand palette */
+  /* Brand ramp. 600 is the canonical red and never changes. */
   --color-brand-50:  #FFF0F2;
   --color-brand-100: #FFD9DF;
   --color-brand-200: #FFB3BC;
@@ -16,112 +15,64 @@
   --color-brand-900: #6D0E1C;
   --color-brand: #D9182E;
 
-  /* ink (warm near-black) */
-  --color-ink: #0D0508;
-  --color-ink-soft: #180B10;
-  --color-ink-muted: #251118;
+  /* Literal ink + paper pair for surfaces that must not flip with the theme
+     (the manifest dock, the closing band's text). */
+  --color-ink: #0F0D0D;
+  --color-paper: #FAF9F7;
 
-  /* warm cream */
-  --color-warm-50:  #FFF8F5;
-  --color-warm-100: #FFF0EB;
-  --color-warm-200: #FFE4DC;
-
-  /* shadcn semantic colors map onto CSS vars defined in :root below */
+  /* Semantic tokens map onto the CSS vars below (light in :root, dark in .dark). */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
+  --color-accent-text: var(--accent-text);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
-  --color-rule: var(--rule);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-ring: var(--primary);
 
-  /* Trade Desk: near-square. Containment comes from 1px hairlines + whitespace,
-     not radius. Nothing rounder than ~4px; large surfaces read as spec plates. */
-  --radius-sm: 0px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 4px;
+  /* One radius system: controls 8px (md), surfaces and plates 16px (xl). */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-xl: 16px;
 
-  /* DISPLAY (Bricolage Grotesque) for headlines/UI, TEXT (Faustina) for
-     reading copy + counterpart italic, DATA (Chivo Mono) for typed values/codes. */
-  --font-sans: var(--font-bricolage), system-ui, sans-serif;
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
-  --font-serif: var(--font-faustina), Georgia, "Times New Roman", serif;
+  /* One family for everything. Mono is confined to codes and typed values. */
+  --font-sans: var(--font-switzer), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-chivo-mono), ui-monospace, "SF Mono", monospace;
 }
 
 :root {
-  /* light: warm cream base + brand red primary */
-  --background: oklch(0.987 0.004 50);              /* warm cream #FFF8F5 */
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.557 0.225 23.5);               /* brand.600 #D9182E */
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  /* Warm paper neutrals (hue ~52), consistent with the cream/ink identity — not
-     the stock stone (106) preset. --accent is a distinct faint tint for table headers. */
-  --secondary: oklch(0.965 0.006 52);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.965 0.006 52);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.955 0.010 48);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.004 52);
-  --input: oklch(0.9 0.004 52);
-  --ring: oklch(0.557 0.225 23.5);
-  --destructive: oklch(0.585 0.205 33);             /* error — hue-shifted off brand red so it reads as its own signal */
-  --radius: 0.125rem;
-  --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
+  /* Light: off-white, never pure white. */
+  --background: oklch(0.985 0.003 60);
+  --foreground: oklch(0.15 0.004 40);
+  --surface-1: oklch(1 0 0);
+  --surface-2: oklch(0.955 0.004 60);
+  --muted-foreground: oklch(0.47 0.008 50);
+  --border: oklch(0 0 0 / 0.09);
+  --primary: #D9182E;
+  --accent-text: #B5112A;                        /* red as text on light: darker for contrast */
+  --destructive: oklch(0.585 0.205 33);          /* error, hue-shifted off brand red */
+  --grain-opacity: 0.035;
   color-scheme: light;
 }
 
 .dark {
-  /* dark: soft warm gray (Claude/ChatGPT-style), not near-black */
-  --background: oklch(0.275 0.003 60);              /* page bg — soft warm gray */
-  --foreground: oklch(0.965 0.003 60);
-  --card: oklch(0.32 0.003 60);                     /* slightly lifted card surface */
-  --card-foreground: oklch(0.965 0.003 60);
-  --popover: oklch(0.32 0.003 60);
-  --popover-foreground: oklch(0.965 0.003 60);
-  --primary: oklch(0.65 0.22 23.5);                 /* brand red, brighter for low-contrast bg */
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.36 0.003 60);
-  --secondary-foreground: oklch(0.965 0.003 60);
-  --muted: oklch(0.36 0.003 60);
-  --muted-foreground: oklch(0.72 0.005 60);
-  --accent: oklch(0.345 0.005 55);                  /* distinct faint tint for ruled table headers */
-  --accent-foreground: oklch(0.965 0.003 60);
-  --destructive: oklch(0.65 0.22 23.5);
-  --border: oklch(0.42 0.004 60);
-  --input: oklch(0.42 0.004 60);
-  --ring: oklch(0.65 0.22 23.5);
-  --destructive: oklch(0.7 0.19 33);                /* error — hue-shifted off brand red so it reads as its own signal */
-  --rule: color-mix(in oklab, var(--border) 78%, var(--foreground)); /* section divider — reads over the grid */
+  /* Dark: near-black warm ground with lit surfaces, not warm gray. */
+  --background: oklch(0.13 0.005 40);
+  --foreground: oklch(0.97 0.002 60);
+  --surface-1: oklch(0.17 0.005 40);
+  --surface-2: oklch(0.21 0.005 40);
+  --muted-foreground: oklch(0.70 0.006 50);
+  --border: oklch(1 0 0 / 0.10);
+  --primary: #D9182E;
+  --accent-text: oklch(0.68 0.21 22);            /* red as text on dark: lifted for contrast */
+  --destructive: oklch(0.70 0.19 33);
+  --grain-opacity: 0.05;
   color-scheme: dark;
 }
 
 @layer base {
-  /* Keyboard focus ring for non-button links (buttons carry their own via .btn-*). */
-  a:not([class*="btn-"]):focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
@@ -131,121 +82,202 @@
     background-color: var(--background);
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   * {
     border-color: var(--border);
   }
-  /* Serif reading copy needs a touch more weight on dark OLED — thin serif
-     hairlines bloom against a dark ground. Headings set their own weight. */
-  .dark p.font-serif,
-  .dark span.font-serif {
-    font-weight: 450;
+  h1, h2, h3 {
+    text-wrap: balance;
   }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: #D9182E;
+    color: #FFFFFF;
+  }
+  a:not([class*="btn"]):focus-visible,
+  button:not([class*="btn"]):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Button base as a utility so the variants below can @apply it and markup can
+   compose it (the manifest dock uses `btn` with its own colors). */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-3 h-12 px-6 rounded-md text-[15px] font-medium select-none whitespace-nowrap transition-[background-color,color,border-color,transform] duration-200 ease-out active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
 }
 
 @layer components {
-  /* ── Buttons ──────────────────────────────────────────── */
-  /* Flat, square, no elevation: hover is a color shift, never a lift (shadows +
-     rounded-lg read as SaaS "Get Started" polish). */
-  /* Every button carries the full state set (default / hover / active-pressed /
-     focus-visible / disabled) per the Feedback & States rule. Press is a color
-     shift, not a lift — consistent with the Trade Desk no-elevation stance. */
+  /* ── Type scale (six sizes, one family) ─────────────────────────────── */
+  .t-display {
+    font-size: clamp(3.25rem, 7.6vw, 7.5rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .t-h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+  .t-h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .t-lead {
+    font-size: clamp(1.125rem, 1.4vw, 1.375rem);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+  .t-body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .t-small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .t-code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Buttons: every variant carries default / hover / active / focus / disabled ── */
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
-  }
-  /* Ghost button sits on the theme background (cream in light, gray in dark), so
-     it must use foreground tones, not white — white was invisible in light mode. */
-  .btn-ghost {
-    @apply inline-flex items-center gap-2 border border-foreground/25 text-foreground/70 hover:text-foreground hover:border-foreground/60 active:bg-foreground/5 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
-  }
-  /* Uses the theme `primary` (identical red in light, tuned brighter red in dark)
-     so the red text/border clears contrast on the dark background. */
-  .btn-outline-brand {
-    @apply inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white active:bg-brand-700 active:text-white active:border-brand-700 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none;
+    @apply btn bg-primary text-white hover:bg-brand-700 active:bg-brand-800 focus-visible:ring-primary;
   }
   .btn-white {
-    @apply inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-warm-50 active:bg-warm-100 font-medium px-8 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
+    @apply btn bg-white text-brand-700 hover:bg-paper active:bg-brand-50 focus-visible:ring-white focus-visible:ring-offset-brand-600;
   }
-  /* Outline sibling of .btn-white for secondary actions on the red CTA band. */
   .btn-outline-white {
-    @apply inline-flex items-center gap-2 border border-white/60 text-white hover:border-white active:bg-white/15 font-medium px-7 py-3.5 rounded-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 disabled:opacity-50 disabled:pointer-events-none;
+    @apply btn border border-white/50 text-white hover:border-white hover:bg-white/10 active:bg-white/15 focus-visible:ring-white focus-visible:ring-offset-brand-600;
+  }
+  /* Trailing icon nested in its own disc: the icon never sits naked next to the label. */
+  .btn-disc {
+    @apply inline-flex h-7 w-7 -mr-2 items-center justify-center rounded-full bg-white/15 transition-transform duration-200 ease-out;
+  }
+  .btn-primary:hover .btn-disc,
+  .btn-white:hover .btn-disc {
+    transform: translateX(2px);
+  }
+  .btn-white .btn-disc {
+    @apply bg-brand-700/10;
   }
 
-  /* ── Form label — the pre-printed half of the document. Legal ONLY when attached
-     to a ruled structure (a table header, a form field, a declaration row); a caps
-     label floating in whitespace is the AI-eyebrow tell and is banned. ── */
-  .form-label {
-    font-family: var(--font-sans);
-    @apply text-[11px] font-medium uppercase tracking-[0.06em] text-muted-foreground;
+  /* Inline text link with an arrow that leans on hover. */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-[15px] font-medium text-foreground transition-colors hover:text-accent-text;
+  }
+  .link-arrow svg {
+    @apply transition-transform duration-200 ease-out;
+  }
+  .link-arrow:hover svg {
+    transform: translateX(3px);
   }
 
-  /* ── Trade Desk primitives — the site reads like a trade document ──────── */
-
-  /* 1px hairline rule — the primary structural device (over cards + shadows). */
-  .rule {
-    @apply border-t border-border;
+  /* ── Image grade: every photo reads ink + brand red, so stock stops looking like stock ── */
+  .grade {
+    @apply relative overflow-hidden isolate;
+  }
+  .grade img {
+    filter: grayscale(0.8) contrast(1.08) brightness(0.9);
+  }
+  .grade::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: #D9182E;
+    mix-blend-mode: multiply;
+    opacity: 0.32;
+    pointer-events: none;
+  }
+  .grade::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(to top, var(--background) 0%, color-mix(in oklab, var(--background) 55%, transparent) 30%, transparent 62%);
+    pointer-events: none;
+  }
+  /* Plate: text sits on the image, so the fade goes to ink in both themes. */
+  .grade-plate::after {
+    background: linear-gradient(to top, rgba(10, 8, 8, 0.82) 0%, rgba(10, 8, 8, 0.35) 40%, transparent 70%);
+  }
+  /* Hero: the image is the ground in both themes, so the fade goes to ink and
+     the copy stays white. In light mode the hero is the page's one deliberate
+     dark block. */
+  .grade-hero::after {
+    background:
+      linear-gradient(to bottom, rgba(15, 13, 13, 0.72) 0%, rgba(15, 13, 13, 0.25) 14%, transparent 30%),
+      linear-gradient(to top, rgba(15, 13, 13, 0.92) 0%, rgba(15, 13, 13, 0.55) 34%, rgba(15, 13, 13, 0.12) 62%, transparent 100%);
+  }
+  /* Band: a full-bleed divider that fades into the page at both edges. */
+  .grade-band::before {
+    opacity: 0.22;
+  }
+  .grade-band::after {
+    background: linear-gradient(to bottom, var(--background) 0%, transparent 28%, transparent 72%, var(--background) 100%);
   }
 
-  /* Mono numeric section marker. Ink, not red: red is reserved for actions and
-     state; an index merely informs, and it still scans by face and position. */
-  .doc-index {
-    font-family: var(--font-mono);
-    @apply text-[12px] font-medium tracking-[0.04em] text-muted-foreground;
-    font-variant-numeric: tabular-nums;
+  /* ── Grain: one fixed noise layer, tactile depth on near-black and off-white ── */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
   }
 
-  /* Counterpart line — the document's other-language voice (Faustina italic).
-     One line, restating a heading in the counterpart language: Spanish on the
-     EN page, English on the ES page. Never data, never decoration. */
-  .flourish {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
+  /* Page container. */
+  .wrap {
+    @apply mx-auto w-full max-w-[1280px] px-6 sm:px-10;
   }
 
-  /* Newspaper section head — a 2px ink rule, the section title set big in the
-     display face, a mono meta line of real codes. Replaces the old gray strip. */
-  .section-head {
-    @apply border-t-2 border-foreground pt-4;
+  /* Key-value row: grey label left, bold value right, whitespace only. */
+  .kv {
+    @apply flex items-baseline justify-between gap-6 py-3;
   }
-  .section-head .meta {
-    font-family: var(--font-mono);
-    @apply text-[11px] text-muted-foreground;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
+  .kv dt {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+    flex-shrink: 0;
   }
-
-  /* Dotted-leader spec row — label ............ value, invoice / menu style.
-     Numbers stay tabular so columns align down the list. */
-  .spec-row {
-    @apply flex items-baseline gap-3 py-2;
+  .kv dd {
+    @apply text-right font-medium text-foreground;
   }
-  .spec-row .lead-dots {
-    @apply flex-1 self-end mb-[3px] border-b border-dotted;
-    border-color: color-mix(in oklab, var(--border) 60%, var(--foreground));
-  }
-  .spec-row .val {
-    font-variant-numeric: tabular-nums;
-    @apply text-foreground text-right;
-  }
-
-  /* Interactive spec row: the whole row is a link (the Products cut list). A row-plate
-     tint on hover/press plus a >=44px tap target, per Affordances + Feedback. The tint
-     is a color shift, never a lift. Non-link spec rows (ledgers, ops) stay inert. */
-  .spec-row-link {
-    @apply px-2 -mx-2 py-3 rounded-sm transition-colors hover:bg-accent active:bg-accent;
-  }
-
-  /* Mono document stamp — a restrained revision / page marker (one per page).
-     DATA voice: case as written, near-zero tracking. */
-  .doc-stamp {
-    font-family: var(--font-mono);
-    @apply text-[10px] text-muted-foreground;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-  }
-
 }
 
-/* Tabular figures wherever data lives */
+/* The header over the home hero: white ink on the photo, whatever the theme. */
+.on-image {
+  --foreground: #FFFFFF;
+  --muted-foreground: rgba(255, 255, 255, 0.72);
+  --border: rgba(255, 255, 255, 0.22);
+  --background: #0F0D0D;
+}
+
+/* Tabular figures wherever numbers align in columns. */
 .tnum { font-variant-numeric: tabular-nums; }
+
+/* Reduced motion: torph, Motion, and CSS transitions all collapse to static. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
