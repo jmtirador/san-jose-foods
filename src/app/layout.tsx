@@ -108,9 +108,11 @@ export default async function RootLayout({
   return (
     <html lang={initialLanguage} suppressHydrationWarning className={`${switzer.variable} ${chivoMono.variable}`}>
       <body>
-        {/* Without JS, scroll-reveal sections would stay hidden. Force them visible. */}
+        {/* Without JS, Motion's server-rendered `initial` styles would leave
+            entrances hidden. Force visible anything whose inline style opens
+            at opacity 0, plus the corridor paths. */}
         <noscript>
-          <style>{`.reveal,.reveal path{opacity:1 !important;transform:none !important;filter:none !important;stroke-dasharray:none !important}`}</style>
+          <style>{`[style*="opacity:0"],[style*="opacity: 0"],.reveal,.reveal path{opacity:1 !important;transform:none !important;filter:none !important;stroke-dasharray:none !important}`}</style>
         </noscript>
         <script
           type="application/ld+json"
