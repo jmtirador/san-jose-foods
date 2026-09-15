@@ -4,50 +4,32 @@ import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { waLink } from '@/lib/whatsapp'
 import { WhatsAppGlyph } from '@/components/WhatsAppGlyph'
+import { MorphText } from '@/components/MorphText'
+import { Reveal } from '@/components/Reveal'
 
-// One shared, left-aligned, WhatsApp-first sign-off — replaces the byte-identical
-// centered red "Get in Touch" panels that closed every page.
+// The one deliberate color block per page: the whole band goes brand red and
+// closes with the same WhatsApp action the site opens with.
 export function CtaBand() {
   const { t } = useLanguage()
   const h = t.home
 
   return (
     <section className="bg-brand-600 text-white">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-24">
-        <div className="max-w-3xl">
-          <div className="flex items-center gap-3 mb-7 font-sans text-[11px] font-medium uppercase tracking-[0.06em] text-white/80">
-            <span className="w-8 h-px bg-white/50" />
-            {h.ctaEyebrow}
-          </div>
-          <h2
-            className="font-display font-semibold text-white leading-[1.05] tracking-[-0.02em] mb-4"
-            style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.4rem)' }}
-          >
-            {h.ctaTitle}
+      <Reveal className="wrap grid grid-cols-1 items-end gap-10 py-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16 lg:py-32">
+        <div>
+          <h2 className="t-h2 text-white">
+            <MorphText>{h.ctaTitle}</MorphText>
           </h2>
-          <p className="flourish text-white/85 text-[15px] mb-5">{h.ctaCounterpart}</p>
-          <p className="font-serif text-white/95 text-lg max-w-xl mb-10 leading-relaxed">{h.ctaSub}</p>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <a
-              href={waLink(h.heroWaMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-white font-sans text-sm"
-            >
-              <WhatsAppGlyph className="w-4 h-4 text-[#25D366]" />
-              {h.ctaWhatsApp}
-            </a>
-            <Link href="/contact" className="btn-outline-white font-sans text-sm">
-              {h.ctaBtn}
-            </Link>
-          </div>
-
-          <div className="mt-12 pt-6 border-t border-white/25 font-mono text-[11px] tracking-[0.02em] text-white/75">
-            San Jose Foods LLC · US / CA / BR → MX · {h.ctaTrust}
-          </div>
+          <p className="t-lead mt-6 max-w-xl text-white/85">{h.ctaSub}</p>
         </div>
-      </div>
+        <div className="flex flex-wrap items-center gap-4 lg:justify-end">
+          <a href={waLink(t.common.waMessage)} target="_blank" rel="noopener noreferrer" className="btn-white">
+            <WhatsAppGlyph className="h-4 w-4 text-[#25D366]" />
+            {t.common.whatsapp}
+          </a>
+          <Link href="/contact" className="btn-outline-white">{h.ctaBtn}</Link>
+        </div>
+      </Reveal>
     </section>
   )
 }
