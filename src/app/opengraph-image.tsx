@@ -32,7 +32,7 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 0.98, letterSpacing: -5 }}>Res. Cerdo. Pollo.</div>
+          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 0.98, letterSpacing: -5 }}>Pollo. Cerdo. Res.</div>
           <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 0.98, letterSpacing: -5, color: '#D9182E' }}>Hacia México.</div>
         </div>
 

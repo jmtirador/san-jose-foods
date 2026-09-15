@@ -29,7 +29,7 @@ export const translations = {
       hq: 'HQ',
     },
     home: {
-      heroTitleA: 'Beef. Pork. Chicken.',
+      heroTitleA: 'Chicken. Pork. Beef.',
       heroTitleB: 'Into Mexico.',
       heroSub: 'Sourced from USDA, CFIA, and SIF plants in the US, Canada, and Brazil. Quoted the same day on WhatsApp.',
       heroSubCta: 'See the catalog',
@@ -280,7 +280,7 @@ export const translations = {
       hq: 'Sede',
     },
     home: {
-      heroTitleA: 'Res. Cerdo. Pollo.',
+      heroTitleA: 'Pollo. Cerdo. Res.',
       heroTitleB: 'Hacia México.',
       heroSub: 'De plantas USDA, CFIA y SIF en Estados Unidos, Canadá y Brasil. Cotizamos el mismo día por WhatsApp.',
       heroSubCta: 'Ver el catálogo',
